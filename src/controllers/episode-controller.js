@@ -43,15 +43,8 @@ export const getAllEpisodes = async (req, res) => {
     if(!episodes){
         res.status(404).json({message : "No Episodes Found"});
     }
-     // Modify episodes array to include image as Base64 data
-  const episodesWithBase64Image = episodes.map((episode) => {
-    const { image } = episode;
-    const imageData = fs.readFileSync(image);
-    const imageBase64 = Buffer.from(imageData).toString('base64');
-    return { ...episode._doc, image: imageBase64 };
-  });
-
-  return res.status(200).json({ episodes: episodesWithBase64Image });
+    
+  return res.status(200).json({ episodes});
 };
   
 
