@@ -3,7 +3,8 @@ import Episode from "../model/Episode.js";
 import User from "../model/User.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 
-
+import fs from 'fs';
+import path from 'path';
 // export const getAllEpisodes = async (req, res, next) => {
 //     let episodes;
 //     try {
@@ -27,7 +28,7 @@ export const getAllEpisodes = async (req, res) => {
     if (!page || page < 1) { page = 1;}
     try {
       episodes = await Episode.find({ isPublished: true })
-        .select('id episodeNumber title category image')
+        .select('id episodeNumber title category image duration')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
         // I don't think i need to explain the math here
@@ -42,8 +43,16 @@ export const getAllEpisodes = async (req, res) => {
     if(!episodes){
         res.status(404).json({message : "No Episodes Found"});
     }
-    return res.status(200).json({episodes});
-  }
+     // Modify episodes array to include image as Base64 data
+  const episodesWithBase64Image = episodes.map((episode) => {
+    const { image } = episode;
+    const imageData = fs.readFileSync(image);
+    const imageBase64 = Buffer.from(imageData).toString('base64');
+    return { ...episode._doc, image: imageBase64 };
+  });
+
+  return res.status(200).json({ episodes: episodesWithBase64Image });
+};
   
 
 export const addEpisode = async (req, res, next) => {
@@ -127,7 +136,7 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id);
+        episode = await Episode.findById(id).select('id episodeNumber title description category image duration createdAt').populate('category', 'id title');
     }catch(err){
         return console.log(err);
     }
@@ -136,9 +145,60 @@ export const getById = async (req, res, next) => {
         return res.status(404).json({message: "Episode not found"});
     }
 
-    return res.status(200).json({episode});
+     // Read the image file and convert it to Base64
+  let imageBase64;
+  try {
+    const imageData = fs.readFileSync(episode.image);
+    imageBase64 = Buffer.from(imageData).toString('base64');
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+
+  // Create a new object to include the image Base64 and other fields
+  const episodeData = {
+    id: episode._id,
+    episodeNumber: episode.episodeNumber,
+    title: episode.title,
+    description: episode.description,
+    category: episode.category,
+    image: imageBase64,
+    // Add other desired fields
+  };
+
+  // Send the episode data including the image Base64 in the response
+  res.status(200).json(episodeData);
+};
+
+
+
+export const getAudioById = async (req, res, next) => {
+    const id = req.params.id;
+    let episode;
+    try{
+        episode = await Episode.findById(id).select('audio');
+    }catch(err){
+        return console.log(err);
+    }
+
+    if(!episode){
+        return res.status(404).json({message: "Episode not found"});
+    }
+
+        // Set appropriate headers for streaming or chunked response
+    res.set({
+        'Content-Type': 'audio/mpeg',
+        'Transfer-Encoding': 'chunked',
+    });
+
+    // Create a readable stream from the audio file
+    const readStream = fs.createReadStream(episode.audio);
+
+    // Pipe the stream to the response object
+    readStream.pipe(res);
 
 }
+
 
 export const deleteEpisodeById = async (req, res, next) => {
     const id = req.params.id;

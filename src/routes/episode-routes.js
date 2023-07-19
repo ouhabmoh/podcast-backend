@@ -1,6 +1,6 @@
 import  express  from "express";
 import multer from 'multer';
-
+import { extname } from 'path';
 // Set up Multer storage configuration
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -14,20 +14,25 @@ const storage = multer.diskStorage({
       }
     },
     filename: (req, file, cb) => {
-      cb(null, file.originalname);
+      const timestamp = Date.now();
+      const fileExtension = extname(file.originalname);
+      const newFilename = `file_${timestamp}${fileExtension}`;
+      
+      cb(null, newFilename);
     },
   });
   
 // Create Multer instance for handling file uploads
 const upload = multer({ storage });
 
-import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getCategoryEpisodes } from "../controllers/episode-controller.js";
+import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getCategoryEpisodes, getAudioById } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
 episodeRouter.get("/", getAllEpisodes);
 episodeRouter.post("/add", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 episodeRouter.put("/update/:id", updateEpisode);
 episodeRouter.get("/:id", getById);
+episodeRouter.get("/audio/:id", getAudioById);
 episodeRouter.delete("/:id", deleteEpisodeById);
 episodeRouter.get("/category/:id", getCategoryEpisodes);
 
