@@ -28,7 +28,7 @@ export const getAllEpisodes = async (req, res) => {
     if (!page || page < 1) { page = 1;}
     try {
       episodes = await Episode.find({ isPublished: true })
-        .select('id episodeNumber title category image duration')
+        .select('id episodeNumber title category image duration createdAt')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
         // I don't think i need to explain the math here
@@ -43,8 +43,12 @@ export const getAllEpisodes = async (req, res) => {
     if(!episodes){
         res.status(404).json({message : "No Episodes Found"});
     }
+    const formattedEpisodes = episodes.map((episode) => {
+        const createdAt = episode.createdAt.toISOString().split('T')[0];
+        return { ...episode._doc, createdAt };
+      });
     
-  return res.status(200).json({ episodes});
+  return res.status(200).json({ episodes : formattedEpisodes});
 };
   
 
@@ -139,10 +143,12 @@ export const getById = async (req, res, next) => {
     }
 
     
+    const createdAt = episode.createdAt.toISOString().split('T')[0];
+    const formattedEpisode = { ...episode._doc, createdAt };
 
   
   // Send the episode data including the image Base64 in the response
-  res.status(200).json(episode);
+  res.status(200).json({episode:formattedEpisode});
 };
 
 
