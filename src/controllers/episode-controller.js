@@ -138,29 +138,11 @@ export const getById = async (req, res, next) => {
         return res.status(404).json({message: "Episode not found"});
     }
 
-     // Read the image file and convert it to Base64
-  let imageBase64;
-  try {
-    const imageData = fs.readFileSync(episode.image);
-    imageBase64 = Buffer.from(imageData).toString('base64');
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
+    
 
-  // Create a new object to include the image Base64 and other fields
-  const episodeData = {
-    id: episode._id,
-    episodeNumber: episode.episodeNumber,
-    title: episode.title,
-    description: episode.description,
-    category: episode.category,
-    image: imageBase64,
-    // Add other desired fields
-  };
-
+  
   // Send the episode data including the image Base64 in the response
-  res.status(200).json(episodeData);
+  res.status(200).json(episode);
 };
 
 
