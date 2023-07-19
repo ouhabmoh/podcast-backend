@@ -18,6 +18,7 @@ import User from "../model/User.js";
 //     return res.status(200).json({episodes});
     
 // }
+const limit = 10;
 
 export const getAllEpisodes = async (req, res) => {
     let episodes;
