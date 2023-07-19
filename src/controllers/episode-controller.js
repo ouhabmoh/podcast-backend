@@ -23,7 +23,7 @@ const limit = 10;
 export const getAllEpisodes = async (req, res) => {
     let episodes;
     let page = parseInt(req.query.page);
-    if (!page) { page = 1;}
+    if (!page || page < 1) { page = 1;}
     try {
       episodes = await Episode.find({ isPublished: true })
         .select('id episodeNumber title category image')
