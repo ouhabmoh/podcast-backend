@@ -54,6 +54,10 @@ export const getAllEpisodes = async (req, res) => {
 
 export const addEpisode = async (req, res, next) => {
     const {episodeNumber, title, description, category} = req.body;
+     // Check if audio and image files are present
+    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category) {
+    return res.status(400).json({ message: 'episodeNumber, title, description, category audio and image files are required' });
+  }
     let existingCategory;
     try {
         existingCategory = await Category.findById(category);
