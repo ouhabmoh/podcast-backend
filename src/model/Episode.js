@@ -32,6 +32,10 @@ const episodeSchema = new Schema({
         required:true
         
     },
+    duration:{
+        type: Number,
+        required: true
+    },
     isPublished: {
         type: Boolean,
         default: true,

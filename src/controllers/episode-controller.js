@@ -1,6 +1,7 @@
 import Category from "../model/Category.js";
 import Episode from "../model/Episode.js";
 import User from "../model/User.js";
+import { getAudioDurationInSeconds } from 'get-audio-duration';
 
 
 // export const getAllEpisodes = async (req, res, next) => {
@@ -64,8 +65,15 @@ export const addEpisode = async (req, res, next) => {
     const image = req.files['image'][0]['path'];
     console.log(image);
 
+    // Calculate the duration using getAudioDurationInSeconds
+  const durationInSeconds = await getAudioDurationInSeconds(audio);
+
+// Convert duration to minutes and round it up
+  const durationInMinutes = Math.ceil(durationInSeconds / 60);
+
+    
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio
+        episodeNumber, title, description,category, image, audio, duration:durationInMinutes
     });
 
     try {

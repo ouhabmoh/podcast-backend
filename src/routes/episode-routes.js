@@ -6,9 +6,9 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       // Determine the destination directory based on the file type
       if (file.fieldname === 'audio') {
-        cb(null, '../resources/audios');
+        cb(null, './resources/audios');
       } else if (file.fieldname === 'image') {
-        cb(null, '../resources/images');
+        cb(null, './resources/images');
       } else {
         cb(new Error('Invalid field name'), null);
       }
