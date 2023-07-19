@@ -20,8 +20,8 @@ mongoose.connect(process.env.MONGO_URL)
 
 
 app.use(express.json())
-app.use("user",userRouter);
-app.use("episode", episodeRouter);
+app.use("/user",userRouter);
+app.use("/episode", episodeRouter);
 app.listen(process.env.PORT || 5000, () =>{
     console.log("backend is running");
 });
