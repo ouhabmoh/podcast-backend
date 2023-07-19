@@ -30,7 +30,7 @@ const episodeRouter = express.Router();
 
 episodeRouter.get("/", getAllEpisodes);
 episodeRouter.post("/add", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
-episodeRouter.put("/update/:id", updateEpisode);
+episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/audio/:id", getAudioById);
 episodeRouter.delete("/:id", deleteEpisodeById);

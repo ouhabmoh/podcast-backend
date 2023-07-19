@@ -103,7 +103,7 @@ export const addEpisode = async (req, res, next) => {
 export const updateEpisode =  async (req, res) => {
     const episodeId = req.params.id;
     const updates = req.body;
-  
+    console.log(updates);
     try {
       // Find the episode by ID
       const episode = await Episode.findById(episodeId);
@@ -119,7 +119,17 @@ export const updateEpisode =  async (req, res) => {
       if (!isValidOperation) {
         return res.status(400).json({ error: 'Invalid updates' });
       }
-  
+      if(req.files['audio']){
+        updates.audio = req.files['audio'][0]['path'];
+        console.log(updates.audio);
+      }
+      if(req.files['image']){
+// The uploaded image files can be accessed through req.files['image']
+updates.image = req.files['image'][0]['path'];
+console.log(updates.image);
+
+      }
+    
       // Apply updates to the episode
       Object.assign(episode, updates);
   
