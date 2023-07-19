@@ -39,6 +39,9 @@ const episodeSchema = new Schema({
         
     },
    
-});
+}
+,
+  { timestamps: true }
+);
 
 export default mongoose.model("Episode", episodeSchema);

@@ -21,9 +21,17 @@ import User from "../model/User.js";
 
 export const getAllEpisodes = async (req, res) => {
     let episodes;
+    let page = parseInt(req.query.page);
+    if (!page) { page = 1;}
     try {
       episodes = await Episode.find({ isPublished: true })
         .select('id episodeNumber title category image')
+        // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+        .limit(limit * 1)
+        // I don't think i need to explain the math here
+        .skip((page - 1) * limit)
+        // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+        .sort({ createdAt: -1 })
         .populate('category', 'id title')
         .exec();
     }catch (error) {
