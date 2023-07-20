@@ -60,6 +60,11 @@ export const addEpisode = async (req, res, next) => {
   }
     let existingCategory;
     try {
+            // Validate the categoryId
+    if (!mongoose.Types.ObjectId.isValid(category)) {
+        return res.status(400).json({ message: 'Invalid categoryId' });
+    }
+
         existingCategory = await Category.findById(category);
     } catch (error) {
         return console.log(error)
