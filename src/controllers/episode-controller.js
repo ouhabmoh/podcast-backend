@@ -2,7 +2,7 @@ import Category from "../model/Category.js";
 import Episode from "../model/Episode.js";
 import User from "../model/User.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
-
+import mongoose from "mongoose";
 import fs from 'fs';
 import path from 'path';
 // export const getAllEpisodes = async (req, res, next) => {
@@ -119,14 +119,32 @@ export const updateEpisode =  async (req, res) => {
       if (!isValidOperation) {
         return res.status(400).json({ error: 'Invalid updates' });
       }
+
+      if(updates.category){
+                // Validate the categoryId
+        if (!mongoose.Types.ObjectId.isValid(updates.category)) {
+            return res.status(400).json({ message: 'Invalid categoryId' });
+        }
+        let existingCategory;
+        try {
+            existingCategory = await Category.findById(updates.category);
+        } catch (error) {
+            return console.log(error)
+        }
+    
+        if(!existingCategory){
+            return res.status(404).json({message:"category not found"});
+        }
+      }
+
       if(req.files['audio']){
         updates.audio = req.files['audio'][0]['path'];
         console.log(updates.audio);
       }
       if(req.files['image']){
-// The uploaded image files can be accessed through req.files['image']
-updates.image = req.files['image'][0]['path'];
-console.log(updates.image);
+        // The uploaded image files can be accessed through req.files['image']
+        updates.image = req.files['image'][0]['path'];
+        console.log(updates.image);
 
       }
     
@@ -229,7 +247,13 @@ export const getUserEpisodes = async (req, res, next) => {
 }
 
 export const getCategoryEpisodes = async (req, res) => {
-    const categoryId = req.params.categoryId;
+    const categoryId = req.params.id;
+    console.log(categoryId);
+    // Check if categoryId is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+    return res.status(400).json({ message: 'Invalid category ID' });
+  }
+
     let episodes;
     try {
       episodes = await Episode.find({ category: categoryId, isPublished: true })
@@ -238,7 +262,7 @@ export const getCategoryEpisodes = async (req, res) => {
     } catch (error) {
         return console.log(error);
     }
-    if(!episodes){
+    if(episodes.length === 0){
         return res.status(404).json({message: "Episodes not found"});
     }
 
