@@ -42,6 +42,10 @@ const episodeSchema = new Schema({
         required:true
         
     },
+    explication:{
+        type: String,
+
+    },
     notes: [
         {
           type: Schema.Types.ObjectId,

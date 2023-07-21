@@ -1,6 +1,7 @@
 import Category from "../model/Category.js";
 import Episode from "../model/Episode.js";
 import User from "../model/User.js";
+import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 import mongoose from "mongoose";
 import fs from 'fs';
@@ -53,9 +54,10 @@ export const getAllEpisodes = async (req, res) => {
   
 
 export const addEpisode = async (req, res, next) => {
-    const {episodeNumber, title, description, category} = req.body;
+    const {episodeNumber, title, description, category, notes, explication} = req.body;
      // Check if audio and image files are present
-    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category) {
+    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  !notes || // Make sure notes are present
+    !Array.isArray(notes) || explication ){// Make sure notes is an array) {
     return res.status(400).json({ message: 'episodeNumber, title, description, category audio and image files are required' });
   }
     let existingCategory;
@@ -86,9 +88,32 @@ export const addEpisode = async (req, res, next) => {
 // Convert duration to minutes and round it up
   const durationInMinutes = Math.ceil(durationInSeconds / 60);
 
-    
+
+   // Create an array to store the created note IDs
+   const noteIds = [];
+
+   // Loop through the notes array and create note documents
+   for (const note of notes) {
+     const { note: noteText, time } = note;
+     const noteDocument = new Note({
+       note: noteText,
+       time,
+     });
+     try {
+       // Save the note document
+       const savedNote = await noteDocument.save();
+       // Push the note ID to the array
+       noteIds.push(savedNote._id);
+     } catch (error) {
+       console.log(error);
+       return res.status(500).json({ message: 'Adding notes failed' });
+     }
+   }
+ 
+
+
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration:durationInMinutes
+        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, explication
     });
 
     try {
@@ -170,7 +195,7 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id).select('id episodeNumber title description category image duration createdAt').populate('category', 'id title');
+        episode = await Episode.findById(id).select('id episodeNumber title description category image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
     }catch(err){
         return console.log(err);
     }
@@ -262,8 +287,15 @@ export const getCategoryEpisodes = async (req, res) => {
     let episodes;
     try {
       episodes = await Episode.find({ category: categoryId, isPublished: true })
-        .select('id episodeNumber title description image')
-        .exec();
+      .select('id episodeNumber title category image duration createdAt')
+      // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+      .limit(limit * 1)
+      // I don't think i need to explain the math here
+      .skip((page - 1) * limit)
+      // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+      .sort({ createdAt: -1 })
+      .populate('category', 'id title')
+      .exec();
     } catch (error) {
         return console.log(error);
     }
@@ -271,7 +303,12 @@ export const getCategoryEpisodes = async (req, res) => {
         return res.status(404).json({message: "Episodes not found"});
     }
 
-    return res.status(200).json({episodes});
+    const formattedEpisodes = episodes.map((episode) => {
+        const createdAt = episode.createdAt.toISOString().split('T')[0];
+        return { ...episode._doc, createdAt };
+      });
+    
+  return res.status(200).json({ episodes : formattedEpisodes});
     
   };
   
