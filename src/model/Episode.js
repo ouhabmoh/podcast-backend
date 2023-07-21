@@ -42,6 +42,12 @@ const episodeSchema = new Schema({
         required:true
         
     },
+    notes: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Note",
+        },
+      ],
    
 }
 ,
