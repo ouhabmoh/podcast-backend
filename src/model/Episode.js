@@ -33,7 +33,7 @@ const episodeSchema = new Schema({
         
     },
     duration:{
-        type: Number,
+        type: String,
         required: true
     },
     isPublished: {
@@ -42,7 +42,7 @@ const episodeSchema = new Schema({
         required:true
         
     },
-    introduction:{
+    explication:{
         type: String,
 
     },

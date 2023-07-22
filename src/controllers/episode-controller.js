@@ -4,6 +4,9 @@ import User from "../model/User.js";
 import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 import mongoose from "mongoose";
+import mp3Duration from 'mp3-duration';
+import cloudinary from 'cloudinary';
+import handleUpload from "../helper.js";
 import fs from 'fs';
 import path from 'path';
 // export const getAllEpisodes = async (req, res, next) => {
@@ -29,6 +32,7 @@ export const getAllEpisodes = async (req, res) => {
     let limit = parseInt(req.query.limit);
     if (!page || page < 1) { page = 1;}
     if(!limit || limit < 1){ limit = 6;}
+    let count;
     try {
       episodes = await Episode.find({ isPublished: true })
         .select('id episodeNumber title category image duration createdAt')
@@ -40,6 +44,8 @@ export const getAllEpisodes = async (req, res) => {
         .sort({ createdAt: -1 })
         .populate('category', 'id title')
         .exec();
+        // Getting the numbers of products stored in database
+        count = await Episode.countDocuments();
     }catch (error) {
         res.status(404).json({message : "Error when getting episodes"});
     }
@@ -51,16 +57,27 @@ export const getAllEpisodes = async (req, res) => {
         return { ...episode._doc, createdAt };
       });
     
-  return res.status(200).json({ episodes : formattedEpisodes});
+  return res.status(200).json({ totalPages: Math.ceil(count / limit), episodes : formattedEpisodes});
 };
   
+function formatDuration(durationInSeconds) {
+  const hours =  parseInt(Math.floor(durationInSeconds / 3600));
+  const minutes = parseInt(Math.floor((durationInSeconds % 3600) / 60));
+  const seconds = parseInt(durationInSeconds % 60);
+
+  const formattedHours = hours.toString().padStart(2, "0");
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+  const formattedSeconds = seconds.toString().padStart(2, "0");
+
+  return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
 
 export const addEpisode = async (req, res, next) => {
-    const {episodeNumber, title, description, category, notes, introduction} = req.body;
+    const {episodeNumber, title, description, category, notes, explication} = req.body;
      // Check if audio and image files are present
-    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  !notes || // Make sure notes are present
-    !Array.isArray(notes) || !introduction ){// Make sure notes is an array) {
-    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio, image files, notes and introduction are required' });
+    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  // Make sure notes are present
+      !explication ){// Make sure notes is an array) {
+    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio, image files and explication are required' });
   }
     let existingCategory;
     try {
@@ -77,18 +94,46 @@ export const addEpisode = async (req, res, next) => {
     if(!existingCategory){
         return res.status(404).json({message:"category not found"});
     }
-
-    const audio = req.files['audio'][0]['path'];
+    // console.log(req.files['audio'][0].buffer);
+let audio = req.files['audio'][0]['path'];
     console.log(audio);
     // The uploaded image files can be accessed through req.files['image']
-    const image = req.files['image'][0]['path'];
+  let image = req.files['image'][0]['path'];
     console.log(image);
 
-    // Calculate the duration using getAudioDurationInSeconds
-  const durationInSeconds = await getAudioDurationInSeconds(audio);
+//     // Calculate the duration using getAudioDurationInSeconds
+//   const durationInSeconds = await getAudioDurationInSeconds(req.files['audio'][0].buffer);
 
-// Convert duration to minutes and round it up
-  const durationInMinutes = Math.ceil(durationInSeconds / 60);
+// // Convert duration to minutes and round it up
+//   const durationInMinutes = Math.ceil(durationInSeconds / 60);
+//     console.log(durationInMinutes);
+console.log(req.files['audio'][0])
+try {
+let b64 = Buffer.from(req.files['audio'][0].buffer).toString("base64");
+    let dataURI = "data:" + req.files['audio'][0].mimetype + ";base64," + b64;
+    let cldRes = await handleUpload(dataURI);
+  // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+    console.log(cldRes);
+    audio = cldRes.secure_url 
+      // console.log(url);
+      b64 = Buffer.from(req.files['image'][0].buffer).toString("base64");
+      dataURI = "data:" + req.files['image'][0].mimetype + ";base64," + b64;
+      cldRes = await handleUpload(dataURI);
+    // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+      console.log(cldRes);
+      image = cldRes.secure_url   
+  } catch (error) {
+    console.log("bbbb")
+    console.log(error);
+    res.send({
+      message: error.message,
+    });
+  }
+
+const durationInSeconds = await mp3Duration(req.files['audio'][0].buffer);
+const durationInMinutes = formatDuration(durationInSeconds);
+console.log(durationInMinutes);
+
 
 
    // Create an array to store the created note IDs
@@ -115,7 +160,7 @@ export const addEpisode = async (req, res, next) => {
 
 
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, introduction
+        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, explication
     });
 
     try {
@@ -199,7 +244,7 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id).select('id episodeNumber title description introduction category image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
+        episode = await Episode.findById(id).select('id episodeNumber title description introduction category audio image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
     }catch(err){
         return console.log(err);
     }
@@ -349,6 +394,40 @@ export const updateNote =  async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 }
+export const getNotes = async (req, res) => {
+  let episodes;
+  let page = parseInt(req.query.page);
+  let limit = parseInt(req.query.limit);
+  if (!page || page < 1) { page = 1;}
+  if(!limit || limit < 1){ limit = 6;}
+  let count;
+  try {
+    episodes = await Episode.find({ isPublished: true })
+      .select('id episodeNumber title category image duration createdAt notes')
+      // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+      .limit(limit * 1)
+      // I don't think i need to explain the math here
+      .skip((page - 1) * limit)
+      // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+      .sort({ createdAt: -1 })
+      .populate('category', 'id title')
+      .populate('notes','note time')
+      .exec();
+      // Getting the numbers of products stored in database
+      count = await Episode.countDocuments();
+  }catch (error) {
+      res.status(404).json({message : "Error when getting episodes"});
+  }
+  if(!episodes){
+      res.status(404).json({message : "No Episodes Found"});
+  }
+  const formattedEpisodes = episodes.map((episode) => {
+      const createdAt = episode.createdAt.toISOString().split('T')[0];
+      return { ...episode._doc, createdAt };
+    });
+  
+return res.status(200).json({totalPages: Math.ceil(count / limit), episodes : formattedEpisodes});
+};
 
 
 export const addNote = async (req, res, next) => {
