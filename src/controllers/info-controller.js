@@ -1,17 +1,29 @@
 import Info from "../models/Info.js";
 
-export const getById = async (req, res) => {
-    const infoId = req.params.id;
+export const getInfo = async (req, res) => {
+    
   
     try {
       // Find the Info document by ID
-      const info = await Info.findById(infoId);
+      const info = await Info.findOne();
   
       if (!info) {
-        return res.status(404).json({ message: "Info not found" });
+       const defaultInfo =  await Info.create({
+            description1: "Default Description",
+            description2: "Default Description 2",
+            image: "default_image.jpg",
+            name: "Default Name",
+            address: "Default Address",
+            title: "Default Title",
+            description3: "Default Description 3",
+            description4: "Default Description 4",
+            image2: "default_image2.jpg",
+          });
+        return  res.status(200).json({defaultInfo});
+       
       }
   
-      res.json(info);
+      res.status(200).json({info});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Server error" });
