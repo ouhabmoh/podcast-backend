@@ -9,7 +9,7 @@ categoryRouter.post("/", addCategory);
 categoryRouter.patch("/:id", updateCategory);
 categoryRouter.get("/:id", getById);
 categoryRouter.delete("/:id", deleteCategoryById);
-categoryRouter.get("/:id", getCategoryEpisodes);
+categoryRouter.get("/episodes/:id", getCategoryEpisodes);
 
 export default categoryRouter;
 

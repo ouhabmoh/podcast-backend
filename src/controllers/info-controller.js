@@ -1,5 +1,5 @@
 import Info from "../model/Info.js";
-
+import handleUpload from "../helper.js";
 export const getInfo = async (req, res) => {
     
   
@@ -42,7 +42,7 @@ export const updateInfo = async (req, res) => {
       "description2",
       "image",
       "name",
-      "adress",
+      "address",
       "title",
       "description3",
       "description4",
@@ -57,7 +57,8 @@ export const updateInfo = async (req, res) => {
     }
 
     // Find the Info document by ID
-    const info = await Info.findById(infoId);
+    const info = await Info.findOne();
+
 
     if (!info) {
       return res.status(404).json({ error: "Info not found" });
@@ -66,13 +67,49 @@ export const updateInfo = async (req, res) => {
     // If there are any image updates, handle them separately
     if (req.files) {
       if (req.files["image"]) {
-        // The uploaded image file can be accessed through req.files['image']
-        updates.image = req.files["image"][0]["path"];
+        if(req.files['image']){
+            try {
+             
+                    // console.log(url);
+                const   b64 = Buffer.from(req.files['image'][0].buffer).toString("base64");
+                const    dataURI = "data:" + req.files['image'][0].mimetype + ";base64," + b64;
+                const    cldRes = await handleUpload(dataURI);
+                  // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+                    console.log(cldRes);
+                    updates.image = cldRes.secure_url   
+                } catch (error) {
+                  console.log("bbbb")
+                  console.log(error);
+                  res.send({
+                    message: error.message,
+                  });
+                }
+            console.log(updates.image);
+    
+          }
         console.log(updates.image);
       }
       if (req.files["image2"]) {
-        // The uploaded image2 file can be accessed through req.files['image2']
-        updates.image2 = req.files["image2"][0]["path"];
+        if(req.files['image2']){
+            try {
+             
+                    // console.log(url);
+                const   b64 = Buffer.from(req.files['image2'][0].buffer).toString("base64");
+                const    dataURI = "data:" + req.files['image2'][0].mimetype + ";base64," + b64;
+                const    cldRes = await handleUpload(dataURI);
+                  // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+                    console.log(cldRes);
+                    updates.image2 = cldRes.secure_url   
+                } catch (error) {
+                  console.log("bbbb")
+                  console.log(error);
+                  res.send({
+                    message: error.message,
+                  });
+                }
+            console.log(updates.image2);
+    
+          }
         console.log(updates.image2);
       }
     }

@@ -26,7 +26,7 @@ import { extname } from 'path';
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-import { getAllEpisodes, addEpisode, updateEpisode, getNotes, getById, deleteEpisodeById, getCategoryEpisodes, getAudioById, addNote, updateNote, deleteNote } from "../controllers/episode-controller.js";
+import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
 episodeRouter.get("/", getAllEpisodes);
@@ -35,10 +35,8 @@ episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/:id/audio", getAudioById);
 episodeRouter.delete("/:id", deleteEpisodeById);
-episodeRouter.get("/category/:id", getCategoryEpisodes);
-episodeRouter.get("/notes", getNotes);
 episodeRouter.post("/:id/note", addNote);
-episodeRouter.patch("/note/:noteId", updateNote);
+
 episodeRouter.delete("/:id/note/:noteId", deleteNote);
 export default episodeRouter;
 

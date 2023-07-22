@@ -183,7 +183,7 @@ export const updateEpisode =  async (req, res) => {
     console.log(updates);
     try {
         // Verify and validate the updates
-      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber', 'introduction'];
+      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber', 'explication'];
       const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
   
       if (!isValidOperation) {
@@ -216,12 +216,41 @@ export const updateEpisode =  async (req, res) => {
       }
 
       if(req.files['audio']){
-        updates.audio = req.files['audio'][0]['path'];
+        try {
+          const b64 = Buffer.from(req.files['audio'][0].buffer).toString("base64");
+              const dataURI = "data:" + req.files['audio'][0].mimetype + ";base64," + b64;
+              const cldRes = await handleUpload(dataURI);
+            // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+              console.log(cldRes);
+              updates.audio = cldRes.secure_url 
+            
+            } catch (error) {
+              console.log("bbbb")
+              console.log(error);
+              res.send({
+                message: error.message,
+              });
+            }
+        
         console.log(updates.audio);
       }
       if(req.files['image']){
-        // The uploaded image files can be accessed through req.files['image']
-        updates.image = req.files['image'][0]['path'];
+        try {
+         
+                // console.log(url);
+            const   b64 = Buffer.from(req.files['image'][0].buffer).toString("base64");
+            const    dataURI = "data:" + req.files['image'][0].mimetype + ";base64," + b64;
+            const    cldRes = await handleUpload(dataURI);
+              // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
+                console.log(cldRes);
+                updates.image = cldRes.secure_url   
+            } catch (error) {
+              console.log("bbbb")
+              console.log(error);
+              res.send({
+                message: error.message,
+              });
+            }
         console.log(updates.image);
 
       }
@@ -323,113 +352,11 @@ export const getUserEpisodes = async (req, res, next) => {
     }
 
     return res.status(200).json({episodes:userEpisodes});
-}
-
-export const getCategoryEpisodes = async (req, res) => {
-    const categoryId = req.params.id;
-    console.log(categoryId);
-    // Check if categoryId is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(categoryId)) {
-    return res.status(400).json({ message: 'Invalid category ID' });
-  }
-
-    let episodes;
-    try {
-      episodes = await Episode.find({ category: categoryId, isPublished: true })
-      .select('id episodeNumber title category image duration createdAt')
-      // We multiply the "limit" variables by one just to make sure we pass a number and not a string
-      .limit(limit * 1)
-      // I don't think i need to explain the math here
-      .skip((page - 1) * limit)
-      // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
-      .sort({ createdAt: -1 })
-      .populate('category', 'id title')
-      .exec();
-    } catch (error) {
-        return console.log(error);
-    }
-    if(episodes.length === 0){
-        return res.status(404).json({message: "Episodes not found"});
-    }
-
-    const formattedEpisodes = episodes.map((episode) => {
-        const createdAt = episode.createdAt.toISOString().split('T')[0];
-        return { ...episode._doc, createdAt };
-      });
-    
-  return res.status(200).json({ episodes : formattedEpisodes});
-    
-  };
-  
-  // Route to handle the PATCH request for updating episode fields
-export const updateNote =  async (req, res) => {
-  const noteId = req.params.noteId;
-  const updates = req.body;
-  console.log(updates);
-  try {
-      // Verify and validate the updates
-    const allowedUpdates = ['note', 'time'];
-    const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
-
-    if (!isValidOperation) {
-      return res.status(400).json({ error: 'Invalid updates' });
-    }
-
-    // Find the episode by ID
-    const note = await Note.findById(noteId);
-    if (!note) {
-      return res.status(404).json({ error: 'Note not found' });
-    }
-
-    
-  
-    // Apply updates to the episode
-    Object.assign(note, updates);
-
-    // Save the updated episode
-    const updatedNote = await note.save();
-
-    res.json(updatedNote);
-  } catch (error) {
-    res.status(500).json({ error: 'Server error' });
-  }
-}
-export const getNotes = async (req, res) => {
-  let episodes;
-  let page = parseInt(req.query.page);
-  let limit = parseInt(req.query.limit);
-  if (!page || page < 1) { page = 1;}
-  if(!limit || limit < 1){ limit = 6;}
-  let count;
-  try {
-    episodes = await Episode.find({ isPublished: true })
-      .select('id episodeNumber title category image duration createdAt notes')
-      // We multiply the "limit" variables by one just to make sure we pass a number and not a string
-      .limit(limit * 1)
-      // I don't think i need to explain the math here
-      .skip((page - 1) * limit)
-      // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
-      .sort({ createdAt: -1 })
-      .populate('category', 'id title')
-      .populate('notes','note time')
-      .exec();
-      // Getting the numbers of products stored in database
-      count = await Episode.countDocuments();
-  }catch (error) {
-      res.status(404).json({message : "Error when getting episodes"});
-  }
-  if(!episodes){
-      res.status(404).json({message : "No Episodes Found"});
-  }
-  const formattedEpisodes = episodes.map((episode) => {
-      const createdAt = episode.createdAt.toISOString().split('T')[0];
-      return { ...episode._doc, createdAt };
-    });
-  
-return res.status(200).json({totalPages: Math.ceil(count / limit), episodes : formattedEpisodes});
 };
 
 
+
+  
 export const addNote = async (req, res, next) => {
   const {note, time} = req.body;
   const episodeId = req.params.id;
@@ -517,7 +444,7 @@ if(!note){
     return res.status(404).json({message : "note not found"});
 }
 
-episode.notes.pop(notes._id);
+episode.notes.pop(note._id);
 
   return res.status(200).json({message : "succesfelly deleted"});
 }

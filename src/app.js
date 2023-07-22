@@ -7,6 +7,7 @@ import userRouter from "./routes/user-routes.js";
 import episodeRouter from "./routes/episode-routes.js";
 import categoryRouter  from "./routes/category-routes.js";  
 import infoRouter from "./routes/info-routes.js";
+import noteRouter from "./routes/note-routes.js";
 const app = express();
 app.timeout = 300000;
 
@@ -24,9 +25,11 @@ mongoose.connect("mongodb://ismmoh:wPLMCu9SObXxfK8a@ac-bp6oqvh-shard-00-00.3x6ga
 app.use(express.json())
 app.use('/resources',express.static('resources'))
 app.use("/users",userRouter);
+app.use("/notes", noteRouter);
 app.use("/episodes", episodeRouter);
 app.use("/categories", categoryRouter);
 app.use("/infos", infoRouter);
+
 app.listen(process.env.PORT || 5000, () =>{
     console.log("backend is running");
 });
