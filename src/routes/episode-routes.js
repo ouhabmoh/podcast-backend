@@ -32,7 +32,7 @@ episodeRouter.get("/", getAllEpisodes);
 episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
 episodeRouter.get("/:id", getById);
-episodeRouter.get("/audio/:id", getAudioById);
+episodeRouter.get("/:id/audio", getAudioById);
 episodeRouter.delete("/:id", deleteEpisodeById);
 episodeRouter.get("/category/:id", getCategoryEpisodes);
 episodeRouter.post("/:id/note", addNote);

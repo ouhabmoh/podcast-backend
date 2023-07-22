@@ -189,6 +189,7 @@ export const updateEpisode =  async (req, res) => {
   
       res.json(updatedEpisode);
     } catch (error) {
+      console.error(error);
       res.status(500).json({ error: 'Server error' });
     }
   }
@@ -248,7 +249,7 @@ export const getAudioById = async (req, res, next) => {
 
 export const deleteEpisodeById = async (req, res, next) => {
     const id = req.params.id;
-
+  //TODO: delete notes 
     let episode;
     try {
         episode = await Episode.findByIdAndRemove(id);
