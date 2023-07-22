@@ -25,17 +25,19 @@ const storage = multer.diskStorage({
 // Create Multer instance for handling file uploads
 const upload = multer({ storage });
 
-import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getCategoryEpisodes, getAudioById } from "../controllers/episode-controller.js";
+import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getCategoryEpisodes, getAudioById, addNote, updateNote, deleteNote } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
 episodeRouter.get("/", getAllEpisodes);
-episodeRouter.post("/add", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
+episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/audio/:id", getAudioById);
 episodeRouter.delete("/:id", deleteEpisodeById);
 episodeRouter.get("/category/:id", getCategoryEpisodes);
-
+episodeRouter.post("/:id/note", addNote);
+episodeRouter.patch("/note/:noteId", updateNote);
+episodeRouter.delete("/:id/note/:noteId", deleteNote);
 export default episodeRouter;
 
 

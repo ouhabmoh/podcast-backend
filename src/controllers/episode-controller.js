@@ -21,12 +21,14 @@ import path from 'path';
 //     return res.status(200).json({episodes});
     
 // }
-const limit = 10;
+// const limit = 10;
 
 export const getAllEpisodes = async (req, res) => {
     let episodes;
     let page = parseInt(req.query.page);
+    let limit = parseInt(req.query.limit);
     if (!page || page < 1) { page = 1;}
+    if(!limit || limit < 1){ limit = 6;}
     try {
       episodes = await Episode.find({ isPublished: true })
         .select('id episodeNumber title category image duration createdAt')
@@ -54,11 +56,11 @@ export const getAllEpisodes = async (req, res) => {
   
 
 export const addEpisode = async (req, res, next) => {
-    const {episodeNumber, title, description, category, notes, explication} = req.body;
+    const {episodeNumber, title, description, category, notes, introduction} = req.body;
      // Check if audio and image files are present
     if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  !notes || // Make sure notes are present
-    !Array.isArray(notes) || explication ){// Make sure notes is an array) {
-    return res.status(400).json({ message: 'episodeNumber, title, description, category audio and image files are required' });
+    !Array.isArray(notes) || !introduction ){// Make sure notes is an array) {
+    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio, image files, notes and introduction are required' });
   }
     let existingCategory;
     try {
@@ -113,7 +115,7 @@ export const addEpisode = async (req, res, next) => {
 
 
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, explication
+        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, introduction
     });
 
     try {
@@ -135,6 +137,14 @@ export const updateEpisode =  async (req, res) => {
     const updates = req.body;
     console.log(updates);
     try {
+        // Verify and validate the updates
+      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber', 'introduction'];
+      const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
+  
+      if (!isValidOperation) {
+        return res.status(400).json({ error: 'Invalid updates' });
+      }
+
       // Find the episode by ID
       const episode = await Episode.findById(episodeId);
   
@@ -142,14 +152,7 @@ export const updateEpisode =  async (req, res) => {
         return res.status(404).json({ error: 'Episode not found' });
       }
   
-      // Verify and validate the updates
-      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber'];
-      const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
-  
-      if (!isValidOperation) {
-        return res.status(400).json({ error: 'Invalid updates' });
-      }
-
+      
       if(updates.category){
                 // Validate the categoryId
         if (!mongoose.Types.ObjectId.isValid(updates.category)) {
@@ -195,7 +198,7 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id).select('id episodeNumber title description category image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
+        episode = await Episode.findById(id).select('id episodeNumber title description introduction category image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
     }catch(err){
         return console.log(err);
     }
@@ -312,3 +315,131 @@ export const getCategoryEpisodes = async (req, res) => {
     
   };
   
+  // Route to handle the PATCH request for updating episode fields
+export const updateNote =  async (req, res) => {
+  const noteId = req.params.noteId;
+  const updates = req.body;
+  console.log(updates);
+  try {
+      // Verify and validate the updates
+    const allowedUpdates = ['note', 'time'];
+    const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+      return res.status(400).json({ error: 'Invalid updates' });
+    }
+
+    // Find the episode by ID
+    const note = await Note.findById(noteId);
+    if (!note) {
+      return res.status(404).json({ error: 'Note not found' });
+    }
+
+    
+  
+    // Apply updates to the episode
+    Object.assign(note, updates);
+
+    // Save the updated episode
+    const updatedNote = await note.save();
+
+    res.json(updatedNote);
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+}
+
+
+export const addNote = async (req, res, next) => {
+  const {note, time} = req.body;
+  const episodeId = req.params.id;
+  
+  console.log(req.body);
+   // Check if audio and image files are present
+  if (!note || !time){// Make sure notes is an array) {
+  return res.status(400).json({ message: 'note and time are required' });
+}
+  let existingEpisode;
+  try {
+          // Validate the categoryId
+  if (!mongoose.Types.ObjectId.isValid(episodeId)) {
+      return res.status(400).json({ message: 'Invalid episodeId' });
+  }
+
+      existingEpisode = await Episode.findById(episodeId);
+  } catch (error) {
+      return console.log(error)
+  }
+
+  if(!existingEpisode){
+      return res.status(404).json({message:"episode not found"});
+  }
+
+  
+ // Loop through the notes array and create note documents
+ 
+   const noteDocument = new Note({
+     note,
+     time,
+   });
+   let noteId;
+   try {
+     // Save the note document
+     const savedNote = await noteDocument.save();
+     // Push the note ID to the array
+     noteId = savedNote._id;
+   } catch (error) {
+     console.log(error);
+     return res.status(500).json({ message: 'Adding notes failed' });
+   }
+ 
+
+
+ existingEpisode.notes.push(noteId);
+
+  try {
+      await existingEpisode.save();
+
+  } catch (error) {
+       console.log(error);
+       return res.status(500).json({message:"adding note to episode failed"});
+  }
+
+  return res.status(200).json({existingEpisode});
+}
+
+
+export const deleteNote = async (req, res, next) => {
+  const id = req.params.id;
+  const noteId = req.params.noteId;
+
+  let episode;
+  let note;
+  try {
+      episode = await Episode.findById(id);
+      
+  } catch (error) {
+      return console.log(error);
+  }
+
+  if(!episode){
+      return res.status(404).json({message : "episode not found"});
+  }
+
+  try {
+    note = await Note.findByIdAndRemove(noteId);
+    
+} catch (error) {
+    return console.log(error);
+}
+
+if(!note){
+    return res.status(404).json({message : "note not found"});
+}
+
+episode.notes.pop(notes._id);
+
+  return res.status(200).json({message : "succesfelly deleted"});
+}
+
+

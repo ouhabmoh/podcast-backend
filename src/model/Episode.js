@@ -42,7 +42,7 @@ const episodeSchema = new Schema({
         required:true
         
     },
-    explication:{
+    introduction:{
         type: String,
 
     },
