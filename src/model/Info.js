@@ -47,4 +47,4 @@ image2:{
 }
 });
 
-export default mongoose.model("Info", categorySchema);
+export default mongoose.model("Info", infoSchema);

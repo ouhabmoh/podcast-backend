@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import userRouter from "./routes/user-routes.js";
 import episodeRouter from "./routes/episode-routes.js";
 import categoryRouter  from "./routes/category-routes.js";  
+import infoRouter from "./routes/info-routes.js";
 const app = express();
 app.timeout = 300000;
 
@@ -25,6 +26,7 @@ app.use('/resources',express.static('resources'))
 app.use("/users",userRouter);
 app.use("/episodes", episodeRouter);
 app.use("/categories", categoryRouter);
+app.use("/infos", infoRouter);
 app.listen(process.env.PORT || 5000, () =>{
     console.log("backend is running");
 });

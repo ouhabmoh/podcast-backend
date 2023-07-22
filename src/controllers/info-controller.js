@@ -1,4 +1,4 @@
-import Info from "../models/Info.js";
+import Info from "../model/Info.js";
 
 export const getInfo = async (req, res) => {
     
