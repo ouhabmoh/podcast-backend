@@ -22,7 +22,7 @@ mongoose.connect("mongodb://ismmoh:wPLMCu9SObXxfK8a@ac-bp6oqvh-shard-00-00.3x6ga
         })
 
 
-app.use(express.json())
+app.use(express.json({ limit: '500mb' }))
 app.use('/resources',express.static('resources'))
 app.use("/users",userRouter);
 app.use("/notes", noteRouter);

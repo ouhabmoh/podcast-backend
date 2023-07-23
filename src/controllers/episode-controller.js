@@ -28,14 +28,46 @@ import path from 'path';
 
 export const getAllEpisodes = async (req, res) => {
     let episodes;
+    console.log(req.query);
+     const { category, isPublished, search, minDuration, maxDuration, startDate, endDate } = req.query;
+
     let page = parseInt(req.query.page);
     let limit = parseInt(req.query.limit);
     if (!page || page < 1) { page = 1;}
     if(!limit || limit < 1){ limit = 6;}
+    console.log(page, limit);
     let count;
     try {
-      episodes = await Episode.find({ isPublished: true })
-        .select('id episodeNumber title category image duration createdAt')
+      // Prepare the filter object based on query parameters
+  const filter = {};
+  if (category) {
+    filter.category = category;
+  }
+  if (isPublished) {
+    filter.isPublished = isPublished === 'true'; // Convert string to boolean
+  }
+  if (minDuration) {
+    filter.duration = { $gte: formatDuration(minDuration*60) };
+  }
+  if (maxDuration) {
+    filter.duration = { ...filter.duration, $lte: formatDuration(maxDuration*60) };
+  }
+  if (startDate && endDate) {
+    filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+  }
+
+  // Check if the search parameter is provided
+if (search) {
+  // Create the regex pattern for case-insensitive search
+  const searchRegex = new RegExp(search, 'i');
+
+  // Add the $or operator to search for the title or description
+  filter.$or = [{ title: searchRegex }, { description: searchRegex }];
+}
+
+console.log(filter);
+
+      episodes = await Episode.find(filter).select('id episodeNumber title category image duration createdAt')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
         // I don't think i need to explain the math here
@@ -56,7 +88,7 @@ export const getAllEpisodes = async (req, res) => {
         const createdAt = episode.createdAt.toISOString().split('T')[0];
         return { ...episode._doc, createdAt };
       });
-    
+    console.log(formattedEpisodes);
   return res.status(200).json({ totalPages: Math.ceil(count / limit), episodes : formattedEpisodes});
 };
   
