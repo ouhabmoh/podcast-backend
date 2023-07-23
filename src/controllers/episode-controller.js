@@ -73,6 +73,9 @@ function formatDuration(durationInSeconds) {
 }
 
 export const addEpisode = async (req, res, next) => {
+  console.log(req.files)
+  console.log(req.body);
+
     const {episodeNumber, title, description, category, notes, explication} = req.body;
      // Check if audio and image files are present
     if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  // Make sure notes are present

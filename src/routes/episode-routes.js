@@ -24,8 +24,26 @@ import { extname } from 'path';
   
 // Create Multer instance for handling file uploads
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({ storage ,
+  fileFilter: function(_req, file, cb){
+      checkFileType(file, cb);
+  }});
+function checkFileType(file, cb){
+  // Allowed ext
+  const filetypes = /jpeg|jpg|png|gif|mp3|webp/;
+  // Check ext
+  console.log(extname(file.originalname).toLowerCase());
+  const exname = filetypes.test(extname(file.originalname).toLowerCase());
+  // Check mime
+  // console.log(file.mimetype);
+  // const mimetype = filetypes.test(file.mimetype);
 
+  if(exname){
+    return cb(null, true);
+  } else {
+    return cb(null, false);
+  }
+}
 import { getAllEpisodes, addEpisode, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
