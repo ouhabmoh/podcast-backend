@@ -76,7 +76,7 @@ export const addEpisode = async (req, res, next) => {
   console.log(req.files)
   console.log(req.body);
 
-    const {episodeNumber, title, description, category, notes, explication} = req.body;
+    const {episodeNumber, title, description, category, explication, notes} = req.body;
      // Check if audio and image files are present
     if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  // Make sure notes are present
       !explication ){// Make sure notes is an array) {
@@ -141,8 +141,8 @@ console.log(durationInMinutes);
 
    // Create an array to store the created note IDs
    const noteIds = [];
-
-   // Loop through the notes array and create note documents
+  if(notes){
+// Loop through the notes array and create note documents
    for (const note of notes) {
      const { note: noteText, time } = note;
      const noteDocument = new Note({
@@ -160,10 +160,12 @@ console.log(durationInMinutes);
      }
    }
  
+  }
+   
 
 
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, notes:noteIds, explication
+        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, explication, notes:noteIds
     });
 
     try {
