@@ -252,7 +252,7 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id).select('id episodeNumber title description introduction category audio image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
+        episode = await Episode.findById(id).select('id episodeNumber title description explication category audio image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
     }catch(err){
         return console.log(err);
     }
