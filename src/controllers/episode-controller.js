@@ -29,7 +29,7 @@ import path from 'path';
 export const getAllEpisodes = async (req, res) => {
     let episodes;
     console.log(req.query);
-     const { category, isPublished, search, minDuration, maxDuration, startDate, endDate } = req.query;
+     const { category, isPublished, search, duration, startDate, endDate } = req.query;
 
     let page = parseInt(req.query.page);
     let limit = parseInt(req.query.limit);
@@ -44,13 +44,13 @@ export const getAllEpisodes = async (req, res) => {
     filter.category = category;
   }
   if (isPublished) {
-    filter.isPublished = isPublished === 'true'; // Convert string to boolean
+    filter.isPublished = isPublished === 1; // Convert string to boolean
   }
-  if (minDuration) {
-    filter.duration = { $gte: formatDuration(minDuration*60) };
-  }
-  if (maxDuration) {
-    filter.duration = { ...filter.duration, $lte: formatDuration(maxDuration*60) };
+  
+  if (duration) {
+    const {minDuration, maxDuration} = durationCategory(parseInt(duration));
+    console.log(minDuration, maxDuration);
+    filter.duration = { $gte : minDuration, $lte: maxDuration };
   }
   if (startDate && endDate) {
     filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
@@ -102,6 +102,27 @@ function formatDuration(durationInSeconds) {
   const formattedSeconds = seconds.toString().padStart(2, "0");
 
   return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+}
+
+function durationCategory(duration){
+  let minDuration;
+  let maxDuration;
+  if(duration === 0){
+    minDuration = "00:00:00";
+    maxDuration = "00:30:00";
+  } else if(duration === 1){
+    minDuration = "00:30:01";
+    maxDuration = "01:00:00";
+  }
+  else if(duration === 2){
+    minDuration = "01:00:01";
+    maxDuration = "100:30:00";
+  } else{
+    minDuration = "00:00:00";
+    maxDuration = "10:30:00";
+  }
+  console.log(minDuration, maxDuration);
+  return {minDuration, maxDuration};
 }
 
 export const addEpisode = async (req, res, next) => {
