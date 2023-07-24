@@ -108,11 +108,11 @@ export const addEpisode = async (req, res, next) => {
   console.log(req.files)
   console.log(req.body);
 
-    const {episodeNumber, title, description, category, explication, notes} = req.body;
+    const {episodeNumber, title, description, category, explication, notes, image, audio, duration} = req.body;
      // Check if audio and image files are present
-    if (!req.files || !req.files['audio'] || !req.files['image'] || !episodeNumber || !title || !description || !category ||  // Make sure notes are present
-      !explication ){// Make sure notes is an array) {
-    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio, image files and explication are required' });
+    if (!image || !audio || !episodeNumber || !title || !description || !category ||  // Make sure notes are present
+      !explication || !duration){// Make sure notes is an array) {
+    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio url, image url, duration and explication are required' });
   }
     let existingCategory;
     try {
@@ -129,48 +129,7 @@ export const addEpisode = async (req, res, next) => {
     if(!existingCategory){
         return res.status(404).json({message:"category not found"});
     }
-    // console.log(req.files['audio'][0].buffer);
-let audio = req.files['audio'][0]['path'];
-    console.log(audio);
-    // The uploaded image files can be accessed through req.files['image']
-  let image = req.files['image'][0]['path'];
-    console.log(image);
-
-//     // Calculate the duration using getAudioDurationInSeconds
-//   const durationInSeconds = await getAudioDurationInSeconds(req.files['audio'][0].buffer);
-
-// // Convert duration to minutes and round it up
-//   const durationInMinutes = Math.ceil(durationInSeconds / 60);
-//     console.log(durationInMinutes);
-console.log(req.files['audio'][0])
-try {
-let b64 = Buffer.from(req.files['audio'][0].buffer).toString("base64");
-    let dataURI = "data:" + req.files['audio'][0].mimetype + ";base64," + b64;
-    let cldRes = await handleUpload(dataURI);
-  // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
-    console.log(cldRes);
-    audio = cldRes.secure_url 
-      // console.log(url);
-      b64 = Buffer.from(req.files['image'][0].buffer).toString("base64");
-      dataURI = "data:" + req.files['image'][0].mimetype + ";base64," + b64;
-      cldRes = await handleUpload(dataURI);
-    // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
-      console.log(cldRes);
-      image = cldRes.secure_url   
-  } catch (error) {
-    console.log("bbbb")
-    console.log(error);
-    res.send({
-      message: error.message,
-    });
-  }
-
-const durationInSeconds = await mp3Duration(req.files['audio'][0].buffer);
-const durationInMinutes = formatDuration(durationInSeconds);
-console.log(durationInMinutes);
-
-
-
+   
    // Create an array to store the created note IDs
    const noteIds = [];
   if(notes){
@@ -197,7 +156,7 @@ console.log(durationInMinutes);
 
 
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration:durationInMinutes, explication, notes:noteIds
+        episodeNumber, title, description,category, image, audio, duration, explication, notes:noteIds
     });
 
     try {
@@ -220,7 +179,7 @@ export const updateEpisode =  async (req, res) => {
     console.log(updates);
     try {
         // Verify and validate the updates
-      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber', 'explication'];
+      const allowedUpdates = ['title', 'description', 'isPublished', 'category', 'image', 'audio', 'episodeNumber', 'explication', 'duration'];
       const isValidOperation = Object.keys(updates).every((update) => allowedUpdates.includes(update));
   
       if (!isValidOperation) {
@@ -252,45 +211,7 @@ export const updateEpisode =  async (req, res) => {
         }
       }
 
-      if(req.files['audio']){
-        try {
-          const b64 = Buffer.from(req.files['audio'][0].buffer).toString("base64");
-              const dataURI = "data:" + req.files['audio'][0].mimetype + ";base64," + b64;
-              const cldRes = await handleUpload(dataURI);
-            // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
-              console.log(cldRes);
-              updates.audio = cldRes.secure_url 
-            
-            } catch (error) {
-              console.log("bbbb")
-              console.log(error);
-              res.send({
-                message: error.message,
-              });
-            }
-        
-        console.log(updates.audio);
-      }
-      if(req.files['image']){
-        try {
-         
-                // console.log(url);
-            const   b64 = Buffer.from(req.files['image'][0].buffer).toString("base64");
-            const    dataURI = "data:" + req.files['image'][0].mimetype + ";base64," + b64;
-            const    cldRes = await handleUpload(dataURI);
-              // const url =  await cloudinary.url(cldRes.asset_id, {streaming_profile: "auto", resource_type: "audio"})
-                console.log(cldRes);
-                updates.image = cldRes.secure_url   
-            } catch (error) {
-              console.log("bbbb")
-              console.log(error);
-              res.send({
-                message: error.message,
-              });
-            }
-        console.log(updates.image);
-
-      }
+      
     
       // Apply updates to the episode
       Object.assign(episode, updates);
@@ -365,11 +286,12 @@ export const deleteEpisodeById = async (req, res, next) => {
     try {
         episode = await Episode.findByIdAndRemove(id);
     } catch (error) {
-        return console.log(error);
+        console.log(error);
+        return res.status(404).json({message : "unable to delete"});
     }
 
     if(!episode){
-        return res.status(404).json({message : "unable to delete"});
+        return res.status(404).json({message : "Episode not found"});
     }
 
     return res.status(200).json({message : "succesfelly deleted"});
