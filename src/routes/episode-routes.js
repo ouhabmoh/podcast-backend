@@ -1,4 +1,5 @@
 import  express  from "express";
+import { episodeValidationRules, validate } from "../validator.js";
 // import multer from 'multer';
 // import { extname } from 'path';
 // // Set up Multer storage configuration
@@ -50,7 +51,7 @@ const episodeRouter = express.Router();
 episodeRouter.get("/", getAllEpisodes);
 // episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 // episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
-episodeRouter.post("/", addEpisode);
+episodeRouter.post("/", episodeValidationRules(), validate, addEpisode);
 episodeRouter.patch("/:id", updateEpisode);
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/:id/audio", getAudioById);
