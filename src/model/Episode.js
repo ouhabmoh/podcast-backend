@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const episodeSchema = new Schema({
     episodeNumber: {
-        type: Number,
-        required: true,
+        type: Number
+        
 
     },
     title: {

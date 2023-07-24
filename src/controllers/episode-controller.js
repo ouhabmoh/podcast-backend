@@ -129,11 +129,11 @@ export const addEpisode = async (req, res, next) => {
   console.log(req.files)
   console.log(req.body);
 
-    const {episodeNumber, title, description, category, explication, notes, image, audio, duration} = req.body;
+    const {title, description, category, explication, notes, image, audio, duration} = req.body;
      // Check if audio and image files are present
-    if (!image || !audio || !episodeNumber || !title || !description || !category ||  // Make sure notes are present
+    if (!image || !audio || !title || !description || !category ||  // Make sure notes are present
       !explication || !duration){// Make sure notes is an array) {
-    return res.status(400).json({ message: 'episodeNumber, title, description, category, audio url, image url, duration and explication are required' });
+    return res.status(400).json({ message: 'title, description, category, audio url, image url, duration and explication are required' });
   }
     let existingCategory;
     try {
@@ -177,7 +177,7 @@ export const addEpisode = async (req, res, next) => {
 
 
     const episode = new Episode({
-        episodeNumber, title, description,category, image, audio, duration, explication, notes:noteIds
+        title, description,category, image, audio, duration, explication, notes:noteIds
     });
 
     try {
