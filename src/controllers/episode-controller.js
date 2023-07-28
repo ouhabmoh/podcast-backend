@@ -26,6 +26,60 @@ import path from 'path';
 // }
 // const limit = 10;
 
+export const getLastEpisodeNumber = async (req, res) => {
+  let episode;
+  try {
+    episode = await Episode.find().select('id episodeNumber title category image duration createdAt')
+    // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+    .limit(1)
+   
+   
+    // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+    .sort({ episodeNumber: -1 })
+   
+    .exec();
+  }catch (error) {
+    res.status(404).json({message : "Error when getting episode"});
+}
+if(!episode){
+    res.status(404).json({message : "No Episode Found"});
+}
+
+return res.status(200).json(episode);
+};
+
+export const getEpisodeNeighbours = async (req, res) => {
+  const episodeNumber = parseInt(req.params.episodeNumber)
+
+  let nextEpisode;
+  let previousEpisode;
+  
+  try {
+  if(episodeNumber !== 0){
+    const previousEpisodeNumber = episodeNumber - 1;
+    previousEpisode = await Episode.findOne({episodeNumber: previousEpisodeNumber})
+    .select('id episodeNumber title category image duration createdAt')
+    .exec();
+  }else{
+    previousEpisode = null;
+  }
+  const nextEpisodeNumber = episodeNumber + 1;
+
+  nextEpisode = await Episode.findOne({episodeNumber: nextEpisodeNumber})
+    .select('id episodeNumber title category image duration createdAt')
+    .exec();
+   
+  }catch (error) {
+    res.status(404).json({message : "Error when getting episodes"});
+}
+
+
+return res.status(200).json({previousEpisode, nextEpisode});
+};
+
+
+
+
 export const getAllEpisodes = async (req, res) => {
     let episodes;
     console.log(req.query);
@@ -37,7 +91,7 @@ export const getAllEpisodes = async (req, res) => {
     if(!limit || limit < 1){ limit = 6;}
     console.log(page, limit);
     let count;
-    try {
+   
       // Prepare the filter object based on query parameters
   const filter = {};
   if (category) {
@@ -54,6 +108,10 @@ export const getAllEpisodes = async (req, res) => {
   }
   if (startDate && endDate) {
     filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+  } else if(startDate){
+    filter.createdAt = { $gte: new Date(startDate)};
+  } else if(endDate){
+    filter.createdAt = { $lte: new Date(endDate)};
   }
 
   // Check if the search parameter is provided
@@ -66,7 +124,7 @@ if (search) {
 }
 
 console.log(filter);
-
+try {
       episodes = await Episode.find(filter).select('id episodeNumber title category image duration createdAt')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
@@ -190,6 +248,34 @@ export const addEpisode = async (req, res, next) => {
 
     return res.status(200).json({episode});
 }
+
+// export const getLastEpisodeNumber = async (req, res) => {
+//   try {
+//     // Find the Info document by ID
+//     const lastNumber = await Counter.findOne().select("seq_value");
+
+//     if (!info) {
+//      const defaultInfo =  await Info.create({
+//           description1: "Default Description",
+//           description2: "Default Description 2",
+//           image: "default_image.jpg",
+//           name: "Default Name",
+//           address: "Default Address",
+//           title: "Default Title",
+//           description3: "Default Description 3",
+//           description4: "Default Description 4",
+//           image2: "default_image2.jpg",
+//         });
+//       return  res.status(200).json({defaultInfo});
+     
+//     }
+
+//     res.status(200).json({info});
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Server error" });
+//   }
+// };
 
 // Assume you have already imported necessary dependencies and defined the Episode model
 
