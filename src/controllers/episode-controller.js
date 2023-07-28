@@ -125,7 +125,7 @@ if (search) {
 
 console.log(filter);
 try {
-      episodes = await Episode.find(filter).select('id episodeNumber title category image duration createdAt')
+      episodes = await Episode.find(filter).select('id episodeNumber title category image duration createdAt isPublished')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
         // I don't think i need to explain the math here
