@@ -29,7 +29,7 @@ import path from 'path';
 export const getLastEpisodeNumber = async (req, res) => {
   let episode;
   try {
-    episode = await Episode.find().select('id episodeNumber title category image duration createdAt isPublished')
+    episode = await Episode.find().select('id episodeNumber')
     // We multiply the "limit" variables by one just to make sure we pass a number and not a string
     .limit(1)
    
@@ -333,6 +333,27 @@ export const updateEpisode =  async (req, res) => {
     }
   }
   
+
+
+  export const toggleIsPublished = async (req, res, next) => {
+    const _id = req.params.id;
+    let episode;
+    try{
+        episode = await Episode.findOneAndUpdate({_id}, [{$set:{isPublished:{$eq:[false,"$isPublished"]}}}]);
+
+    }catch(err){
+        return console.log(err);
+    }
+
+    if(!episode){
+        return res.status(404).json({message: "Episode not found"});
+    }
+
+    
+  
+  res.status(200).json({'success': true});
+};
+
 
 export const getById = async (req, res, next) => {
     const id = req.params.id;

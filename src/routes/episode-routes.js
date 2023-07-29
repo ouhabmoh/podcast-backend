@@ -1,5 +1,6 @@
 import  express  from "express";
 import { episodeValidationRules, validate } from "../validator.js";
+import {isAdmin, notAdmin} from "../auth.js";
 // import multer from 'multer';
 // import { extname } from 'path';
 // // Set up Multer storage configuration
@@ -45,22 +46,24 @@ import { episodeValidationRules, validate } from "../validator.js";
 //     return cb(null, false);
 //   }
 // }
-import { getAllEpisodes, addEpisode, getLastEpisodeNumber, getEpisodeNeighbours, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote } from "../controllers/episode-controller.js";
+
+import { getAllEpisodes, addEpisode, getLastEpisodeNumber, toggleIsPublished, getEpisodeNeighbours, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
-episodeRouter.get("/", getAllEpisodes);
+episodeRouter.get("/", notAdmin, getAllEpisodes);
 episodeRouter.get("/last", getLastEpisodeNumber);
 episodeRouter.get("/neighbors/:episodeNumber", getEpisodeNeighbours);
 // episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 // episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
-episodeRouter.post("/", episodeValidationRules(), validate, addEpisode);
-episodeRouter.patch("/:id", updateEpisode);
+episodeRouter.post("/", isAdmin, episodeValidationRules(), validate, addEpisode);
+episodeRouter.put("/isPublished/:id", isAdmin, toggleIsPublished);
+episodeRouter.patch("/:id", isAdmin, updateEpisode);
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/:id/audio", getAudioById);
-episodeRouter.delete("/:id", deleteEpisodeById);
-episodeRouter.post("/:id/note", addNote);
+episodeRouter.delete("/:id", isAdmin, deleteEpisodeById);
+episodeRouter.post("/:id/note", isAdmin, addNote);
 
-episodeRouter.delete("/:id/note/:noteId", deleteNote);
+episodeRouter.delete("/:id/note/:noteId", isAdmin, deleteNote);
 export default episodeRouter;
 
 

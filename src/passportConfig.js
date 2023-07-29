@@ -1,11 +1,12 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
-
-
+import passport from "passport";
+import dotenv from 'dotenv';
+dotenv.config();
 import User from "./model/User.js";
 
-export default async function passportConfig(passport) {
+
     passport.use(new GoogleStrategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
@@ -57,34 +58,36 @@ export default async function passportConfig(passport) {
         )
       );
 
-      passport.use(
-        "local",
-        new LocalStrategy(
-          {
-            usernameField: "emailOrUsername", // The field name to accept email or username
-          },
-          async (emailOrUsername, password, done) => {
-            try {
-              // Check if the provided emailOrUsername exists in the database
-              const user = await User.findOne({
-                $or: [{ "local.email": emailOrUsername }, { "local.username": emailOrUsername }],
-              });
+      // passport.use(
+      //   "local",
+      //   new LocalStrategy(
+      //     {
+      //       usernameField: "emailOrUsername", // The field name to accept email or username
+      //     },
+      //     async (emailOrUsername, password, done) => {
+      //       try {
+      //         // Check if the provided emailOrUsername exists in the database
+      //         const user = await User.findOne({
+      //           $or: [{ "local.email": emailOrUsername }, { "local.username": emailOrUsername }],
+      //         });
       
-              // If user not found or password is incorrect, return false
-              if (!user || !user.validPassword(password)) {
-                return done(null, false);
-              }
+      //         // If user not found or password is incorrect, return false
+      //         if (!user || !user.validPassword(password)) {
+      //           return done(null, false);
+      //         }
       
-              // If user is found and password is correct, return the user
-              return done(null, user);
-            } catch (error) {
-              return done(error);
-            }
-          }
-        )
-      );
+      //         // If user is found and password is correct, return the user
+      //         return done(null, user);
+      //       } catch (error) {
+      //         return done(error);
+      //       }
+      //     }
+      //   )
+      // );
 
-      passport.use('local-signup', new LocalStrategy({
+      passport.use('local-login', new LocalStrategy(User.authenticate()));
+
+      passport.use('local-register', new LocalStrategy({
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'username',
         passwordField : 'password',
@@ -114,7 +117,7 @@ export default async function passportConfig(passport) {
 
                   let newUser;
                   try{
-                   newUser = await User.register(new User({"local.emailOrUsername":email, "local.email": email, "local.username":username }), password);
+                   newUser = await User.register(new User({ "local.email": email, "local.username":username }), password);
                   }
               catch(err) {
                     console.log(err);
@@ -124,5 +127,7 @@ export default async function passportConfig(passport) {
               return done(null, newUser);
             }));
 
-            }
+
+
+export default passport;
         
