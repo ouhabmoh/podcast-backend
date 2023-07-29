@@ -29,7 +29,7 @@ import path from 'path';
 export const getLastEpisodeNumber = async (req, res) => {
   let episode;
   try {
-    episode = await Episode.find().select('id episodeNumber title category image duration createdAt')
+    episode = await Episode.find().select('id episodeNumber title category image duration createdAt isPublished')
     // We multiply the "limit" variables by one just to make sure we pass a number and not a string
     .limit(1)
    
@@ -58,7 +58,7 @@ export const getEpisodeNeighbours = async (req, res) => {
   if(episodeNumber !== 0){
     const previousEpisodeNumber = episodeNumber - 1;
     previousEpisode = await Episode.findOne({episodeNumber: previousEpisodeNumber})
-    .select('id episodeNumber title category image duration createdAt')
+    .select('id episodeNumber title category image duration createdAt isPublished')
     .exec();
   }else{
     previousEpisode = null;
@@ -66,7 +66,7 @@ export const getEpisodeNeighbours = async (req, res) => {
   const nextEpisodeNumber = episodeNumber + 1;
 
   nextEpisode = await Episode.findOne({episodeNumber: nextEpisodeNumber})
-    .select('id episodeNumber title category image duration createdAt')
+    .select('id episodeNumber title category image duration createdAt isPublished')
     .exec();
    
   }catch (error) {
@@ -98,7 +98,7 @@ export const getAllEpisodes = async (req, res) => {
     filter.category = category;
   }
   if (isPublished) {
-    filter.isPublished = isPublished === 1; // Convert string to boolean
+    filter.isPublished = isPublished === '1'; // Convert string to boolean
   }
   
   if (duration) {

@@ -19,28 +19,28 @@ const userSchema = Schema(
     local: {
       email: {
         type: String,
-        unique: true,
+        
       },
       username: {
         type: String,
-        unique: true,
+        
       },
       // The password field will be added by passport-local-mongoose
     },
     role: {
       type: String,
-      default: "user",
+      default: "User",
     },
     status: {
       type: String,
-      default: "active",
+      default: "Active",
     },
   },
   { timestamps: true }
 );
 
 userSchema.plugin(passportLocalMongoose, {
-  usernameField: "emailOrUsername", // The field name to accept email or username
+  usernameField: "local.emailOrUsername", // The field name to accept email or username
 });
 
 export default mongoose.model("User", userSchema);

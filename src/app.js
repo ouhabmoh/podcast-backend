@@ -5,7 +5,7 @@ import cors from 'cors';
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import passportConfig from "./passportConfig.js";
-
+import  {signToken} from "./jwt.js";
 import userRouter from "./routes/user-routes.js";
 import episodeRouter from "./routes/episode-routes.js";
 import categoryRouter  from "./routes/category-routes.js";  
@@ -36,27 +36,43 @@ app.use(express.json({ limit: '500mb' }))
 //     "/auth/google",
 //     passport.authenticate("google", { scope: ["email", "profile"] })
 //   );
-// app.post('/auth/login', passport.authenticate("local"), (req, res) => {
-//   jwt.sign(
-//     { user: req.user },
-//     process.env.JWT_SECRET_KEY,
-//     { expiresIn: process.env.TOKEN_EXPIRATION_TIME },
-//     (err, token) => {
-//       if (err) {
-//         return res.json({
-//           token: null,
-//         });
-//       }
-//       res.json({
-//         token,
-//       });
+
+
+// app.post("/auth/login", (req, res, next) => {
+//   passport.authenticate('local', async (err, user, info) => {
+//     if (err) {
+//       return next(err);
 //     }
-//   );
+//     if (!user) {
+//       return res.status(400).json({ message: info.message });
+//     }
+//     // If registration is successful, sign a JWT token and send it in the response
+//     const token = await signToken(user);
+   
+//     return res.status(200).json({ token: token });
+//   })(req, res, next);
 // });
-  
+
+// app.post("/auth/register", (req, res, next) => {
+//   passport.authenticate('local-signup', async (err, user, info) => {
+//     if (err) {
+//       return next(err);
+//     }
+//     if (!user) {
+//       return res.status(400).json({ message: info.message });
+//     }
+//     // If registration is successful, sign a JWT token and send it in the response
+//     const token = await signToken(user);
+   
+//     return res.status(200).json({ token: token });
+//   })(req, res, next);
+// });
 //   app.get(
 //     "/auth/google/callback",
-//     passport.authenticate("google", { session: false }),
+//     passport.authenticate("google", { session: false,
+//       successRedirect: '/profile',
+//       failureRedirect: 'auth/login'
+//     }),
 //     (req, res) => {
 //       jwt.sign(
 //         { user: req.user },
@@ -77,7 +93,9 @@ app.use(express.json({ limit: '500mb' }))
 //   );
 //   app.get(
 //     "/profile",
-//     passport.authenticate("jwt", { session: false }),
+//     passport.authenticate("jwt", { session: false,
+//       failureRedirect: 'auth/login'
+//     }),
 //     (req, res, next) => {
 //       res.send("Welcome");
 //     }

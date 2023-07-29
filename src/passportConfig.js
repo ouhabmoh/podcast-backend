@@ -83,4 +83,46 @@ export default async function passportConfig(passport) {
           }
         )
       );
-};
+
+      passport.use('local-signup', new LocalStrategy({
+        // by default, local strategy uses username and password, we will override with email
+        usernameField : 'username',
+        passwordField : 'password',
+        passReqToCallback : true // allows us to pass back the entire request to the callback
+    },
+   async function(req, username, password, done) {
+      console.log(req.body);
+      const email = req.body.email;
+        // find a user whose email is the same as the forms email
+        // we are checking to see if the user trying to login already exists
+        let user;
+        try{
+          user = await User.findOne({ $or: [{'local.email': email }, {'local.username': username }] });
+          console.log("existing user")
+          console.log(user);
+        }catch(e){
+          console.log(e);
+          return done(e);
+        }
+        
+            // if there are any errors, return the error
+          
+                if (user) {
+                  console.log('user exist');
+                  return done(null, false, { message: 'email/username is already taken.' });
+                }
+
+                  let newUser;
+                  try{
+                   newUser = await User.register(new User({"local.emailOrUsername":email, "local.email": email, "local.username":username }), password);
+                  }
+              catch(err) {
+                    console.log(err);
+                    return done(err);
+              }
+              console.log("Registered");
+              return done(null, newUser);
+            }));
+
+            }
+        
