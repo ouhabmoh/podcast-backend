@@ -16,6 +16,17 @@ const userSchema = Schema(
         type: String,
       },
     },
+    facebook: {
+      id: {
+        type: String,
+      },
+      name: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+    },
     local: {
       email: {
         type: String,

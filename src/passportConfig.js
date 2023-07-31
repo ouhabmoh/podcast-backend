@@ -1,6 +1,7 @@
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
 import dotenv from 'dotenv';
 dotenv.config();
@@ -10,7 +11,7 @@ import User from "./model/User.js";
     passport.use(new GoogleStrategy({
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:5000/auth/google/callback",
+        callbackURL: process.env.GOOGLE_CALL_BACK_URL,
         passReqToCallback : true
       },
       async (request, accessToken, refreshToken, profile, done) => {
@@ -43,7 +44,7 @@ import User from "./model/User.js";
     passport.use(
         new JwtStrategy(
           {
-            jwtFromRequest: ExtractJwt.fromHeader("authorization"),
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.JWT_SECRET_KEY,
           },
           async (jwtPayload, done) => {
@@ -93,7 +94,8 @@ import User from "./model/User.js";
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-   async function(req, username, password, done) {
+
+async function(req, username, password, done) {
       console.log(req.body);
       const email = req.body.email;
         // find a user whose email is the same as the forms email
@@ -127,7 +129,41 @@ import User from "./model/User.js";
               return done(null, newUser);
             }));
 
-
+            passport.use(new FacebookStrategy({
+              clientID: process.env.FACEBOOK_APP_ID,
+              clientSecret: process.env.FACEBOOK_APP_SECRET,
+              callbackURL: process.env.FACEBOOK_CALL_BACK_URL,
+              profileFields: ['id', 'displayName', 'photos', 'email'],
+              state: true,
+              enableProof: true
+            },
+           async function verify(accessToken, refreshToken, profile, cb) {
+              try {
+                console.log(profile);
+                let existingUser = User.findOne({ 'facebook.id': profile.id }).exec();
+               
+                if (existingUser) {
+                  return done(null, existingUser);
+                }
+              
+                console.log('Creating new user...');
+                
+                const newUser = new User({
+                  method: 'facebook',
+                  facebook: {
+                    id: profile.id,
+                    name: profile.displayName,
+                    email: profile.email
+                  }
+                });
+                await newUser.save();
+                return done(null, newUser);
+            } catch (error) {
+                return done(error, false)
+            }
+             
+            }
+          ));
 
 export default passport;
         
