@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import session from "express-session";
+// import session from "express-session";
 import jwt from "jsonwebtoken";
 import passport from "./passportConfig.js";
 import  {signToken} from "./jwt.js";
