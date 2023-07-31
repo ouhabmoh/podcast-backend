@@ -34,11 +34,11 @@ mongoose.connect("mongodb://ismmoh:wPLMCu9SObXxfK8a@ac-bp6oqvh-shard-00-00.3x6ga
 app.use(cors());
 app.use(express.json({ limit: '500mb' }))
 // Configure express-session middleware
-app.use(session({
-  secret: 'your-secret-key',
-  resave: false,
-  saveUninitialized: true,
-}));
+// app.use(session({
+//   secret: 'your-secret-key',
+//   resave: false,
+//   saveUninitialized: true,
+// }));
 app.get(
     "/auth/google",
     passport.authenticate("google", { scope: ["email", "profile"] })
