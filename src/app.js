@@ -8,6 +8,7 @@ import passport from "./passportConfig.js";
 import  {signToken} from "./jwt.js";
 import userRouter from "./routes/user-routes.js";
 import episodeRouter from "./routes/episode-routes.js";
+import articleRouter from "./routes/article-routes.js";
 import categoryRouter  from "./routes/category-routes.js";  
 import infoRouter from "./routes/info-routes.js";
 import noteRouter from "./routes/note-routes.js";
@@ -133,6 +134,7 @@ app.use('/resources',express.static('resources'))
 app.use("/users",userRouter);
 app.use("/notes", noteRouter);
 app.use("/episodes", episodeRouter);
+app.use("/articles", articleRouter);
 app.use("/categories", categoryRouter);
 app.use("/infos", infoRouter);
 

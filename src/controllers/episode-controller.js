@@ -342,7 +342,8 @@ export const updateEpisode =  async (req, res) => {
         episode = await Episode.findOneAndUpdate({_id}, [{$set:{isPublished:{$eq:[false,"$isPublished"]}}}]);
 
     }catch(err){
-        return console.log(err);
+        console.log(err);
+        return res.status(500).json({ message: "Server error" });
     }
 
     if(!episode){
@@ -359,7 +360,9 @@ export const getById = async (req, res, next) => {
     const id = req.params.id;
     let episode;
     try{
-        episode = await Episode.findById(id).select('id episodeNumber title description explication category audio image duration createdAt notes').populate('category', 'id title').populate('notes', 'note time');
+        episode = await Episode.findById(id).select('id episodeNumber title description explication category audio image duration createdAt notes')
+        .populate('category', 'id title')
+        .populate('notes', 'note time');
     }catch(err){
         return console.log(err);
     }
