@@ -1,5 +1,6 @@
 import Category from "../model/Category.js";
 import Episode from "../model/Episode.js";
+import Article from "../model/Article.js";
 import User from "../model/User.js";
 import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
@@ -8,8 +9,41 @@ import mongoose from "mongoose";
 export const getAllCategories = async (req, res, next) => {
   let categories;
     try {
-      categories = await Category.find().select("id title description image createdAt");
-      
+      categories = await Category.aggregate([
+        {
+          $lookup: {
+            from: 'articles', // Replace 'articles' with the name of the articles collection
+            localField: '_id',
+            foreignField: 'category',
+            as: 'articles',
+          },
+        },
+        {
+          $lookup: {
+            from: 'episodes', // Replace 'episodes' with the name of the episodes collection
+            localField: '_id',
+            foreignField: 'category',
+            as: 'episodes',
+          },
+        },
+        {
+          $addFields: {
+            articleCount: { $size: '$articles' },
+            episodeCount: { $size: '$episodes' },
+          },
+        },
+        {
+          $project: {
+            _id: 1,
+            title: 1,
+            description: 1,
+            image: 1,
+            createdAt: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+            articleCount: 1,
+            episodeCount: 1,
+          },
+        },
+      ]);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ message: 'Server error' });
@@ -18,11 +52,8 @@ export const getAllCategories = async (req, res, next) => {
      return res.status(404).json({message : "No Categories Found"});
     }
 
-    const formattedCategories = categories.map((categorie) => {
-      const createdAt = categorie.createdAt.toISOString().split('T')[0];
-      return { ...categorie._doc, createdAt };
-    });
-    res.status(200).json({ categories : formattedCategories });
+
+    res.status(200).json({ categories});
   };
   export const addCategory = async (req, res, next) => {
     const { title, description, image } = req.body;
@@ -68,7 +99,7 @@ export const getAllCategories = async (req, res, next) => {
     const _id = req.params.id;
     let category;
     try {
-      category = await Category.findById(_id);
+      category = await Category.findById(_id).select('-updatedAt');
       if (!category) {
         return res.status(404).json({ message: 'Category not found' });
       }
@@ -78,52 +109,55 @@ export const getAllCategories = async (req, res, next) => {
       console.log(error);
       return res.status(500).json({ message: 'Server error' });
     }
+    const createdAt = category.createdAt.toISOString().split('T')[0];
+    category =  { ...category._doc, createdAt };
+  
 
     let episodes;
     console.log(req.query);
-     const {isPublished, search, duration, startDate, endDate } = req.query;
+     const {isPublishedEpisode, searchEpisode, durationEpisode, startDateEpisode, endDateEpisode } = req.query;
 
-    let page = parseInt(req.query.page);
-    let limit = parseInt(req.query.limit);
+    let page = parseInt(req.query.pageEpisode);
+    let limit = parseInt(req.query.limitEpisode);
     if (!page || page < 1) { page = 1;}
     if(!limit || limit < 1){ limit = 6;}
     console.log(page, limit);
     let count;
    
       // Prepare the filter object based on query parameters
-  const filter = {};
+  const filterEpisode = {};
 
-  filter.category = _id;
+  filterEpisode.category = _id;
   
-  if (isPublished) {
-    filter.isPublished = isPublished === '1'; // Convert string to boolean
+  if (isPublishedEpisode) {
+    filterEpisode.isPublished = isPublishedEpisode === '1'; // Convert string to boolean
   }
   
-  if (duration) {
-    const {minDuration, maxDuration} = durationCategory(parseInt(duration));
+  if (durationEpisode) {
+    const {minDuration, maxDuration} = durationCategory(parseInt(durationEpisode));
     console.log(minDuration, maxDuration);
-    filter.duration = { $gte : minDuration, $lte: maxDuration };
+    filterEpisode.duration = { $gte : minDuration, $lte: maxDuration };
   }
-  if (startDate && endDate) {
-    filter.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
-  } else if(startDate){
-    filter.createdAt = { $gte: new Date(startDate)};
-  } else if(endDate){
-    filter.createdAt = { $lte: new Date(endDate)};
+  if (startDateEpisode && endDateEpisode) {
+    filterEpisode.createdAt = { $gte: new Date(startDateEpisode), $lte: new Date(endDateEpisode) };
+  } else if(startDateEpisode){
+    filterEpisode.createdAt = { $gte: new Date(startDateEpisode)};
+  } else if(endDateEpisode){
+    filterEpisode.createdAt = { $lte: new Date(endDateEpisode)};
   }
 
   // Check if the search parameter is provided
-if (search) {
+if (searchEpisode) {
   // Create the regex pattern for case-insensitive search
-  const searchRegex = new RegExp(search, 'i');
+  const searchRegex = new RegExp(searchEpisode, 'i');
 
   // Add the $or operator to search for the title or description
-  filter.$or = [{ title: searchRegex }, { description: searchRegex }];
+  filterEpisode.$or = [{ title: searchRegex }, { description: searchRegex }];
 }
 
-console.log(filter);
+console.log(filterEpisode);
 try {
-      episodes = await Episode.find(filter).select('id episodeNumber title image duration createdAt isPublished')
+      episodes = await Episode.find(filterEpisode).select('id episodeNumber title image duration createdAt isPublished')
         // We multiply the "limit" variables by one just to make sure we pass a number and not a string
         .limit(limit * 1)
         // I don't think i need to explain the math here
@@ -133,7 +167,7 @@ try {
      
         .exec();
         // Getting the numbers of products stored in database
-        count = await Episode.countDocuments();
+        count = await Episode.countDocuments(filterEpisode);
     }catch (error) {
        return  res.status(404).json({message : "Error when getting episodes"});
     }
@@ -145,7 +179,60 @@ try {
         return { ...episode._doc, createdAt };
       });
     console.log(formattedEpisodes);
-  return res.status(200).json({ category, episodes : {totalPages: Math.ceil(count / limit), list:formattedEpisodes}});
+
+    const { isPublishedArticle, searchArticle, readTime, startDateArticle, endDateArticle } = req.query;
+  page = parseInt(req.query.pageArticle);
+  limit = parseInt(req.query.limitArticle);
+  
+  if (!page || page < 1) { page = 1; }
+  if (!limit || limit < 1) { limit = 6; }
+  
+  const filterArticle = {};
+  if (isPublishedArticle) {
+    filterArticle.isPublished = isPublishedArticle === '1';
+  }
+//   if (readTime) {
+//     const { minTime, maxTime } = readTimeCategory(parseInt(readTime));
+//     filter.readTime = { $gte: minTime, $lte: maxTime };
+//   }
+  if (startDateArticle && endDateArticle) {
+    filterArticle.createdAt = { $gte: new Date(startDateArticle), $lte: new Date(endDateArticle) };
+  } else if (startDateArticle) {
+    filterArticle.createdAt = { $gte: new Date(startDateArticle) };
+  } else if (endDateArticle) {
+    filterArticle.createdAt = { $lte: new Date(endDateArticle) };
+  }
+  if (searchArticle) {
+    const searchRegex = new RegExp(searchArticle, 'i');
+    filterArticle.$or = [{ title: searchRegex }];
+  }
+  let formattedArticles;
+  let totalPages;
+  try {
+    const articles = await Article.find(filterArticle)
+      .select("id title image readTime isPublished category createdAt")
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .populate('category', 'id title')
+      .sort({ createdAt: -1 });
+
+    const count = await Article.countDocuments(filterArticle);
+    totalPages = Math.ceil(count / limit);
+    
+    formattedArticles = articles.map((article) => {
+      const createdAt = article.createdAt.toISOString().split('T')[0];
+      return { ...article._doc, createdAt };
+    });
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+   
+
+    
+  
+  return res.status(200).json({ category, episodes : {totalPages: Math.ceil(count / limit), list:formattedEpisodes}, articles:{ totalPages, list: formattedArticles }});
   };
 
   

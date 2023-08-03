@@ -32,7 +32,7 @@ export const getAllArticles = async (req, res, next) => {
 
   try {
     const articles = await Article.find(filter)
-      .select("id title image readTime isPublished category createdAt")
+      .select("id articleNumber title description image readTime isPublished category createdAt")
       .limit(limit)
       .skip((page - 1) * limit)
       .populate('category', 'id title')
@@ -88,7 +88,7 @@ const readTimeCategory = (readTimeCategoryNumber) => {
 
 // Add a new article
 export const addArticle = async (req, res, next) => {
-    const { title, content, image, readTime, category } = req.body;
+    const {articleNumber, title, description, content, image, readTime, category } = req.body;
     let existingCategory;
     try {
             // Validate the categoryId
@@ -106,7 +106,9 @@ export const addArticle = async (req, res, next) => {
     }
    
     const article = new Article({
+      articleNumber,
       title,
+      description,
       content,
       image,
       readTime,
@@ -134,7 +136,7 @@ export const addArticle = async (req, res, next) => {
         return  res.status(500).json({ message: "Server error" });
     }
 
-    if(!episode){
+    if(!article){
         return res.status(404).json({message: "Article not found"});
     }
 
@@ -168,7 +170,7 @@ export const updateArticle = async (req, res, next) => {
 export const getById = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const article = await Article.findById(id).select("id title content image readTime isPublished category createdAt")
+      const article = await Article.findById(id).select("id articleNumber title description content image readTime isPublished category createdAt")
                                                 .populate('category', 'id title');
       if (!article) {
         return res.status(404).json({ message: "Article not found" });
@@ -193,4 +195,32 @@ export const getById = async (req, res, next) => {
       console.log(error);
       res.status(500).json({ message: "Server error" });
     }
+  };
+
+
+
+
+
+
+
+  export const getLastArticleNumber = async (req, res) => {
+    let article;
+    try {
+      article = await Article.find().select('id articleNumber')
+      // We multiply the "limit" variables by one just to make sure we pass a number and not a string
+      .limit(1)
+     
+     
+      // We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+      .sort({ articleNumber: -1 })
+     
+      .exec();
+    }catch (error) {
+      res.status(404).json({message : "Error when getting article"});
+  }
+  if(!article){
+      res.status(404).json({message : "No Article Found"});
+  }
+  
+  return res.status(200).json(article);
   };

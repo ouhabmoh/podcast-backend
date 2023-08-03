@@ -3,12 +3,12 @@ import  express  from "express";
 import {isAdmin, notAdmin} from "../auth.js";
 
 
-import { getAllArticles, addArticle, toggleIsPublished, updateArticle, getById, deleteArticleById} from "../controllers/article-controller.js";
+import { getAllArticles, getLastArticleNumber, addArticle, toggleIsPublished, updateArticle, getById, deleteArticleById} from "../controllers/article-controller.js";
 const articleRouter = express.Router();
 
 
 articleRouter.get("/", getAllArticles);
-
+articleRouter.get("/", getLastArticleNumber);
 articleRouter.post("/", addArticle);
 articleRouter.put("/isPublished/:id", toggleIsPublished);
 articleRouter.patch("/:id", updateArticle);

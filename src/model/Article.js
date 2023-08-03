@@ -3,11 +3,19 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const articleSchema = new Schema({
-   
+
+    articleNumber:{
+        type: Number,
+    }
+   ,
     title: {
         type: String,
         required: true,
 
+    },
+    description:{
+        type: String,
+        required: true
     },
     content:{
         type: String,
