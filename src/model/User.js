@@ -32,7 +32,7 @@ const userSchema = Schema(
         type: String,
         
       },
-     
+  
       // The password field will be added by passport-local-mongoose
     },
     role: {
@@ -54,4 +54,20 @@ userSchema.plugin(passportLocalMongoose, {
   usernameUnique: false
 });
 
+// Define a virtual field for filledFields
+userSchema.virtual("loginMethod").get(function () {
+  const filledFields = {};
+
+  if (this.google && Object.keys(this.google).length > 0) {
+    filledFields.google = this.google;
+  }
+  if (this.facebook && Object.keys(this.facebook).length > 0) {
+    filledFields.facebook = this.facebook;
+  }
+  if (this.local && Object.keys(this.local).length > 0) {
+    filledFields.local = this.local;
+  }
+
+  return filledFields;
+});
 export default mongoose.model("User", userSchema);

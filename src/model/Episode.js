@@ -52,7 +52,11 @@ const episodeSchema = new Schema({
           ref: "Note",
         },
       ],
-   
+      comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Comment"
+      
+      }],
 }
 ,
   { timestamps: true }

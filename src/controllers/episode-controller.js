@@ -4,6 +4,7 @@ import User from "../model/User.js";
 import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from 'get-audio-duration';
 import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
 import mp3Duration from 'mp3-duration';
 import cloudinary from 'cloudinary';
 import handleUpload from "../helper.js";
@@ -361,7 +362,18 @@ export const getById = async (req, res, next) => {
     let episode;
     try{
         episode = await Episode.findById(id).select('id episodeNumber title description explication category audio image duration createdAt notes')
-        .populate('category', 'id title')
+        .populate({
+          path: 'category',
+          select: 'id title' // Select the fields you want to populate for the "category"
+        })
+        .populate({
+          path: 'comments',
+          populate: {
+            path: 'user',
+            model: 'User', // This should match the model name "User" defined in the user schema
+            
+          }
+        })
         .populate('notes', 'note time');
     }catch(err){
         return console.log(err);
@@ -540,3 +552,93 @@ episode.notes.pop(note._id);
 }
 
 
+export const addComment = async (req, res) => {
+  const episodeId = req.params.id;
+  const {content } = req.body;
+  const user = req.user._id;
+  let existingEpisode;
+  try {
+          // Validate the categoryId
+  if (!mongoose.Types.ObjectId.isValid(episodeId)) {
+      return res.status(400).json({ message: 'Invalid episode Id' });
+  }
+
+      existingEpisode = await Episode.findById(episodeId);
+  } catch (error) {
+      return console.log(error)
+  }
+
+  if(!existingEpisode){
+      return res.status(404).json({message:"episode not found"});
+  }
+
+  
+ // Loop through the comments array and create comment documents
+ 
+   const commentDocument = new Comment({
+     content,
+     user,
+   });
+   let commentId;
+   try {
+     // Save the comment document
+     const savedComment = await commentDocument.save();
+     // Push the comment ID to the array
+     commentId = savedComment._id;
+   } catch (error) {
+     console.log(error);
+     return res.status(500).json({ message: 'Adding comments failed' });
+   }
+ 
+
+
+ existingEpisode.comments.push(commentId);
+
+  try {
+      await existingEpisode.save();
+
+  } catch (error) {
+       console.log(error);
+       return res.status(500).json({message:"adding comment to episode failed"});
+  }
+
+  return res.status(200).json({existingEpisode});
+}
+
+
+export const deleteComment = async (req, res, next) => {
+  const id = req.params.id;
+  const commentId = req.params.commentId;
+  const user = req.user;
+  let episode;
+  let comment;
+  try {
+      episode = await Episode.findById(id);
+      
+  } catch (error) {
+      return console.log(error);
+  }
+
+  if(!episode){
+      return res.status(404).json({message : "episode not found"});
+  }
+
+  try {
+    comment = await Comment.findById(commentId);
+    
+} catch (error) {
+    return console.log(error);
+}
+
+if(!comment){
+    return res.status(404).json({message : "comment not found"});
+}
+const userId = new ObjectId(user._id);
+ 
+if(!comment.user.equals(userId) && user.role !== 'admin'){
+  return res.status(401).json({ message: 'Unauthorized' });
+}
+episode.comments.pop(comment._id);
+
+  return res.status(200).json({message : "succesfelly deleted"});
+}

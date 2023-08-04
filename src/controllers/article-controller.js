@@ -1,7 +1,9 @@
 import Article from "../model/Article.js";
 import Category from "../model/Category.js";
+import Comment from "../model/Comment.js";
+import { getUser } from "./getUser.js";
 import mongoose from "mongoose";
-
+import { ObjectId } from "mongodb";
 export const getAllArticles = async (req, res, next) => {
   const { isPublished, search, readTime, startDate, endDate } = req.query;
   let page = parseInt(req.query.page);
@@ -170,11 +172,28 @@ export const updateArticle = async (req, res, next) => {
 export const getById = async (req, res, next) => {
     const { id } = req.params;
     try {
-      const article = await Article.findById(id).select("id articleNumber title description content image readTime isPublished category createdAt")
-                                                .populate('category', 'id title');
+    // Assuming this is inside an async function
+    const article = await Article.findById(id)
+    .select('id articleNumber title description content image readTime isPublished category comments createdAt')
+    .populate({
+      path: 'category',
+      select: 'id title' // Select the fields you want to populate for the "category"
+    })
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+        model: 'User', // This should match the model name "User" defined in the user schema
+        
+      }
+    })
+    .lean();
+                                                
+                                               
       if (!article) {
         return res.status(404).json({ message: "Article not found" });
       }
+     
       res.status(200).json({ article });
     } catch (error) {
       console.log(error);
@@ -224,3 +243,103 @@ export const getById = async (req, res, next) => {
   
   return res.status(200).json(article);
   };
+
+
+  export const addComment = async (req, res) => {
+    const articleId = req.params.id;
+    const {content } = req.body;
+    const user = req.user._id;
+    let existingArticle;
+    try {
+            // Validate the categoryId
+    if (!mongoose.Types.ObjectId.isValid(articleId)) {
+        return res.status(400).json({ message: 'Invalid articleId' });
+    }
+  
+        existingArticle = await Article.findById(articleId);
+    } catch (error) {
+        return console.log(error)
+    }
+  
+    if(!existingArticle){
+        return res.status(404).json({message:"article not found"});
+    }
+  
+    
+   // Loop through the comments array and create comment documents
+   
+     const commentDocument = new Comment({
+       content,
+       user,
+     });
+     let commentId;
+     try {
+       // Save the comment document
+       const savedComment = await commentDocument.save();
+       // Push the comment ID to the array
+       commentId = savedComment._id;
+     } catch (error) {
+       console.log(error);
+       return res.status(500).json({ message: 'Adding comments failed' });
+     }
+   
+  
+  
+   existingArticle.comments.push(commentId);
+  
+    try {
+        await existingArticle.save();
+  
+    } catch (error) {
+         console.log(error);
+         return res.status(500).json({message:"adding comment to article failed"});
+    }
+  
+    return res.status(200).json({article :existingArticle});
+  }
+  
+
+  
+  export const deleteComment = async (req, res, next) => {
+    
+    const id = req.params.id;
+    const commentId = req.params.commentId;
+    const user = req.user;
+    console.log(user);
+    let article;
+    let comment;
+    try {
+        article = await Article.findById(id);
+        
+    } catch (error) {
+        return console.log(error);
+    }
+  
+    if(!article){
+        return res.status(404).json({message : "article not found"});
+    }
+  
+    try {
+      comment = await Comment.findById(commentId);
+      
+  } catch (error) {
+      return console.log(error);
+  }
+  
+  if(!comment){
+      return res.status(404).json({message : "comment not found"});
+  }
+
+ const userId = new ObjectId(user._id);
+ 
+  if(!comment.user.equals(userId) && user.role !== 'admin'){
+    console.log("we are in controller");
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  article.comments.pop(comment._id);
+  
+    return res.status(200).json({message : "succesfelly deleted"});
+  }
+
+
+  

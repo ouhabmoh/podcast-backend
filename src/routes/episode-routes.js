@@ -1,6 +1,6 @@
 import  express  from "express";
 import { episodeValidationRules, validate } from "../validator.js";
-import {isAdmin, notAdmin} from "../auth.js";
+import {isAdmin, notAdmin, isLoggedIn} from "../auth.js";
 // import multer from 'multer';
 // import { extname } from 'path';
 // // Set up Multer storage configuration
@@ -47,7 +47,7 @@ import {isAdmin, notAdmin} from "../auth.js";
 //   }
 // }
 
-import { getAllEpisodes, addEpisode, getLastEpisodeNumber, toggleIsPublished, getEpisodeNeighbours, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote } from "../controllers/episode-controller.js";
+import { getAllEpisodes, addEpisode, getLastEpisodeNumber, toggleIsPublished, getEpisodeNeighbours, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote, addComment, deleteComment } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
 // episodeRouter.get("/", notAdmin, getAllEpisodes);
@@ -71,6 +71,7 @@ episodeRouter.get("/last", getLastEpisodeNumber);
 episodeRouter.get("/neighbors/:episodeNumber", getEpisodeNeighbours);
 // episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 // episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
+episodeRouter.post("/:id", isLoggedIn, addComment);
 episodeRouter.post("/",  episodeValidationRules(), validate, addEpisode);
 episodeRouter.put("/isPublished/:id", toggleIsPublished);
 episodeRouter.patch("/:id", updateEpisode);
@@ -80,6 +81,7 @@ episodeRouter.delete("/:id",  deleteEpisodeById);
 episodeRouter.post("/:id/note", addNote);
 
 episodeRouter.delete("/:id/note/:noteId", deleteNote);
+episodeRouter.delete("/:id/comment/:commentId", isLoggedIn, deleteComment);
 export default episodeRouter;
 
 

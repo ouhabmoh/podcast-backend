@@ -18,4 +18,4 @@ const commentSchema = new Schema({
 },
 { timestamps: true });
 
-export default mongoose.model("Comment", articleSchema);
+export default mongoose.model("Comment", commentSchema);

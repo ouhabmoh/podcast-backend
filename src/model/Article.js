@@ -41,6 +41,11 @@ const articleSchema = new Schema({
         ref: "Category",
         required: true
       },
+     comments: [{
+        type: mongoose.Types.ObjectId,
+        ref: "Comment"
+      
+      }],
 },
 { timestamps: true });
 

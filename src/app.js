@@ -2,16 +2,16 @@ import express from "express";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import cors from 'cors';
-// import session from "express-session";
-import jwt from "jsonwebtoken";
-import passport from "./passportConfig.js";
-import  {signToken} from "./jwt.js";
+
+
+import authRouter from "./routes/auth-routes.js";
 import userRouter from "./routes/user-routes.js";
 import episodeRouter from "./routes/episode-routes.js";
 import articleRouter from "./routes/article-routes.js";
 import categoryRouter  from "./routes/category-routes.js";  
 import infoRouter from "./routes/info-routes.js";
 import noteRouter from "./routes/note-routes.js";
+import commentRouter from "./routes/comment-routes.js";
 const app = express();
 app.timeout = 300000;
 
@@ -40,99 +40,11 @@ app.use(express.json({ limit: '500mb' }))
 //   resave: false,
 //   saveUninitialized: true,
 // }));
-app.get(
-    "/auth/google",
-    passport.authenticate("google", { scope: ["email", "profile"] })
-  );
-
-  app.get(
-    "/auth/facebook",
-    passport.authenticate("facebook")
-  );
-
-
-app.post("/auth/login", (req, res, next) => {
-
-  passport.authenticate('local-login', async (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    // If registration is successful, sign a JWT token and send it in the response
-    const token = await signToken(user);
-   
-    return res.status(200).json({ token: token });
-  })(req, res, next);
-});
-
-app.post("/auth/register", (req, res, next) => {
-  passport.authenticate('local-register', async (err, user, info) => {
-    if (err) {
-      return next(err);
-    }
-    if (!user) {
-      return res.status(400).json({ message: info.message });
-    }
-    // If registration is successful, sign a JWT token and send it in the response
-    const token = await signToken(user);
-   
-    return res.status(200).json({ token: token });
-  })(req, res, next);
-});
-  app.get(
-    "/auth/google/callback",
-    passport.authenticate("google", { session: false,
-      successRedirect: '/profile',
-      failureRedirect: 'auth/login'
-    }),
-    async (req, res) => {
-
-      const user = req.user
-      if (!user) {
-        return res.status(400).json({ message: info.message });
-      }
-      // If registration is successful, sign a JWT token and send it in the response
-      const token = await signToken(user);
-     
-      return res.status(200).json({ token: token });
-    }
-  );
-
-
-  app.get(
-    "/auth/facebook/callback",
-    passport.authenticate("facebook", { session: false,
-      successRedirect: '/profile',
-      failureRedirect: 'auth/login'
-    }),
-    async (req, res) => {
-
-      const user = req.user
-      if (!user) {
-        return res.status(400).json({ message: info.message });
-      }
-      // If registration is successful, sign a JWT token and send it in the response
-      const token = await signToken(user);
-     
-      return res.status(200).json({ token: token });
-    }
-  );
-
-
-  app.get(
-    "/profile",
-    passport.authenticate("jwt", { session: false,
-      failureRedirect: 'auth/login'
-    }),
-    (req, res, next) => {
-      res.send("Welcome");
-    }
-  );
+app.use('/auth', authRouter);
 app.use('/resources',express.static('resources'))
 app.use("/users",userRouter);
 app.use("/notes", noteRouter);
+app.use("/comments", commentRouter);
 app.use("/episodes", episodeRouter);
 app.use("/articles", articleRouter);
 app.use("/categories", categoryRouter);
