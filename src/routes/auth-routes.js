@@ -47,10 +47,7 @@ authRouter.post("/register", (req, res, next) => {
 });
 authRouter.get(
     "/google/callback",
-    passport.authenticate("google", { session: false,
-      successRedirect: '/profile',
-      failureRedirect: 'auth/login'
-    }),
+    passport.authenticate("google", { session: false}),
     async (req, res) => {
 
       const user = req.user
