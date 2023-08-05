@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
-const categorySchema = new Schema(
+const groupSchema = new Schema(
 	{
 		title: {
 			type: String,
@@ -16,13 +16,14 @@ const categorySchema = new Schema(
 			type: String,
 			required: true,
 		},
-		isPublished: {
-			type: Boolean,
-			default: true,
-			required: true,
-		},
+		categories: [
+			{
+				type: mongoose.Types.ObjectId,
+				ref: "Category",
+			},
+		],
 	},
 	{ timestamps: true }
 );
 
-export default mongoose.model("Category", categorySchema);
+export default mongoose.model("Group", groupSchema);

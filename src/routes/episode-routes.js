@@ -1,6 +1,6 @@
-import  express  from "express";
+import express from "express";
 import { episodeValidationRules, validate } from "../validator.js";
-import {isAdmin, notAdmin, isLoggedIn} from "../auth.js";
+import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
 // import multer from 'multer';
 // import { extname } from 'path';
 // // Set up Multer storage configuration
@@ -19,11 +19,11 @@ import {isAdmin, notAdmin, isLoggedIn} from "../auth.js";
 // //       const timestamp = Date.now();
 // //       const fileExtension = extname(file.originalname);
 // //       const newFilename = `file_${timestamp}${fileExtension}`;
-      
+
 // //       cb(null, newFilename);
 // //     },
 // //   });
-  
+
 // // Create Multer instance for handling file uploads
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage ,
@@ -47,7 +47,24 @@ import {isAdmin, notAdmin, isLoggedIn} from "../auth.js";
 //   }
 // }
 
-import { getAllEpisodes, addEpisode, getLastEpisodeNumber, toggleIsPublished, getEpisodeNeighbours, updateEpisode, getById, deleteEpisodeById, getAudioById, addNote, deleteNote, addComment, deleteComment } from "../controllers/episode-controller.js";
+import {
+	getAllEpisodes,
+	addEpisode,
+	getLastEpisodeNumber,
+	toggleIsPublished,
+	getEpisodeNeighbours,
+	updateEpisode,
+	getById,
+	deleteEpisodeById,
+	getAudioById,
+	addNote,
+	deleteNote,
+	addComment,
+	deleteComment,
+	incrementPlayCount,
+	getSimilairById,
+	getMostPlayedEpisodes,
+} from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
 // episodeRouter.get("/", notAdmin, getAllEpisodes);
@@ -65,23 +82,22 @@ const episodeRouter = express.Router();
 
 // episodeRouter.delete("/:id/note/:noteId", isAdmin, deleteNote);
 
-
 episodeRouter.get("/", getAllEpisodes);
+episodeRouter.get("/trending", getMostPlayedEpisodes);
 episodeRouter.get("/last", getLastEpisodeNumber);
 episodeRouter.get("/neighbors/:episodeNumber", getEpisodeNeighbours);
 // episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 // episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
-episodeRouter.post("/:id", isLoggedIn, addComment);
-episodeRouter.post("/",  episodeValidationRules(), validate, addEpisode);
+episodeRouter.put("/:id", incrementPlayCount);
+episodeRouter.post("/comment/:id", isLoggedIn, addComment);
+episodeRouter.post("/", episodeValidationRules(), validate, addEpisode);
 episodeRouter.put("/isPublished/:id", toggleIsPublished);
 episodeRouter.patch("/:id", updateEpisode);
 episodeRouter.get("/:id", getById);
 episodeRouter.get("/:id/audio", getAudioById);
-episodeRouter.delete("/:id",  deleteEpisodeById);
+episodeRouter.delete("/:id", deleteEpisodeById);
 episodeRouter.post("/:id/note", addNote);
-
+episodeRouter.get("/similair/:id", getSimilairById);
 episodeRouter.delete("/:id/note/:noteId", deleteNote);
 episodeRouter.delete("/:id/comment/:commentId", isLoggedIn, deleteComment);
 export default episodeRouter;
-
-
