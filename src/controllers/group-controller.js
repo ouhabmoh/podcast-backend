@@ -3,11 +3,10 @@ import Category from "../model/Category.js";
 
 export const addGroup = async (req, res) => {
 	try {
-		const { title, description, image, categories } = req.body;
+		const { title, description, categories } = req.body;
 		const newGroup = await Group.create({
 			title,
 			description,
-			image,
 			categories,
 		});
 		res.status(201).json(newGroup);
@@ -20,8 +19,8 @@ export const addGroup = async (req, res) => {
 export const getGroups = async (req, res) => {
 	try {
 		const groups = await Group.find()
-			.select("id title description image categories")
-			.populate("categories", "id title")
+			.select("id title description categories")
+			.populate("categories", "id title image")
 			.exec();
 		res.status(200).json({ groups });
 	} catch (error) {
@@ -33,8 +32,8 @@ export const getGroups = async (req, res) => {
 export const getById = async (req, res) => {
 	try {
 		const group = await Group.findById(req.params.id)
-			.select("id title description image categories")
-			.populate("categories", "id title")
+			.select("id title description categories")
+			.populate("categories", "id title image")
 			.exec();
 		if (!group) {
 			return res.status(404).json({ message: "Group not found" });

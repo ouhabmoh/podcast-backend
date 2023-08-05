@@ -11,7 +11,27 @@ export const getAllCategories = async (req, res, next) => {
 
 	let categories;
 	try {
+		let filter;
+		if (search) {
+			// Split the search query into individual words
+			const searchWords = search
+				.split(" ")
+				.filter((word) => word !== "");
+
+			// Create a regex pattern to match any of the search words in the episode title
+			const regexPattern = searchWords
+				.map((word) => `(?=.*${word})`)
+				.join("");
+
+			const regexQuery = new RegExp(regexPattern, "i");
+			filter = { title: { $regex: regexQuery } };
+		} else {
+			filter = {};
+		}
 		categories = await Category.aggregate([
+			{
+				$match: filter,
+			},
 			{
 				$lookup: {
 					from: "articles", // Replace 'articles' with the name of the articles collection
