@@ -16,6 +16,7 @@ export const getMostReadArticles = async (req, res) => {
 			.select(
 				"id articleNumber title description image readTime isPublished category createdAt readCount"
 			)
+			.populate("category", "id title")
 			.sort({ readCount: -1 })
 			.limit(limit);
 
@@ -29,7 +30,7 @@ export const getMostReadArticles = async (req, res) => {
 
 export const getSimilairById = async (req, res) => {
 	const articleId = req.params.id;
-
+	const limit = req.query.limit ? parseInt(req.query.limit) : 6;
 	try {
 		// Find the article by ID to get its title and category
 		const article = await Article.findById(articleId).select("title");
@@ -54,7 +55,7 @@ export const getSimilairById = async (req, res) => {
 			_id: { $ne: articleId }, // Exclude the current article from the results
 			title: { $regex: regexQuery }, // Case-insensitive search for similar titles
 		})
-			.limit(6)
+			.limit(limit)
 			.select(
 				"id articleNumber title description image readTime isPublished category createdAt readCount"
 			)

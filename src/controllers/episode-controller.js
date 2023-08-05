@@ -36,6 +36,7 @@ export const getMostPlayedEpisodes = async (req, res) => {
 			.select(
 				"id episodeNumber title category image duration createdAt isPublished playCount"
 			)
+			.populate("category", "id title")
 			.sort({ playCount: -1 })
 			.limit(limit);
 
@@ -49,7 +50,7 @@ export const getMostPlayedEpisodes = async (req, res) => {
 
 export const getSimilairById = async (req, res) => {
 	const episodeId = req.params.id;
-
+	const limit = req.query.limit ? parseInt(req.query.limit) : 6;
 	try {
 		// Find the episode by ID to get its title and category
 		const episode = await Episode.findById(episodeId).select("title");
@@ -74,7 +75,7 @@ export const getSimilairById = async (req, res) => {
 			_id: { $ne: episodeId }, // Exclude the current episode from the results
 			title: { $regex: regexQuery }, // Case-insensitive search for similar titles
 		})
-			.limit(6)
+			.limit(limit)
 			.select(
 				"id episodeNumber title category image duration createdAt isPublished playCount"
 			)
@@ -680,6 +681,7 @@ export const deleteNote = async (req, res, next) => {
 	}
 
 	episode.notes.pop(note._id);
+	await episode.save();
 
 	return res.status(200).json({ message: "succesfelly deleted" });
 };
