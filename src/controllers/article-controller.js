@@ -70,7 +70,8 @@ export const getSimilairById = async (req, res) => {
 };
 
 export const getAllArticles = async (req, res, next) => {
-	const { isPublished, search, readTime, startDate, endDate } = req.query;
+	const { isPublished, search, readTime, startDate, endDate, category } =
+		req.query;
 	let page = parseInt(req.query.page);
 	let limit = parseInt(req.query.limit);
 
@@ -84,6 +85,9 @@ export const getAllArticles = async (req, res, next) => {
 	const filter = {};
 	if (isPublished) {
 		filter.isPublished = isPublished === "1";
+	}
+	if (category) {
+		filter.category = category;
 	}
 	//   if (readTime) {
 	//     const { minTime, maxTime } = readTimeCategory(parseInt(readTime));

@@ -7,6 +7,8 @@ import { getAudioDurationInSeconds } from "get-audio-duration";
 import mongoose from "mongoose";
 
 export const getAllCategories = async (req, res, next) => {
+	const { search } = req.query;
+
 	let categories;
 	try {
 		categories = await Category.aggregate([
@@ -59,6 +61,7 @@ export const getAllCategories = async (req, res, next) => {
 
 	res.status(200).json({ categories });
 };
+
 export const addCategory = async (req, res, next) => {
 	const { title, description, image } = req.body;
 
@@ -262,16 +265,14 @@ export const getById = async (req, res, next) => {
 		res.status(500).json({ message: "Server error" });
 	}
 
-	return res
-		.status(200)
-		.json({
-			category,
-			episodes: {
-				totalPages: Math.ceil(count / limit),
-				list: formattedEpisodes,
-			},
-			articles: { totalPages, list: formattedArticles },
-		});
+	return res.status(200).json({
+		category,
+		episodes: {
+			totalPages: Math.ceil(count / limit),
+			list: formattedEpisodes,
+		},
+		articles: { totalPages, list: formattedArticles },
+	});
 };
 
 export const deleteCategoryById = async (req, res, next) => {
@@ -337,10 +338,8 @@ export const getCategoryEpisodes = async (req, res) => {
 		return { ...episode._doc, createdAt };
 	});
 
-	return res
-		.status(200)
-		.json({
-			totalPages: Math.ceil(count / limit),
-			episodes: formattedEpisodes,
-		});
+	return res.status(200).json({
+		totalPages: Math.ceil(count / limit),
+		episodes: formattedEpisodes,
+	});
 };
