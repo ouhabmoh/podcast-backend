@@ -18,10 +18,62 @@ export const addGroup = async (req, res) => {
 
 export const getGroups = async (req, res) => {
 	try {
-		const groups = await Group.find()
-			.select("id title description categories")
-			.populate("categories", "id title image")
-			.exec();
+		const groups = await Group.aggregate([
+			{
+				$unwind: "$categories",
+			},
+			{
+				$lookup: {
+					from: "categories", // Replace 'categories' with the name of the categories collection
+					localField: "categories",
+					foreignField: "_id",
+					as: "categoryDetails",
+				},
+			},
+			{
+				$unwind: "$categoryDetails",
+			},
+			{
+				$lookup: {
+					from: "articles", // Replace 'articles' with the name of the articles collection
+					localField: "categoryDetails._id",
+					foreignField: "category",
+					as: "articles",
+				},
+			},
+			{
+				$lookup: {
+					from: "episodes", // Replace 'episodes' with the name of the episodes collection
+					localField: "categoryDetails._id",
+					foreignField: "category",
+					as: "episodes",
+				},
+			},
+			{
+				$group: {
+					_id: "$_id",
+					title: { $first: "$title" },
+					description: { $first: "$description" },
+					categories: {
+						$push: {
+							_id: "$categoryDetails._id",
+							title: "$categoryDetails.title",
+							image: "$categoryDetails.image",
+							articleCount: { $size: "$articles" },
+							episodeCount: { $size: "$episodes" },
+						},
+					},
+				},
+			},
+			{
+				$project: {
+					_id: 1,
+					title: 1,
+					description: 1,
+					categories: 1,
+				},
+			},
+		]);
 		res.status(200).json({ groups });
 	} catch (error) {
 		console.error(error);
