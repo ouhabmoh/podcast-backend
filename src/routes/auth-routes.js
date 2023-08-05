@@ -15,7 +15,12 @@ authRouter.post("/login", (req, res, next) => {
 		// If registration is successful, sign a JWT token and send it in the response
 		const token = await signToken(user);
 
-		return res.status(200).json({ token: token });
+		return res.status(200).json({
+			token: token,
+			userId: user._id,
+			name: user.local.name,
+			role: user.role,
+		});
 	})(req, res, next);
 });
 
@@ -30,7 +35,12 @@ authRouter.post("/register", (req, res, next) => {
 		// If registration is successful, sign a JWT token and send it in the response
 		const token = await signToken(user);
 
-		return res.status(200).json({ token: token });
+		return res.status(200).json({
+			token: token,
+			userId: user._id,
+			name: user.local.name,
+			role: user.role,
+		});
 	})(req, res, next);
 });
 
@@ -49,7 +59,12 @@ authRouter.get(
 		// If registration is successful, sign a JWT token and send it in the response
 		const token = await signToken(user);
 
-		return res.status(200).json({ token: token });
+		return res.status(200).json({
+			token: token,
+			userId: user._id,
+			name: user.google.name,
+			role: user.role,
+		});
 	}
 );
 
@@ -65,7 +80,12 @@ authRouter.get(
 		// If registration is successful, sign a JWT token and send it in the response
 		const token = await signToken(user);
 
-		return res.status(200).json({ token: token });
+		return res.status(200).json({
+			token: token,
+			userId: user._id,
+			name: user.facebook.name,
+			role: user.role,
+		});
 	}
 );
 
