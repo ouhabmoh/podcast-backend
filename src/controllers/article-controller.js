@@ -4,6 +4,35 @@ import Comment from "../model/Comment.js";
 import { getUser } from "./getUser.js";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
+import User from "../model/User.js";
+
+export const addToFavoritesArticle = async (req, res) => {
+	try {
+		const userId = req.user._id;
+		const articleId = req.params.articleId;
+
+		const user = await User.findById(userId);
+
+		// Check if the article exists in the database
+		const article = await Article.findById(articleId);
+		if (!article) {
+			return res.status(404).json({ message: "Article not found" });
+		}
+
+		// Check if the article already exists in the favorites list
+		if (!user.favoritesArticles.includes(articleId)) {
+			user.favoritesArticles.push(articleId);
+			await user.save();
+		}
+
+		res.status(200).json({
+			message: "Article added to favorites successfully",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
 
 // Controller function to get the most read articles
 export const getMostReadArticles = async (req, res) => {

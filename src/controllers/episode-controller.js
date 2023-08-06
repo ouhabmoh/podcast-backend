@@ -28,6 +28,35 @@ import path from "path";
 // const limit = 10;
 
 // Controller function to get the 6 most played episodes
+
+export const addToFavoritesEpisode = async (req, res) => {
+	try {
+		const userId = req.user._id;
+		const episodeId = req.params.episodeId;
+
+		const user = await User.findById(userId);
+
+		// Check if the episode exists in the database
+		const episode = await Episode.findById(episodeId);
+		if (!episode) {
+			return res.status(404).json({ message: "Episode not found" });
+		}
+
+		// Check if the episode already exists in the favorites list
+		if (!user.favoritesEpisodes.includes(episodeId)) {
+			user.favoritesEpisodes.push(episodeId);
+			await user.save();
+		}
+
+		res.status(200).json({
+			message: "Episode added to favorites successfully",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const getMostPlayedEpisodes = async (req, res) => {
 	const limit = req.query.limit ? parseInt(req.query.limit) : 6;
 	try {

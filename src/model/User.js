@@ -45,6 +45,20 @@ const userSchema = Schema(
 			type: String,
 			default: "Active",
 		},
+
+		favoritesEpisodes: [
+			{
+				type: mongoose.Types.ObjectId,
+				ref: "Episode",
+			},
+		],
+
+		favoritesArticles: [
+			{
+				type: mongoose.Types.ObjectId,
+				ref: "Article",
+			},
+		],
 	},
 	{ timestamps: true }
 );

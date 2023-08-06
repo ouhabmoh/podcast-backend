@@ -64,6 +64,7 @@ import {
 	incrementPlayCount,
 	getSimilairById,
 	getMostPlayedEpisodes,
+	addToFavoritesEpisode,
 } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
@@ -89,6 +90,7 @@ episodeRouter.get("/neighbors/:episodeNumber", getEpisodeNeighbours);
 // episodeRouter.post("/", upload.fields([{ name: 'audio' }, { name: 'image' }]), addEpisode);
 // episodeRouter.patch("/:id",  upload.fields([{ name: 'audio' }, { name: 'image' }]),  updateEpisode);
 episodeRouter.put("/:id", incrementPlayCount);
+episodeRouter.put("/favorites/:episodeId", isLoggedIn, addToFavoritesEpisode);
 episodeRouter.post("/comment/:id", isLoggedIn, addComment);
 episodeRouter.post("/", episodeValidationRules(), validate, addEpisode);
 episodeRouter.put("/isPublished/:id", toggleIsPublished);
