@@ -274,9 +274,31 @@ export const getById = async (req, res, next) => {
 			})
 			.populate({
 				path: "comments",
+				select: "id content user createdAt updatedAt",
 				populate: {
 					path: "user",
 					model: "User", // This should match the model name "User" defined in the user schema
+					select: {
+						id: 1,
+						name: {
+							$cond: [
+								{ $ifNull: ["$local.name", false] },
+								"$local.name",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.name",
+												false,
+											],
+										},
+										"$google.name",
+										"$facebook.name",
+									],
+								},
+							],
+						},
+					},
 				},
 			})
 			.lean();

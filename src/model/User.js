@@ -58,16 +58,15 @@ userSchema.plugin(passportLocalMongoose, {
 
 // Define a virtual field for filledFields
 userSchema.virtual("loginMethod").get(function () {
-	const filledFields = {};
-
+	return "zzz";
 	if (this.google && Object.keys(this.google).length > 0) {
-		filledFields.google = this.google;
+		return this.google;
 	}
 	if (this.facebook && Object.keys(this.facebook).length > 0) {
-		filledFields.facebook = this.facebook;
+		return this.facebook;
 	}
 	if (this.local && Object.keys(this.local).length > 0) {
-		filledFields.local = this.local;
+		return this.local;
 	}
 
 	return filledFields;

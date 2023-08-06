@@ -306,6 +306,7 @@ export const addEpisode = async (req, res, next) => {
 		image,
 		audio,
 		duration,
+		urls,
 	} = req.body;
 	// Check if audio and image files are present
 	if (
@@ -371,6 +372,7 @@ export const addEpisode = async (req, res, next) => {
 		duration,
 		explication,
 		notes: noteIds,
+		urls,
 	});
 
 	try {
@@ -430,6 +432,7 @@ export const updateEpisode = async (req, res) => {
 			"episodeNumber",
 			"explication",
 			"duration",
+			"urls",
 		];
 		const isValidOperation = Object.keys(updates).every((update) =>
 			allowedUpdates.includes(update)
@@ -507,7 +510,7 @@ export const getById = async (req, res, next) => {
 	try {
 		episode = await Episode.findById(id)
 			.select(
-				"id episodeNumber title description explication category audio image duration createdAt notes playCount"
+				"id episodeNumber title description explication category audio image duration createdAt notes playCount urls comments"
 			)
 			.populate({
 				path: "category",
@@ -515,9 +518,31 @@ export const getById = async (req, res, next) => {
 			})
 			.populate({
 				path: "comments",
+				select: "id content user createdAt updatedAt",
 				populate: {
 					path: "user",
 					model: "User", // This should match the model name "User" defined in the user schema
+					select: {
+						id: 1,
+						name: {
+							$cond: [
+								{ $ifNull: ["$local.name", false] },
+								"$local.name",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.name",
+												false,
+											],
+										},
+										"$google.name",
+										"$facebook.name",
+									],
+								},
+							],
+						},
+					},
 				},
 			})
 			.populate("notes", "note time");

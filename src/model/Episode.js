@@ -50,6 +50,18 @@ const episodeSchema = new Schema(
 				ref: "Note",
 			},
 		],
+		urls: [
+			{
+				title: {
+					type: String,
+					required: true,
+				},
+				url: {
+					type: String,
+					required: true,
+				},
+			},
+		],
 		comments: [
 			{
 				type: mongoose.Types.ObjectId,
