@@ -59,6 +59,7 @@ export const getSimilairById = async (req, res) => {
 			.select(
 				"id articleNumber title description image readTime isPublished category createdAt readCount"
 			)
+			.populate("category", "id title")
 			.sort({ createdAt: -1 })
 			.exec();
 
