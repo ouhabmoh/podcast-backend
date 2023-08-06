@@ -90,10 +90,10 @@ export const getAllArticles = async (req, res, next) => {
 	if (category) {
 		filter.category = category;
 	}
-	//   if (readTime) {
-	//     const { minTime, maxTime } = readTimeCategory(parseInt(readTime));
-	//     filter.readTime = { $gte: minTime, $lte: maxTime };
-	//   }
+	if (readTime) {
+		const { minTime, maxTime } = readTimeCategory(parseInt(readTime));
+		filter.readTime = { $gte: minTime, $lte: maxTime };
+	}
 	if (startDate && endDate) {
 		filter.createdAt = {
 			$gte: new Date(startDate),
@@ -149,25 +149,25 @@ const readTimeCategory = (readTimeCategoryNumber) => {
 
 	switch (readTimeCategoryNumber) {
 		case 0:
-			minDuration = "00:00:00";
-			maxDuration = "00:14:59";
+			minDuration = 0;
+			maxDuration = 10;
 			break;
 		case 1:
-			minDuration = "00:15:00";
-			maxDuration = "00:29:59";
+			minDuration = 11;
+			maxDuration = 20;
 			break;
 		case 2:
-			minDuration = "00:30:00";
-			maxDuration = "00:59:59";
+			minDuration = 21;
+			maxDuration = 30;
 			break;
 		case 3:
-			minDuration = "01:00:00";
-			maxDuration = "23:59:59";
+			minDuration = 31;
+			maxDuration = 60;
 			break;
 		default:
 			// For any other number, assume less than 15 minutes
-			minDuration = "00:00:00";
-			maxDuration = "00:14:59";
+			minDuration = 0;
+			maxDuration = 600;
 			break;
 	}
 
