@@ -57,6 +57,33 @@ export const addToFavoritesEpisode = async (req, res) => {
 	}
 };
 
+// Endpoint to delete an episode from favorites
+export const deleteFromFavoritesEpisode = async (req, res) => {
+	const episodeId = req.params.episodeId;
+	const userId = req.user._id;
+
+	try {
+		// Check if the episode exists in the favorites of the user
+		const user = await User.findById(userId);
+		if (!user.favoritesEpisodes.includes(episodeId)) {
+			return res
+				.status(404)
+				.json({ message: "Episode not found in favorites" });
+		}
+
+		// Remove the episode from favorites
+		user.favoritesEpisodes.pull(episodeId);
+		await user.save();
+
+		res.status(200).json({
+			message: "Episode removed from favorites successfully",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const getMostPlayedEpisodes = async (req, res) => {
 	const limit = req.query.limit ? parseInt(req.query.limit) : 6;
 	try {

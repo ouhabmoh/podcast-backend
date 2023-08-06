@@ -34,6 +34,33 @@ export const addToFavoritesArticle = async (req, res) => {
 	}
 };
 
+// Endpoint to delete an article from favorites
+export const deleteFromFavoritesArticle = async (req, res) => {
+	const articleId = req.params.articleId;
+	const userId = req.user._id;
+
+	try {
+		// Check if the article exists in the favorites of the user
+		const user = await User.findById(userId);
+		if (!user.favoritesArticles.includes(articleId)) {
+			return res
+				.status(404)
+				.json({ message: "Article not found in favorites" });
+		}
+
+		// Remove the article from favorites
+		user.favoritesArticles.pull(articleId);
+		await user.save();
+
+		res.status(200).json({
+			message: "Article removed from favorites successfully",
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 // Controller function to get the most read articles
 export const getMostReadArticles = async (req, res) => {
 	try {

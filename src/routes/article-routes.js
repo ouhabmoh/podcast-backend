@@ -15,6 +15,7 @@ import {
 	deleteComment,
 	getMostReadArticles,
 	addToFavoritesArticle,
+	deleteFromFavoritesArticle,
 } from "../controllers/article-controller.js";
 const articleRouter = express.Router();
 
@@ -22,6 +23,11 @@ articleRouter.get("/", getAllArticles);
 articleRouter.get("/trending", getMostReadArticles);
 articleRouter.get("/last", getLastArticleNumber);
 articleRouter.put("/favorites/:articleId", isLoggedIn, addToFavoritesArticle);
+articleRouter.delete(
+	"/favorites/:articleId",
+	isLoggedIn,
+	deleteFromFavoritesArticle
+);
 articleRouter.post("/:id", isLoggedIn, addComment);
 articleRouter.post("/", addArticle);
 articleRouter.put("/isPublished/:id", toggleIsPublished);
