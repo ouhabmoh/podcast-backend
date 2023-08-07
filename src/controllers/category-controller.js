@@ -240,6 +240,7 @@ export const getById = async (req, res, next) => {
 	}
 
 	const filterArticle = {};
+	filterArticle.category = _id;
 	if (isPublishedArticle) {
 		filterArticle.isPublished = isPublishedArticle === "1";
 	}

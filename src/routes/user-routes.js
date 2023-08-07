@@ -1,9 +1,9 @@
-import exress from 'express';
-import { getAllUser, signup, login } from '../controllers/user-controller.js';
+import exress from "express";
+import { getAllUsers, getUserById } from "../controllers/user-controller.js";
 
 const userRouter = exress.Router();
 
-userRouter.get("/", getAllUser);
-userRouter.post("/signup", signup);
-userRouter.post("/login", login);
+userRouter.get("/", getAllUsers);
+userRouter.get("/:id", getUserById);
+
 export default userRouter;
