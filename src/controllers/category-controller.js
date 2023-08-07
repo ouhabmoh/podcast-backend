@@ -271,7 +271,6 @@ export const getById = async (req, res, next) => {
 			)
 			.limit(limit)
 			.skip((page - 1) * limit)
-			.populate("category", "id title")
 			.sort({ createdAt: -1 });
 
 		const count = await Article.countDocuments(filterArticle);

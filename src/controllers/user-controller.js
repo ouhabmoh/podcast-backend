@@ -69,8 +69,6 @@ export const getAllUsers = async (req, res) => {
 				status: user.status,
 				role: user.role,
 				registeredAt: user.createdAt.toISOString().split("T")[0],
-				favoritesEpisodes: user.favoritesEpisodes,
-				favoritesArticles: user.favoritesArticles,
 			};
 
 			return customUser;
