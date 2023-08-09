@@ -1,8 +1,6 @@
 import User from "../model/User.js";
 
-export const getUserById = async (req, res) => {
-	const userId = req.params.id;
-	console.log(userId);
+const getUser = async (userId) => {
 	try {
 		const user = await User.findById(userId)
 			.select("id local google facebook role status createdAt")
@@ -34,11 +32,40 @@ export const getUserById = async (req, res) => {
 			favoritesArticles: user.favoritesArticles,
 		};
 
+		return customUser;
+	} catch (error) {
+		console.error(error);
+		throw new Error(error);
+	}
+};
+
+export const getUserProfile = async (req, res) => {
+	const userId = req.user._id;
+	console.log(userId);
+	try {
+		const user = await getUser(userId);
+
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
 		}
 
-		res.status(200).json({ user: customUser });
+		res.status(200).json({ user });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+export const getUserById = async (req, res) => {
+	const userId = req.params.id;
+	console.log(userId);
+	try {
+		const user = await getUser(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		res.status(200).json({ user });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: "Server error" });
@@ -75,6 +102,84 @@ export const getAllUsers = async (req, res) => {
 		});
 
 		res.status(200).json({ users: transformedUsers });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
+export const toggleStatus = async (req, res, next) => {
+	const _id = req.params.id;
+	let user;
+	try {
+		user = await User.findOneAndUpdate({ _id }, [
+			{ $set: { status: { $eq: [false, "$status"] } } },
+		]);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: "Server error" });
+	}
+
+	if (!user) {
+		return res.status(404).json({ message: "User not found" });
+	}
+
+	res.status(200).json({ success: true });
+};
+
+export const updateUser = async (req, res, next) => {
+	const userId = req.user._id;
+
+	try {
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		const registrationMethod = req.user.method
+			? req.user.method
+			: "local";
+		updateUserFields(user, registrationMethod, req.body);
+
+		await user.save();
+
+		res.status(200).json({
+			message: "User information updated successfully",
+			user,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
+function updateUserFields(user, registrationMethod, updates) {
+	const methodFields = {
+		local: ["name", "username", "email"],
+		google: ["name", "email"],
+		facebook: ["name", "email"],
+	};
+
+	const fieldsToUpdate = methodFields[registrationMethod] || [];
+
+	fieldsToUpdate.forEach((field) => {
+		if (updates[field]) {
+			user[registrationMethod][field] = updates[field];
+		}
+	});
+}
+
+export const deleteUser = async (req, res) => {
+	const userId = req.params.id;
+
+	try {
+		const user = await User.findByIdAndRemove(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		res.status(200).json({ message: "User deleted successfully" });
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: "Server error" });

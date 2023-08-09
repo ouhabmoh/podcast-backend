@@ -66,6 +66,7 @@ export const getAllCategories = async (req, res, next) => {
 							date: "$createdAt",
 						},
 					},
+					isPublished: 1,
 					articleCount: 1,
 					episodeCount: 1,
 				},
@@ -117,11 +118,32 @@ export const updateCategory = async (req, res, next) => {
 		});
 };
 
+export const toggleIsPublished = async (req, res, next) => {
+	const _id = req.params.id;
+	let category;
+	try {
+		category = await Category.findOneAndUpdate({ _id }, [
+			{ $set: { isPublished: { $eq: [false, "$isPublished"] } } },
+		]);
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: "Server error" });
+	}
+
+	if (!category) {
+		return res.status(404).json({ message: "Category not found" });
+	}
+
+	res.status(200).json({ success: true });
+};
+
 export const getById = async (req, res, next) => {
 	const _id = req.params.id;
 	let category;
 	try {
-		category = await Category.findById(_id).select("-updatedAt");
+		category = await Category.findById(_id).select(
+			"id title description image isPublished createdAt"
+		);
 		if (!category) {
 			return res.status(404).json({ message: "Category not found" });
 		}

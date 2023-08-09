@@ -25,4 +25,50 @@ const categorySchema = new Schema(
 	{ timestamps: true }
 );
 
+categorySchema.pre("save", async function (next) {
+	if (this.isModified("isPublished")) {
+		const isPublished = this.isPublished;
+
+		try {
+			const Category = mongoose.model("Category");
+			const Episode = mongoose.model("Episode");
+			const Article = mongoose.model("Article");
+
+			// Update related episodes
+			await Episode.updateMany(
+				{ category: this._id },
+				{ $set: { isPublished } }
+			);
+
+			// Update related articles
+			await Article.updateMany(
+				{ category: this._id },
+				{ $set: { isPublished } }
+			);
+
+			next();
+		} catch (error) {
+			next(error);
+		}
+	} else {
+		next();
+	}
+});
+
+categorySchema.pre("remove", async function (next) {
+	try {
+		const Episode = mongoose.model("Episode");
+		const Article = mongoose.model("Article");
+		// Delete related episodes
+		await Episode.deleteMany({ category: this._id });
+
+		// Delete related articles
+		await Article.deleteMany({ category: this._id });
+
+		next();
+	} catch (error) {
+		next(error);
+	}
+});
+
 export default mongoose.model("Category", categorySchema);

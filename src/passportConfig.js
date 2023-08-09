@@ -23,6 +23,7 @@ passport.use(
 				});
 
 				if (existingUser) {
+					existingUser.method = "google";
 					return done(null, existingUser);
 				}
 
@@ -37,6 +38,7 @@ passport.use(
 					},
 				});
 				await newUser.save();
+				newUser.method = "google";
 				return done(null, newUser);
 			} catch (error) {
 				return done(error, false);
@@ -147,6 +149,7 @@ passport.use(
 				return done(err);
 			}
 			console.log("Registered");
+			newUser.method = "local";
 			return done(null, newUser);
 		}
 	)
@@ -170,6 +173,7 @@ passport.use(
 				}).exec();
 
 				if (existingUser) {
+					existingUser.method = "facebook";
 					return done(null, existingUser);
 				}
 
@@ -184,6 +188,7 @@ passport.use(
 					},
 				});
 				await newUser.save();
+				newUser.method = "facebook";
 				return done(null, newUser);
 			} catch (error) {
 				return done(error, false);

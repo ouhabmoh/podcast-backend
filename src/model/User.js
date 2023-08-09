@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Episode from "./Episode.js";
+import Article from "./Article.js";
 import passportLocalMongoose from "passport-local-mongoose";
 
 const Schema = mongoose.Schema;
@@ -85,4 +87,17 @@ userSchema.virtual("loginMethod").get(function () {
 
 	return filledFields;
 });
+
+userSchema.pre("remove", async function (next) {
+	const userId = this._id;
+
+	// Delete comments associated with the user from episodes
+	await Episode.updateMany({}, { $pull: { comments: { user: userId } } });
+
+	// Delete comments associated with the user from articles
+	await Article.updateMany({}, { $pull: { comments: { user: userId } } });
+
+	next();
+});
+
 export default mongoose.model("User", userSchema);
