@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 export const signToken = (user) => {
 	return new Promise((resolve, reject) => {
 		const customUser = {
-			id: user._id,
+			_id: user._id,
 			name:
 				user.google?.name ||
 				user.local?.name ||
@@ -16,6 +16,7 @@ export const signToken = (user) => {
 			role: user.role,
 			registeredAt: user.createdAt.toISOString().split("T")[0],
 		};
+
 		jwt.sign(
 			{ user: customUser },
 			process.env.JWT_SECRET_KEY,

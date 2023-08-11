@@ -29,11 +29,33 @@ import path from "path";
 
 // Controller function to get the 6 most played episodes
 
+export const checkUserFavorites = async (req, res) => {
+	try {
+		const episodeId = req.params.episodeId;
+		const userId = req.user._id;
+
+		// Check if the user has favorited the episode
+		const user = await User.findById(userId).select("favoritesEpisodes");
+
+		// Extract the favoritesEpisodes array from the user object
+		const favoritesEpisodes = user ? user.favoritesEpisodes : [];
+
+		const isFavorited = favoritesEpisodes
+			? favoritesEpisodes.some((episode) => episode.equals(episodeId))
+			: false;
+
+		res.status(200).json({ isFavorited });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const addToFavoritesEpisode = async (req, res) => {
 	try {
 		const userId = req.user._id;
 		const episodeId = req.params.episodeId;
-
+		console.log(userId);
 		const user = await User.findById(userId);
 
 		// Check if the episode exists in the database
@@ -41,9 +63,9 @@ export const addToFavoritesEpisode = async (req, res) => {
 		if (!episode) {
 			return res.status(404).json({ message: "Episode not found" });
 		}
-
+		console.log(user);
 		// Check if the episode already exists in the favorites list
-		if (!user.favoritesEpisodes.includes(episodeId)) {
+		if (!user.favoritesEpisodes?.includes(episodeId)) {
 			user.favoritesEpisodes.push(episodeId);
 			await user.save();
 		}

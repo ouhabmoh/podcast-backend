@@ -6,6 +6,28 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import User from "../model/User.js";
 
+export const checkUserFavorites = async (req, res) => {
+	try {
+		const articleId = req.params.articleId;
+		const userId = req.user._id;
+
+		// Check if the user has favorited the article
+		const user = await User.findById(userId).select("favoritesArticles");
+
+		// Extract the favoritesArticles array from the user object
+		const favoritesArticles = user ? user.favoritesArticles : [];
+
+		const isFavorited = favoritesArticles
+			? favoritesArticles.some((article) => article.equals(articleId))
+			: false;
+
+		res.status(200).json({ isFavorited });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const addToFavoritesArticle = async (req, res) => {
 	try {
 		const userId = req.user._id;
@@ -100,7 +122,7 @@ export const getSimilairById = async (req, res) => {
 			.split(" ")
 			.filter((word) => word !== "");
 
-		// Create a regex pattern to match any of the search words in the episode title
+		// Create a regex pattern to match any of the search words in the article title
 		const regexPattern = searchWords
 			.map((word) => `(?=.*${word})`)
 			.join("");
@@ -164,7 +186,7 @@ export const getAllArticles = async (req, res, next) => {
 		// Split the search query into individual words
 		const searchWords = search.split(" ").filter((word) => word !== "");
 
-		// Create a regex pattern to match any of the search words in the episode title
+		// Create a regex pattern to match any of the search words in the article title
 		const regexPattern = searchWords
 			.map((word) => `(?=.*${word})`)
 			.join("");

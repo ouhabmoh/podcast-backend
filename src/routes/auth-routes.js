@@ -5,6 +5,13 @@ import { signToken } from "../jwt.js";
 const authRouter = express.Router();
 
 authRouter.post("/login", (req, res, next) => {
+	// req.body.local = {
+	// 	username: req.body.username,
+	// 	password: req.body.password,
+	// };
+	// req.body.local.username = req.body.username;
+	// req.body.local.password = req.body.password;
+	console.log(req.body);
 	passport.authenticate("local-login", async (err, user, info) => {
 		if (err) {
 			return next(err);
