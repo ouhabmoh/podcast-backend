@@ -34,7 +34,7 @@ const userSchema = Schema(
 				type: String,
 			},
 			name: {
-				typeof: String,
+				type: String,
 			},
 
 			// The password field will be added by passport-local-mongoose

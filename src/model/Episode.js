@@ -21,12 +21,24 @@ const episodeSchema = new Schema(
 			required: true,
 		},
 		image: {
-			type: String,
-			required: true,
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
 		},
 		audio: {
-			type: String,
-			required: true,
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
 		},
 		duration: {
 			type: String,

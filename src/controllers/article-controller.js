@@ -241,6 +241,7 @@ export const addArticle = async (req, res, next) => {
 		readTime,
 		category,
 	} = req.body;
+	console.log(image);
 	let existingCategory;
 	try {
 		// Validate the categoryId

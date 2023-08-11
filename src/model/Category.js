@@ -13,8 +13,14 @@ const categorySchema = new Schema(
 			required: true,
 		},
 		image: {
-			type: String,
-			required: true,
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
 		},
 		isPublished: {
 			type: Boolean,
