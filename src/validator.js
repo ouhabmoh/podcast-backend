@@ -24,6 +24,19 @@ export const episodeValidationRules = () => {
 		body("category").notEmpty().withMessage("Category is required"),
 
 		// audio field validation
+		body("audio.name")
+			.notEmpty()
+			.withMessage("Audio filename is required")
+			.isString()
+			.withMessage("Audio filename must be a string"),
+
+		body("image.name")
+			.notEmpty()
+			.withMessage("Image filename is required")
+			.isString()
+			.withMessage("Image filename must be a string"),
+
+		// audio field validation
 		body("audio.url")
 			.notEmpty()
 			.withMessage("Audio URL is required")
