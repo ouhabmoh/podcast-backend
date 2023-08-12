@@ -17,8 +17,11 @@ import {
 	addToFavoritesArticle,
 	deleteFromFavoritesArticle,
 	checkUserFavorites,
+	articlesStatistics,
 } from "../controllers/article-controller.js";
 const articleRouter = express.Router();
+
+articleRouter.get("/statistics", articlesStatistics);
 articleRouter.get("/:articleId/check-favorite", isLoggedIn, checkUserFavorites);
 articleRouter.get("/", getAllArticles);
 articleRouter.get("/trending", getMostReadArticles);

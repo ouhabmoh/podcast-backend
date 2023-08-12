@@ -12,6 +12,11 @@ import infoRouter from "./routes/info-routes.js";
 import noteRouter from "./routes/note-routes.js";
 import commentRouter from "./routes/comment-routes.js";
 import groupRouter from "./routes/group-routes.js";
+
+import Article from "./model/Article.js";
+import Episode from "./model/Episode.js";
+import Group from "./model/Group.js";
+
 const app = express();
 app.timeout = 300000;
 
@@ -40,6 +45,17 @@ app.use(express.json({ limit: "500mb" }));
 //   resave: false,
 //   saveUninitialized: true,
 // }));
+
+// (async () => {
+// 	try {
+// 		const result = await Group.deleteMany({});
+// 		console.log(`${result.deletedCount} documents deleted.`);
+// 	} catch (error) {
+// 		console.error("Error deleting documents:", error);
+// 	} finally {
+// 	}
+// })();
+
 app.use("/auth", authRouter);
 app.use("/resources", express.static("resources"));
 app.use("/users", userRouter);

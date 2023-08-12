@@ -10,6 +10,10 @@ const endorsementSchema = new mongoose.Schema({
 		required: true,
 	},
 	image: {
+		name: {
+			type: String,
+			required: true,
+		},
 		url: {
 			type: String,
 			required: true,

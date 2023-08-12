@@ -29,6 +29,76 @@ import path from "path";
 
 // Controller function to get the 6 most played episodes
 
+export const episodesStatistics = async (req, res) => {
+	try {
+		const statistics = await Episode.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalEpisodes: { $sum: 1 },
+					publishedEpisodes: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$isPublished", true] },
+								1,
+								0,
+							],
+						},
+					},
+					notPublishedEpisodes: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$isPublished", false] },
+								1,
+								0,
+							],
+						},
+					},
+					totalPlayCount: { $sum: "$playCount" },
+					totalComments: {
+						$sum: {
+							$size: {
+								$ifNull: ["$comments", []],
+							},
+						},
+					},
+					totalNotes: {
+						$sum: {
+							$size: {
+								$ifNull: ["$notes", []],
+							},
+						},
+					},
+					// Add more statistics fields here
+				},
+			},
+
+			{
+				$project: {
+					_id: 0, // Exclude the _id field from the result
+					totalEpisodes: 1,
+					publishedEpisodes: 1,
+					notPublishedEpisodes: 1,
+					totalPlayCount: 1,
+					totalComments: 1,
+					totalNotes: 1,
+					// Add more fields to include in the result
+				},
+			},
+		]);
+
+		if (statistics.length === 0) {
+			return res.status(404).json({ message: "No statistics found" });
+		}
+
+		const episodeStatistics = statistics[0];
+		res.status(200).json(episodeStatistics);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const checkUserFavorites = async (req, res) => {
 	try {
 		const episodeId = req.params.episodeId;

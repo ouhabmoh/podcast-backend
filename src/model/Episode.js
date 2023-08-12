@@ -21,6 +21,10 @@ const episodeSchema = new Schema(
 			required: true,
 		},
 		image: {
+			name: {
+				type: String,
+				required: true,
+			},
 			url: {
 				type: String,
 				required: true,
@@ -31,6 +35,10 @@ const episodeSchema = new Schema(
 			},
 		},
 		audio: {
+			name: {
+				type: String,
+				required: true,
+			},
 			url: {
 				type: String,
 				required: true,

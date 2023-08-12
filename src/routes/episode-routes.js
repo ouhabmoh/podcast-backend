@@ -67,6 +67,7 @@ import {
 	addToFavoritesEpisode,
 	deleteFromFavoritesEpisode,
 	checkUserFavorites,
+	episodesStatistics,
 } from "../controllers/episode-controller.js";
 const episodeRouter = express.Router();
 
@@ -84,6 +85,7 @@ const episodeRouter = express.Router();
 // episodeRouter.post("/:id/note", isAdmin, addNote);
 
 // episodeRouter.delete("/:id/note/:noteId", isAdmin, deleteNote);
+episodeRouter.get("/statistics", episodesStatistics);
 episodeRouter.get("/:episodeId/check-favorite", isLoggedIn, checkUserFavorites);
 episodeRouter.get("/", getAllEpisodes);
 episodeRouter.get("/trending", getMostPlayedEpisodes);

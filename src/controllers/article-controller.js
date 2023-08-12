@@ -6,6 +6,70 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import User from "../model/User.js";
 
+export const articlesStatistics = async (req, res) => {
+	try {
+		const statistics = await Article.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalArticle: { $sum: 1 },
+					publishedArticle: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$isPublished", true] },
+								1,
+								0,
+							],
+						},
+					},
+					notPublishedArticle: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$isPublished", false] },
+								1,
+								0,
+							],
+						},
+					},
+					totalReadCount: { $sum: "$readCount" },
+					totalComments: {
+						$sum: {
+							$size: {
+								$ifNull: ["$comments", []],
+							},
+						},
+					},
+
+					// Add more statistics fields here
+				},
+			},
+
+			{
+				$project: {
+					_id: 0, // Exclude the _id field from the result
+					totalArticle: 1,
+					publishedArticle: 1,
+					notPublishedArticle: 1,
+					totalReadCount: 1,
+					totalComments: 1,
+
+					// Add more fields to include in the result
+				},
+			},
+		]);
+
+		if (statistics.length === 0) {
+			return res.status(404).json({ message: "No statistics found" });
+		}
+
+		const episodeStatistics = statistics[0];
+		res.status(200).json(episodeStatistics);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const checkUserFavorites = async (req, res) => {
 	try {
 		const articleId = req.params.articleId;

@@ -12,6 +12,10 @@ const infoSchema = new Schema({
 		required: true,
 	},
 	image: {
+		name: {
+			type: String,
+			required: true,
+		},
 		url: {
 			type: String,
 			required: true,
@@ -43,6 +47,10 @@ const infoSchema = new Schema({
 	},
 
 	image2: {
+		name: {
+			type: String,
+			required: true,
+		},
 		url: {
 			type: String,
 			required: true,
