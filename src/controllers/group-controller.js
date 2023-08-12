@@ -1,6 +1,83 @@
 import Group from "../model/Group.js";
 import Category from "../model/Category.js";
 
+export const statistics = async (req, res) => {
+	try {
+		const statistics = await Group.aggregate([
+			{
+				$lookup: {
+					from: "categories",
+					localField: "categories",
+					foreignField: "_id",
+					as: "categoryDetails",
+				},
+			},
+			{
+				$unwind: "$categoryDetails",
+			},
+			{
+				$lookup: {
+					from: "episodes",
+					localField: "categoryDetails._id",
+					foreignField: "category",
+					as: "categoryEpisodes",
+				},
+			},
+			{
+				$lookup: {
+					from: "articles",
+					localField: "categoryDetails._id",
+					foreignField: "category",
+					as: "categoryArticles",
+				},
+			},
+			{
+				$group: {
+					_id: "$_id",
+					title: { $first: "$title" },
+					numberOfCategories: { $sum: 1 },
+					numberOfEpisodes: {
+						$sum: { $size: "$categoryEpisodes" },
+					},
+					numberOfArticles: {
+						$sum: { $size: "$categoryArticles" },
+					},
+					totalPlayCount: {
+						$sum: { $sum: "$categoryEpisodes.playCount" },
+					},
+					totalReadCount: {
+						$sum: "$categoryArticles.readCount",
+					},
+					totalComments: {
+						$sum: {
+							$sum: [
+								{ $size: "$categoryEpisodes.comments" },
+								{ $size: "$categoryArticles.comments" },
+							],
+						},
+					},
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					title: 1,
+					numberOfCategories: 1,
+					numberOfEpisodes: 1,
+					numberOfArticles: 1,
+					totalPlayCount: 1,
+					totalReadCount: 1,
+					totalComments: 1,
+				},
+			},
+		]);
+		res.status(200).json(statistics);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const addGroup = async (req, res) => {
 	try {
 		const { title, description, categories } = req.body;

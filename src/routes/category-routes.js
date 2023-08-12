@@ -8,9 +8,11 @@ import {
 	deleteCategoryById,
 	getCategoryEpisodes,
 	toggleIsPublished,
+	statistics,
 } from "../controllers/category-controller.js";
 const categoryRouter = express.Router();
 
+categoryRouter.get("/statistics", statistics);
 categoryRouter.get("/", getAllCategories);
 categoryRouter.post("/", addCategory);
 categoryRouter.patch("/:id", updateCategory);

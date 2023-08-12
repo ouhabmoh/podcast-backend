@@ -5,6 +5,33 @@ import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from "get-audio-duration";
 import mongoose from "mongoose";
 
+export const statistics = async (req, res) => {
+	try {
+		const statistics = await Note.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalNotes: { $sum: 1 },
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					totalNotes: 1,
+				},
+			},
+		]);
+
+		const totalNotes =
+			statistics.length > 0 ? statistics[0].totalNotes : 0;
+
+		res.status(200).json({ totalNotes });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const getNotes = async (req, res) => {
 	let episodes;
 	let page = parseInt(req.query.page);
@@ -46,12 +73,10 @@ export const getNotes = async (req, res) => {
 		return { ...episode._doc, createdAt };
 	});
 
-	return res
-		.status(200)
-		.json({
-			totalPages: Math.ceil(count / limit),
-			episodes: formattedEpisodes,
-		});
+	return res.status(200).json({
+		totalPages: Math.ceil(count / limit),
+		episodes: formattedEpisodes,
+	});
 };
 
 // Route to handle the PATCH request for updating episode fields

@@ -1,5 +1,81 @@
 import User from "../model/User.js";
 
+export const statistics = async (req, res) => {
+	try {
+		const statistics = await User.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalUsers: { $sum: 1 },
+					activeUsers: {
+						$sum: {
+							$cond: [
+								{ $eq: ["$status", "Active"] },
+								1,
+								0,
+							],
+						},
+					},
+					notActiveUsers: {
+						$sum: {
+							$cond: [
+								{ $ne: ["$status", "Active"] },
+								1,
+								0,
+							],
+						},
+					},
+					googleUsers: {
+						$sum: {
+							$cond: [
+								{ $ifNull: ["$google", false] },
+								1,
+								0,
+							],
+						},
+					},
+					facebookUsers: {
+						$sum: {
+							$cond: [
+								{ $ifNull: ["$facebook", false] },
+								1,
+								0,
+							],
+						},
+					},
+					localUsers: {
+						$sum: {
+							$cond: [
+								{ $ifNull: ["$local", false] },
+								1,
+								0,
+							],
+						},
+					},
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					totalUsers: 1,
+					activeUsers: 1,
+					notActiveUsers: 1,
+					localUsers: 1,
+					googleUsers: 1,
+					facebookUsers: 1,
+				},
+			},
+		]);
+
+		const userStats = statistics.length > 0 ? statistics[0] : null;
+
+		res.status(200).json({ userStats });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 const getUser = async (userId) => {
 	try {
 		const user = await User.findById(userId)

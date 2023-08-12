@@ -6,6 +6,69 @@ import Note from "../model/Note.js";
 import { getAudioDurationInSeconds } from "get-audio-duration";
 import mongoose from "mongoose";
 
+export const statistics = async (req, res) => {
+	try {
+		const statistics = await Category.aggregate([
+			{
+				$lookup: {
+					from: "episodes",
+					localField: "_id",
+					foreignField: "category",
+					as: "episodes",
+				},
+			},
+			{
+				$lookup: {
+					from: "articles",
+					localField: "_id",
+					foreignField: "category",
+					as: "articles",
+				},
+			},
+			{
+				$project: {
+					title: 1,
+					episodeCount: { $size: "$episodes" },
+					articleCount: { $size: "$articles" },
+					totalPlayCount: { $sum: "$episodes.playCount" },
+					totalReadCount: { $sum: "$articles.readCount" },
+					totalComments: {
+						$sum: {
+							$add: [
+								{
+									$size: {
+										$ifNull: [
+											"$episodes.comments",
+											[],
+										],
+									},
+								},
+								{
+									$size: {
+										$ifNull: [
+											"$articles.comments",
+											[],
+										],
+									},
+								},
+							],
+						},
+					},
+				},
+			},
+		]);
+
+		if (statistics.length === 0) {
+			return res.status(404).json({ message: "No statistics found" });
+		}
+
+		res.status(200).json(statistics);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const getAllCategories = async (req, res, next) => {
 	const { search } = req.query;
 

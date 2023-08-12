@@ -2,6 +2,36 @@ import Comment from "../model/Comment.js";
 import Article from "../model/Article.js";
 import Episode from "../model/Episode.js";
 
+export const statistics = async (req, res) => {
+	try {
+		const statistics = await Comment.aggregate([
+			{
+				$group: {
+					_id: null,
+					totalComments: { $sum: 1 },
+					uniqueUsers: { $addToSet: "$user" },
+				},
+			},
+			{
+				$project: {
+					_id: 0,
+					totalComments: 1,
+					numberOfUsersWhoCommented: { $size: "$uniqueUsers" },
+				},
+			},
+		]);
+
+		if (statistics.length === 0) {
+			return res.status(404).json({ message: "No statistics found" });
+		}
+
+		res.status(200).json(statistics[0]);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const getAllComments = async (req, res) => {
 	try {
 		// Get all articles with their comments

@@ -8,10 +8,12 @@ import {
 	deleteGroup,
 	addCategory,
 	deleteCategory,
+	statistics,
 } from "../controllers/group-controller.js";
 
 const groupRouter = express.Router();
 
+groupRouter.get("/statistics", statistics);
 groupRouter.get("/", getGroups);
 groupRouter.get("/:id", getById);
 groupRouter.post("/", addGroup);
