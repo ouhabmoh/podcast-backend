@@ -2,6 +2,7 @@ import Category from "../model/Category.js";
 import Episode from "../model/Episode.js";
 import User from "../model/User.js";
 import Note from "../model/Note.js";
+import Comment from "../model/Comment.js";
 import { getAudioDurationInSeconds } from "get-audio-duration";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
@@ -10,6 +11,7 @@ import cloudinary from "cloudinary";
 import handleUpload from "../helper.js";
 import fs from "fs";
 import path from "path";
+
 // export const getAllEpisodes = async (req, res, next) => {
 //     let episodes;
 //     try {
