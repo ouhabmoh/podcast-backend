@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const endorsementSchema = new mongoose.Schema({
 	name: {
@@ -29,6 +29,4 @@ const endorsementSchema = new mongoose.Schema({
 	},
 });
 
-const Endorsement = mongoose.model("Endorsement", endorsementSchema);
-
-module.exports = Endorsement;
+export default mongoose.model("Endorsement", endorsementSchema);

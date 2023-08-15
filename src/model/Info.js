@@ -11,6 +11,15 @@ const infoSchema = new Schema({
 		type: String,
 		required: true,
 	},
+
+	description1: {
+		type: String,
+		required: true,
+	},
+	description2: {
+		type: String,
+		required: true,
+	},
 	image: {
 		name: {
 			type: String,

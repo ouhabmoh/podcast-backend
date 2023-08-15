@@ -12,6 +12,8 @@ import infoRouter from "./routes/info-routes.js";
 import noteRouter from "./routes/note-routes.js";
 import commentRouter from "./routes/comment-routes.js";
 import groupRouter from "./routes/group-routes.js";
+import endRouter from "./routes/endorsements-routes.js";
+import platformRouter from "./routes/platform-routes.js";
 
 import Article from "./model/Article.js";
 import Episode from "./model/Episode.js";
@@ -66,6 +68,8 @@ app.use("/articles", articleRouter);
 app.use("/categories", categoryRouter);
 app.use("/infos", infoRouter);
 app.use("/groups", groupRouter);
+app.use("/endoresements", endRouter);
+app.use("/platforms", platformRouter);
 app.listen(process.env.PORT || 5000, () => {
 	console.log("backend is running");
 });
