@@ -67,7 +67,8 @@ export const getAllComments = async (req, res) => {
 						},
 					},
 				},
-			});
+			})
+			.sort({ createdAt: -1 });
 		// Get all episodes with their comments
 		const episodes = await Episode.find({
 			comments: { $exists: true, $not: { $size: 0 } },
