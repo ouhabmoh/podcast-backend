@@ -1,5 +1,18 @@
 import { body, validationResult } from "express-validator";
 
+export const commentValidationRules = () => {
+	return [
+		// title field validation
+		body("content")
+			.notEmpty()
+			.withMessage("Content is required")
+			.isString()
+			.withMessage("Content must be a string")
+			.isLength({ min: 3, max: 100 })
+			.withMessage("Content must be between 3 and 100 characters"),
+	];
+};
+
 export const episodeValidationRules = () => {
 	return [
 		// title field validation

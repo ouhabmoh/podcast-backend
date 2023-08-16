@@ -1,7 +1,7 @@
 import express from "express";
 // import { articleValidationRules, validate } from "../validator.js";
 import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
-
+import { commentValidationRules, validate } from "../validator.js";
 import {
 	getAllArticles,
 	getSimilairById,
@@ -32,7 +32,13 @@ articleRouter.delete(
 	isLoggedIn,
 	deleteFromFavoritesArticle
 );
-articleRouter.post("/:id", isLoggedIn, addComment);
+articleRouter.post(
+	"/comment/:id",
+	isLoggedIn,
+	commentValidationRules(),
+	validate,
+	addComment
+);
 articleRouter.post("/", addArticle);
 articleRouter.put("/isPublished/:id", toggleIsPublished);
 articleRouter.patch("/:id", updateArticle);

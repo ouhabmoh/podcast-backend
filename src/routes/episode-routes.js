@@ -1,5 +1,9 @@
 import express from "express";
-import { episodeValidationRules, validate } from "../validator.js";
+import {
+	episodeValidationRules,
+	commentValidationRules,
+	validate,
+} from "../validator.js";
 import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
 // import multer from 'multer';
 // import { extname } from 'path';
@@ -100,7 +104,13 @@ episodeRouter.delete(
 	isLoggedIn,
 	deleteFromFavoritesEpisode
 );
-episodeRouter.post("/comment/:id", isLoggedIn, addComment);
+episodeRouter.post(
+	"/comment/:id",
+	isLoggedIn,
+	commentValidationRules(),
+	validate,
+	addComment
+);
 episodeRouter.post("/", episodeValidationRules(), validate, addEpisode);
 episodeRouter.put("/isPublished/:id", toggleIsPublished);
 episodeRouter.patch("/:id", updateEpisode);
