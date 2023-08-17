@@ -672,6 +672,7 @@ export const getById = async (req, res, next) => {
 			.populate({
 				path: "comments",
 				select: "id content user createdAt updatedAt",
+				options: { sort: { createdAt: -1 } },
 				populate: {
 					path: "user",
 					model: "User", // This should match the model name "User" defined in the user schema
