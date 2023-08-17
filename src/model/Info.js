@@ -28,7 +28,21 @@ const infoSchema = new Schema({
 			},
 		},
 		notesDescription: String,
-		imgNotes: String,
+		imgNotes: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
 	},
 	drive: {
 		img: {
