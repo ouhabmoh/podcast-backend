@@ -68,6 +68,25 @@ const infoSchema = new Schema({
 		text: String,
 	},
 
+	drive3: {
+		img: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
+		text: String,
+	},
+
 	section: {
 		title: String,
 		description: String,
@@ -77,6 +96,21 @@ const infoSchema = new Schema({
 		description: String,
 		name: String,
 		address: String,
+		img: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
 	},
 
 	footer: {
