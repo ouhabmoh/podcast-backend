@@ -149,8 +149,27 @@ export const getUserById = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
+	const { search, status } = req.query; // Get the query parameters for search and status
 	try {
-		const users = await User.find().select(
+		// Define the base query
+		let query = User.find();
+
+		// Apply search filter if provided
+		if (search) {
+			query = query.or([
+				{ "local.name": { $regex: search, $options: "i" } },
+				{ "google.name": { $regex: search, $options: "i" } },
+				{ "facebook.name": { $regex: search, $options: "i" } },
+			]);
+		}
+
+		// Apply status filter if provided
+		if (status) {
+			query = query.where("status").equals(status);
+		}
+
+		// Execute the query
+		const users = await query.select(
 			"id local.name local.username local.email google.name google.email facebook.name facebook.email role status createdAt"
 		);
 
