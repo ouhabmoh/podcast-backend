@@ -229,6 +229,32 @@ export const updateUser = async (req, res, next) => {
 	}
 };
 
+export const updateUserbyAdmin = async (req, res, next) => {
+	const userId = req.params.id;
+
+	try {
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		const registrationMethod = req.user.method
+			? req.user.method
+			: "local";
+		updateUserFields(user, registrationMethod, req.body);
+
+		await user.save();
+
+		res.status(200).json({
+			message: "User information updated successfully",
+			user,
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 function updateUserFields(user, registrationMethod, updates) {
 	const methodFields = {
 		local: ["name", "username", "email"],

@@ -3,72 +3,88 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const infoSchema = new Schema({
-	description1: {
-		type: String,
-		required: true,
+	homepage: {
+		header: String,
+		title: String,
+		description: String,
 	},
-	description2: {
-		type: String,
-		required: true,
+	overview: {
+		title: String,
+		description: String,
+		podcastDescription: String,
+		imgPodcasts: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
+		notesDescription: String,
+		imgNotes: String,
+	},
+	drive: {
+		img: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
+		text: String,
 	},
 
-	description1: {
-		type: String,
-		required: true,
-	},
-	description2: {
-		type: String,
-		required: true,
-	},
-	image: {
-		name: {
-			type: String,
-			required: true,
+	drive2: {
+		img: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
 		},
-		url: {
-			type: String,
-			required: true,
-		},
-		size: {
-			type: Number,
-			required: true,
-		},
-	},
-	name: {
-		type: String,
-		required: true,
-	},
-	address: {
-		type: String,
-		required: true,
-	},
-	title: {
-		type: String,
-		required: true,
-	},
-	description3: {
-		type: String,
-		required: true,
-	},
-	description4: {
-		type: String,
-		required: true,
+		text: String,
 	},
 
-	image2: {
-		name: {
-			type: String,
-			required: true,
-		},
-		url: {
-			type: String,
-			required: true,
-		},
-		size: {
-			type: Number,
-			required: true,
-		},
+	section: {
+		title: String,
+		description: String,
+	},
+
+	aboutUs: {
+		description: String,
+		name: String,
+		address: String,
+	},
+
+	footer: {
+		description: String,
 	},
 });
+
+// Generate default values for nested objects and arrays
+infoSchema.set("toObject", { getters: true, virtuals: false });
 
 export default mongoose.model("Info", infoSchema);
