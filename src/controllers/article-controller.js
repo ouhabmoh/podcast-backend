@@ -588,5 +588,7 @@ export const deleteComment = async (req, res, next) => {
 	}
 	article.comments.pop(comment._id);
 
+	await article.save();
+
 	return res.status(200).json({ message: "succesfelly deleted" });
 };
