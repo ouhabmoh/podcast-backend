@@ -125,10 +125,10 @@ export const getUserProfile = async (req, res) => {
 			return res.status(404).json({ message: "User not found" });
 		}
 
-		res.status(200).json({ user });
+		return res.status(200).json({ user });
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ message: "Server error" });
+		return res.status(500).json({ message: "Server error" });
 	}
 };
 export const getUserById = async (req, res) => {
@@ -149,17 +149,31 @@ export const getUserById = async (req, res) => {
 };
 
 export const getAllUsers = async (req, res) => {
-	const { search, status } = req.query; // Get the query parameters for search and status
+	const { search, status } = req.query;
+	// Get the query parameters for search and status
+
 	try {
 		// Define the base query
 		let query = User.find();
 
 		// Apply search filter if provided
 		if (search) {
+			// Split the search query into individual words
+			const searchWords = search
+				.split(" ")
+				.filter((word) => word !== "");
+
+			// Create a regex pattern to match any of the search words in the episode title
+			const regexPattern = searchWords
+				.map((word) => `(?=.*${word})`)
+				.join("");
+
+			const regexQuery = new RegExp(regexPattern, "i");
 			query = query.or([
-				{ "local.name": { $regex: search, $options: "i" } },
-				{ "google.name": { $regex: search, $options: "i" } },
-				{ "facebook.name": { $regex: search, $options: "i" } },
+				{ "local.name": { $regex: regexQuery } },
+				{ "local.username": { $regex: regexQuery } },
+				{ "google.name": { $regex: regexQuery } },
+				{ "facebook.name": { $regex: regexQuery } },
 			]);
 		}
 
@@ -206,20 +220,25 @@ export const getAllUsers = async (req, res) => {
 export const toggleStatus = async (req, res, next) => {
 	const _id = req.params.id;
 	let user;
-	try {
-		user = await User.findOneAndUpdate({ _id }, [
-			{ $set: { status: { $eq: [false, "$status"] } } },
-		]);
-	} catch (err) {
-		console.log(err);
-		return res.status(500).json({ message: "Server error" });
-	}
+	user = await User.findById(_id);
 
 	if (!user) {
 		return res.status(404).json({ message: "User not found" });
 	}
 
-	res.status(200).json({ success: true });
+	// Toggle the status between "Active" and "Inactive"
+	user.status = user.status === "Active" ? "Inactive" : "Active";
+
+	try {
+		await user.save();
+		return res.status(200).json({
+			message: "User status toggled successfully",
+			newStatus: user.status,
+		});
+	} catch (err) {
+		console.log(err);
+		return res.status(500).json({ message: "Server error" });
+	}
 };
 
 export const changePassword = async (req, res) => {
@@ -277,28 +296,31 @@ export const updateUser = async (req, res, next) => {
 		if (registrationMethod === "local") {
 			if (req.body.hasOwnProperty("password")) {
 				// Use the authenticate method to authenticate the user object
-				user.authenticate(password, (err, user, errorInfo) => {
-					if (err) {
-						// An error occurred during authentication (e.g., incorrect password)
-						console.error(err);
-						res.status(500).json({ message: "Server error" });
-						return;
-					}
+				user.authenticate(
+					req.body.password,
+					(err, user, errorInfo) => {
+						if (err) {
+							// An error occurred during authentication (e.g., incorrect password)
+							console.error(err);
+							return res
+								.status(500)
+								.json({ message: "Server error" });
+						}
 
-					if (!user) {
-						// Authentication failed, user is not authenticated
-						console.log("Authentication failed");
-						res.status(401).json({
-							message: "Authentication failed",
-						});
-						return;
-					}
+						if (!user) {
+							// Authentication failed, user is not authenticated
+							console.log("Authentication failed");
+							return res.status(401).json({
+								message: "Authentication failed",
+							});
+						}
 
-					// Authentication successful
-					console.log("Authentication successful");
-				});
+						// Authentication successful
+						console.log("Authentication successful");
+					}
+				);
 			} else {
-				res.status(401).json({
+				return res.status(401).json({
 					message: "password is missing",
 				});
 			}

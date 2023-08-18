@@ -18,6 +18,7 @@ import platformRouter from "./routes/platform-routes.js";
 import Article from "./model/Article.js";
 import Episode from "./model/Episode.js";
 import Group from "./model/Group.js";
+import Comment from "./model/Comment.js";
 
 const app = express();
 app.timeout = 300000;
@@ -50,7 +51,7 @@ app.use(express.json({ limit: "500mb" }));
 
 // (async () => {
 // 	try {
-// 		const result = await Group.deleteMany({});
+// 		const result = await Comment.deleteMany({});
 // 		console.log(`${result.deletedCount} documents deleted.`);
 // 	} catch (error) {
 // 		console.error("Error deleting documents:", error);
