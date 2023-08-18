@@ -222,6 +222,45 @@ export const toggleStatus = async (req, res, next) => {
 	res.status(200).json({ success: true });
 };
 
+export const changePassword = async (req, res) => {
+	const userId = req.user._id;
+	const { oldPassword, newPassword } = req.body;
+
+	try {
+		// Find the user by their ID
+		const user = await User.findById(userId);
+
+		// If the user doesn't exist
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		// Change the password using Passport-Local-Mongoose's changePassword method
+		user.changePassword(oldPassword, newPassword, function (err) {
+			if (err) {
+				// Handle incorrect password or other errors
+				console.error(err);
+				if (err.name === "IncorrectPasswordError") {
+					return res
+						.status(400)
+						.json({ message: "Incorrect old password" });
+				}
+				return res
+					.status(500)
+					.json({ message: "Password change failed" });
+			}
+
+			// Password change was successful
+			res.status(200).json({
+				message: "Password changed successfully",
+			});
+		});
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
+
 export const updateUser = async (req, res, next) => {
 	const userId = req.user._id;
 
@@ -231,9 +270,41 @@ export const updateUser = async (req, res, next) => {
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
 		}
+
 		const registrationMethod = req.user.method
 			? req.user.method
 			: "local";
+		if (registrationMethod === "local") {
+			if (req.body.hasOwnProperty("password")) {
+				// Use the authenticate method to authenticate the user object
+				user.authenticate(password, (err, user, errorInfo) => {
+					if (err) {
+						// An error occurred during authentication (e.g., incorrect password)
+						console.error(err);
+						res.status(500).json({ message: "Server error" });
+						return;
+					}
+
+					if (!user) {
+						// Authentication failed, user is not authenticated
+						console.log("Authentication failed");
+						res.status(401).json({
+							message: "Authentication failed",
+						});
+						return;
+					}
+
+					// Authentication successful
+					console.log("Authentication successful");
+				});
+			} else {
+				res.status(401).json({
+					message: "password is missing",
+				});
+			}
+		}
+
+		delete req.body.password;
 		updateUserFields(user, registrationMethod, req.body);
 
 		await user.save();

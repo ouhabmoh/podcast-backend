@@ -8,6 +8,7 @@ import {
 	deleteUser,
 	statistics,
 	updateUserbyAdmin,
+	changePassword,
 } from "../controllers/user-controller.js";
 import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
 const userRouter = exress.Router();
@@ -16,6 +17,7 @@ userRouter.get("/statistics", statistics);
 userRouter.get("/", getAllUsers);
 userRouter.get("/profile", isLoggedIn, getUserProfile);
 userRouter.get("/:id", getUserById);
+userRouter.patch("/changePassword", isLoggedIn, changePassword);
 userRouter.patch("/", isLoggedIn, updateUser);
 userRouter.patch("/:id", isAdmin, updateUserbyAdmin);
 userRouter.put("/:id", toggleStatus);
