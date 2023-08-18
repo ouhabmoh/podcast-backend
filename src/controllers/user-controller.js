@@ -328,9 +328,17 @@ export const updateUserbyAdmin = async (req, res, next) => {
 		if (!user) {
 			return res.status(404).json({ message: "User not found" });
 		}
-		const registrationMethod = req.user.method
-			? req.user.method
-			: "local";
+		let registrationMethod;
+		if (user.google.name) {
+			registrationMethod = "google";
+		} else if (user.facebook.name) {
+			registrationMethod = "facebook";
+		} else if (user.local.name) {
+			registrationMethod = "local";
+		}
+
+		console.log(registrationMethod);
+
 		updateUserFields(user, registrationMethod, req.body);
 
 		await user.save();

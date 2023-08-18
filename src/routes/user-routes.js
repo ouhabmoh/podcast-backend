@@ -19,7 +19,7 @@ userRouter.get("/profile", isLoggedIn, getUserProfile);
 userRouter.get("/:id", getUserById);
 userRouter.patch("/change-password", isLoggedIn, changePassword);
 userRouter.patch("/", isLoggedIn, updateUser);
-userRouter.patch("/:id", isAdmin, updateUserbyAdmin);
+userRouter.patch("/:id", updateUserbyAdmin);
 userRouter.put("/:id", toggleStatus);
 userRouter.delete("/:id", deleteUser);
 export default userRouter;
