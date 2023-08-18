@@ -86,7 +86,8 @@ export const addGroup = async (req, res) => {
 			description,
 			categories,
 		});
-		res.status(201).json(newGroup);
+		const group = await newGroup.save();
+		res.status(201).json(group);
 	} catch (error) {
 		console.error(error);
 		res.status(500).json({ message: "Server error" });
@@ -95,7 +96,10 @@ export const addGroup = async (req, res) => {
 
 export const getGroups = async (req, res) => {
 	try {
-		const groups = await Group.aggregate([
+		const { search } = req.query; // Get the query parameter for search
+
+		// Define the base aggregation pipeline
+		let pipeline = [
 			{
 				$unwind: "$categories",
 			},
@@ -150,7 +154,23 @@ export const getGroups = async (req, res) => {
 					categories: 1,
 				},
 			},
-		]);
+		];
+
+		// Apply search filter if provided
+		if (search) {
+			pipeline = [
+				...pipeline,
+				{
+					$match: {
+						title: { $regex: search, $options: "i" },
+					},
+				},
+			];
+		}
+
+		// Execute the aggregation
+		const groups = await Group.aggregate(pipeline);
+
 		res.status(200).json({ groups });
 	} catch (error) {
 		console.error(error);
