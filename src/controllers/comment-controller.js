@@ -42,6 +42,7 @@ export const getAllComments = async (req, res) => {
 			.populate({
 				path: "comments",
 				select: "id content user createdAt updatedAt",
+				options: { sort: { createdAt: -1 } },
 				populate: {
 					path: "user",
 					model: "User", // This should match the model name "User" defined in the user schema
@@ -68,13 +69,43 @@ export const getAllComments = async (req, res) => {
 					},
 				},
 			})
-			.sort({ createdAt: -1 });
+			.lean();
 		// Get all episodes with their comments
 		const episodes = await Episode.find({
 			comments: { $exists: true, $not: { $size: 0 } },
 		})
 			.select("id episodeNumber title comments")
-			.populate("comments", "id content");
+			.populate({
+				path: "comments",
+				select: "id content user createdAt updatedAt",
+				options: { sort: { createdAt: -1 } },
+				populate: {
+					path: "user",
+					model: "User", // This should match the model name "User" defined in the user schema
+					select: {
+						id: 1,
+						name: {
+							$cond: [
+								{ $ifNull: ["$local.name", false] },
+								"$local.name",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.name",
+												false,
+											],
+										},
+										"$google.name",
+										"$facebook.name",
+									],
+								},
+							],
+						},
+					},
+				},
+			})
+			.lean();
 
 		res.status(200).json({
 			articlesComments: articles,
