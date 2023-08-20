@@ -80,14 +80,22 @@ const getUser = async (userId) => {
 	try {
 		const user = await User.findById(userId)
 			.select("id local google facebook role status createdAt")
-			.populate(
-				"favoritesEpisodes",
-				"id episodeNumber title image duration isPublished playCount"
-			)
-			.populate(
-				"favoritesArticles",
-				"id articleNumber title image readTime isPublished readCount"
-			);
+			.populate({
+				path: "favoritesEpisodes",
+				select: "id episodeNumber title smallDescription notesDescription category image duration isPublished playCount",
+				populate: {
+					path: "category",
+					select: "id title", // Select the fields you want to populate for the "category"
+				},
+			})
+			.populate({
+				path: "favoritesArticles",
+				select: "id articleNumber title category image readTime isPublished readCount",
+				populate: {
+					path: "category",
+					select: "id title", // Select the fields you want to populate for the "category"
+				},
+			});
 
 		// Customize the user object to include the desired name and email fields
 		const customUser = {

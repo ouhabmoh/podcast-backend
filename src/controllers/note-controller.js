@@ -49,7 +49,7 @@ export const getNotes = async (req, res) => {
 			notes: { $exists: true, $not: { $size: 0 } },
 		})
 			.select(
-				"id episodeNumber title category image duration createdAt notes"
+				"id episodeNumber title smallDescription notesDescription category image duration createdAt notes"
 			)
 			// We multiply the "limit" variables by one just to make sure we pass a number and not a string
 			.limit(limit * 1)

@@ -184,7 +184,7 @@ export const getMostPlayedEpisodes = async (req, res) => {
 		// Use the find method to get the episodes, sorted by playCount in descending order, and limit to 6 results
 		const mostPlayedEpisodes = await Episode.find()
 			.select(
-				"id episodeNumber title category image duration createdAt isPublished playCount"
+				"id episodeNumber title smallDescription notesDescription category image duration createdAt isPublished playCount"
 			)
 			.populate("category", "id title")
 			.sort({ playCount: -1 })
@@ -227,7 +227,7 @@ export const getSimilairById = async (req, res) => {
 		})
 			.limit(limit)
 			.select(
-				"id episodeNumber title category image duration createdAt isPublished playCount"
+				"id episodeNumber title smallDescription notesDescription category image duration createdAt isPublished playCount"
 			)
 			.populate("category", "id title")
 			.sort({ createdAt: -1 })
@@ -297,7 +297,7 @@ export const getEpisodeNeighbours = async (req, res) => {
 				episodeNumber: previousEpisodeNumber,
 			})
 				.select(
-					"id episodeNumber title category image duration createdAt isPublished playCount"
+					"id episodeNumber title smallDescription notesDescription category image duration createdAt isPublished playCount"
 				)
 				.exec();
 		} else {
@@ -309,7 +309,7 @@ export const getEpisodeNeighbours = async (req, res) => {
 			episodeNumber: nextEpisodeNumber,
 		})
 			.select(
-				"id episodeNumber title category image duration createdAt isPublished playCount"
+				"id episodeNumber title smallDescription notesDescription category image duration createdAt isPublished playCount"
 			)
 			.exec();
 	} catch (error) {
@@ -382,7 +382,7 @@ export const getAllEpisodes = async (req, res) => {
 	try {
 		episodes = await Episode.find(filter)
 			.select(
-				"id episodeNumber title category image duration createdAt isPublished playCount"
+				"id episodeNumber title smallDescription notesDescription category image duration createdAt isPublished playCount"
 			)
 			// We multiply the "limit" variables by one just to make sure we pass a number and not a string
 			.limit(limit * 1)
@@ -450,6 +450,8 @@ export const addEpisode = async (req, res, next) => {
 	const {
 		title,
 		description,
+		smallDescription,
+		notesDescription,
 		category,
 		explication,
 		notes,
@@ -586,6 +588,8 @@ export const updateEpisode = async (req, res) => {
 			"explication",
 			"duration",
 			"urls",
+			"smallDescription",
+			" notesDescription",
 		];
 		const isValidOperation = Object.keys(updates).every((update) =>
 			allowedUpdates.includes(update)
@@ -663,7 +667,7 @@ export const getById = async (req, res, next) => {
 	try {
 		episode = await Episode.findById(id)
 			.select(
-				"id episodeNumber title description explication category audio image duration createdAt notes playCount urls comments"
+				"id episodeNumber title description smallDescription notesDescription explication category audio image duration createdAt notes playCount urls comments"
 			)
 			.populate({
 				path: "category",
