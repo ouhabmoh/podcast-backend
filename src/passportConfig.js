@@ -5,6 +5,7 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
 import dotenv from "dotenv";
 dotenv.config();
+import confirmEmail from "./emailValidation.js";
 import User from "./model/User.js";
 
 passport.use(
@@ -144,6 +145,8 @@ passport.use(
 					}),
 					password
 				);
+
+				confirmEmail(newUser);
 			} catch (err) {
 				console.log(err);
 				return done(err);

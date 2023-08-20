@@ -15,6 +15,10 @@ const episodeSchema = new Schema(
 			type: String,
 			required: true,
 		},
+		smallDescription: {
+			type: String,
+			required: true,
+		},
 		category: {
 			type: mongoose.Types.ObjectId,
 			ref: "Category",
@@ -63,6 +67,10 @@ const episodeSchema = new Schema(
 		},
 		explication: {
 			type: String,
+		},
+		notesDescription: {
+			type: String,
+			required: true,
 		},
 		notes: [
 			{

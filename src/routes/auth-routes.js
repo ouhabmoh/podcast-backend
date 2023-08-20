@@ -1,8 +1,40 @@
 import express from "express";
 import passport from "../passportConfig.js";
 import { signToken } from "../jwt.js";
-
+import User from "../model/User.js";
+import jwt from "jsonwebtoken";
 const authRouter = express.Router();
+
+authRouter.get("/confirmation/:token", (req, res) => {
+	const { token } = req.params;
+	try {
+		// Verifying the JWT token
+		jwt.verify(
+			token,
+			process.env.JWT_SECRET_KEY,
+			async function (err, decoded) {
+				if (err) {
+					console.log(err);
+					res.status(401).send(
+						"Email verification failed,  possibly the link is invalid or expired"
+					);
+				} else {
+					await User.updateOne(
+						{
+							_id: decoded.id,
+						},
+						{
+							emailConfirmed: true,
+						}
+					);
+					res.status(201).send("Email verified successfully");
+				}
+			}
+		);
+	} catch (e) {
+		res.status(500).send("server error: " + e.message);
+	}
+});
 
 authRouter.post("/login", (req, res, next) => {
 	// req.body.local = {

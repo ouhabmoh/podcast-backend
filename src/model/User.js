@@ -36,6 +36,10 @@ const userSchema = Schema(
 			name: {
 				type: String,
 			},
+			emailConfirmed: {
+				type: Boolean,
+				default: false,
+			},
 
 			// The password field will be added by passport-local-mongoose
 		},
