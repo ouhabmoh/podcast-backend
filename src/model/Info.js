@@ -12,6 +12,8 @@ const infoSchema = new Schema({
 		title: String,
 		description: String,
 		podcastDescription: String,
+		podcastSmallDescription: String,
+
 		imgPodcasts: {
 			name: {
 				type: String,
@@ -28,6 +30,7 @@ const infoSchema = new Schema({
 			},
 		},
 		notesDescription: String,
+		notesSmallDescription: String,
 		imgNotes: {
 			name: {
 				type: String,
