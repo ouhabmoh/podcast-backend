@@ -11,6 +11,9 @@ const userSchema = Schema(
 			id: {
 				type: String,
 			},
+			username: {
+				type: String,
+			},
 			name: {
 				type: String,
 			},
@@ -20,6 +23,9 @@ const userSchema = Schema(
 		},
 		facebook: {
 			id: {
+				type: String,
+			},
+			username: {
 				type: String,
 			},
 			name: {

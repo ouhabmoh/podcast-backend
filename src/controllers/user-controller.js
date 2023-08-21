@@ -191,9 +191,11 @@ export const getAllUsers = async (req, res) => {
 		}
 
 		// Execute the query
-		const users = await query.select(
-			"id local.name local.username local.email google.name google.email facebook.name facebook.email role status createdAt"
-		);
+		const users = await query
+			.select(
+				"id local.name local.username local.email google.name google.email facebook.name facebook.email role status createdAt"
+			)
+			.sort({ createdAt: -1 });
 
 		// Customize the user object to include the desired name and email fields
 
