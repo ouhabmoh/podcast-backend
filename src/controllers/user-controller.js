@@ -174,7 +174,7 @@ export const getAllUsers = async (req, res) => {
 			// Create a regex pattern to match any of the search words in the episode title
 			const regexPattern = searchWords
 				.map((word) => `(?=.*${word})`)
-				.join("");
+				.join("|");
 
 			const regexQuery = new RegExp(regexPattern, "i");
 			query = query.or([

@@ -158,11 +158,22 @@ export const getGroups = async (req, res) => {
 
 		// Apply search filter if provided
 		if (search) {
+			// Split the search query into individual words
+			const searchWords = search
+				.split(" ")
+				.filter((word) => word !== "");
+
+			// Create a regex pattern to match any of the search words in the episode title
+			const regexPattern = searchWords
+				.map((word) => `(?=.*${word})`)
+				.join("|");
+
+			const regexQuery = new RegExp(regexPattern, "i");
 			pipeline = [
 				...pipeline,
 				{
 					$match: {
-						title: { $regex: search, $options: "i" },
+						title: regexQuery,
 					},
 				},
 			];

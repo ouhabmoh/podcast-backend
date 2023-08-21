@@ -81,12 +81,15 @@ export const getAllCategories = async (req, res, next) => {
 				.split(" ")
 				.filter((word) => word !== "");
 
+			console.log(searchWords);
+
 			// Create a regex pattern to match any of the search words in the episode title
 			const regexPattern = searchWords
-				.map((word) => `(?=.*${word})`)
-				.join("");
+				.map((word) => `(${word})`)
+				.join("|");
 
 			const regexQuery = new RegExp(regexPattern, "i");
+			console.log(regexQuery);
 			filter = { title: { $regex: regexQuery } };
 		} else {
 			filter = {};
