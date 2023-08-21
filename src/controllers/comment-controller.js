@@ -66,6 +66,24 @@ export const getAllComments = async (req, res) => {
 								},
 							],
 						},
+						username: {
+							$cond: [
+								{ $ifNull: ["$local.username", false] },
+								"$local.username",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.username",
+												false,
+											],
+										},
+										"$google.username",
+										"$facebook.username",
+									],
+								},
+							],
+						},
 					},
 				},
 			})

@@ -700,6 +700,24 @@ export const getById = async (req, res, next) => {
 								},
 							],
 						},
+						username: {
+							$cond: [
+								{ $ifNull: ["$local.username", false] },
+								"$local.username",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.username",
+												false,
+											],
+										},
+										"$google.username",
+										"$facebook.username",
+									],
+								},
+							],
+						},
 					},
 				},
 			})

@@ -36,6 +36,7 @@ passport.use(
 						id: profile.id,
 						name: profile.displayName,
 						email: profile.emails[0].value,
+						username: generateUsername(profile.displayName),
 					},
 				});
 				await newUser.save();
@@ -171,13 +172,14 @@ passport.use(
 		async function verify(accessToken, refreshToken, profile, cb) {
 			try {
 				console.log(profile);
-				let existingUser = User.findOne({
+				let existingUser = await User.findOne({
 					"facebook.id": profile.id,
 				}).exec();
 
 				if (existingUser) {
 					existingUser.method = "facebook";
-					return done(null, existingUser);
+					console.log(existingUser);
+					return cb(null, existingUser);
 				}
 
 				console.log("Creating new user...");
@@ -188,16 +190,25 @@ passport.use(
 						id: profile.id,
 						name: profile.displayName,
 						email: profile.email,
+						username: generateUsername(profile.displayName),
 					},
 				});
 				await newUser.save();
 				newUser.method = "facebook";
-				return done(null, newUser);
+				console.log(newUser);
+				return cb(null, newUser);
 			} catch (error) {
-				return done(error, false);
+				return cb(error, false);
 			}
 		}
 	)
 );
+
+function generateUsername(fullName) {
+	const normalizedFullName = fullName
+		.toLowerCase()
+		.replace(/[^a-z0-9]/g, "."); // Replace non-alphanumeric characters with dots
+	return normalizedFullName;
+}
 
 export default passport;

@@ -11,7 +11,10 @@ export const signToken = (user) => {
 				user.local?.email ||
 				user.google?.email ||
 				user.facebook?.email,
-			username: user.local?.username || null,
+			username:
+				user.google?.username ||
+				user.local?.username ||
+				user.facebook?.username,
 			status: user.status,
 			role: user.role,
 			registeredAt: user.createdAt.toISOString().split("T")[0],
