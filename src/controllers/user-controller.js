@@ -182,6 +182,8 @@ export const getAllUsers = async (req, res) => {
 				{ "local.username": { $regex: regexQuery } },
 				{ "google.name": { $regex: regexQuery } },
 				{ "facebook.name": { $regex: regexQuery } },
+				{ "google.username": { $regex: regexQuery } },
+				{ "facebook.username": { $regex: regexQuery } },
 			]);
 		}
 
