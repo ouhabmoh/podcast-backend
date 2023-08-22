@@ -5,8 +5,8 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
 import dotenv from "dotenv";
 dotenv.config();
-import confirmEmail from "./emailValidation.js";
-import User from "./model/User.js";
+import confirmEmail from "../utils/emailValidation.js";
+import User from "../model/User.js";
 
 passport.use(
 	new GoogleStrategy(

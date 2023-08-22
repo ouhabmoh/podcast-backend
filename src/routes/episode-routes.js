@@ -3,8 +3,8 @@ import {
 	episodeValidationRules,
 	commentValidationRules,
 	validate,
-} from "../validator.js";
-import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
+} from "../validators/validator.js";
+import { isAdmin, notAdmin, isLoggedIn } from "../auth/auth.js";
 // import multer from 'multer';
 // import { extname } from 'path';
 // // Set up Multer storage configuration

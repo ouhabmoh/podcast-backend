@@ -189,7 +189,7 @@ export const getSimilairById = async (req, res) => {
 		// Create a regex pattern to match any of the search words in the article title
 		const regexPattern = searchWords
 			.map((word) => `(?=.*${word})`)
-			.join("");
+			.join("|");
 
 		const regexQuery = new RegExp(regexPattern, "i");
 		// Find similar articles in the same category based on similar titles

@@ -121,6 +121,11 @@ export const getAllCategories = async (req, res, next) => {
 				},
 			},
 			{
+				$sort: {
+					createdAt: -1, // Sort by createdAt in descendant order (-1)
+				},
+			},
+			{
 				$project: {
 					_id: 1,
 					title: 1,

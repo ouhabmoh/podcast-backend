@@ -8,7 +8,7 @@ import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import mp3Duration from "mp3-duration";
 import cloudinary from "cloudinary";
-import handleUpload from "../helper.js";
+import handleUpload from "../utils/helper.js";
 import fs from "fs";
 import path from "path";
 
@@ -217,7 +217,7 @@ export const getSimilairById = async (req, res) => {
 		// Create a regex pattern to match any of the search words in the episode title
 		const regexPattern = searchWords
 			.map((word) => `(?=.*${word})`)
-			.join("");
+			.join("|");
 
 		const regexQuery = new RegExp(regexPattern, "i");
 		// Find similar episodes in the same category based on similar titles

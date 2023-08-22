@@ -1,7 +1,7 @@
 import express from "express";
 // import { articleValidationRules, validate } from "../validator.js";
-import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
-import { commentValidationRules, validate } from "../validator.js";
+import { isAdmin, notAdmin, isLoggedIn } from "../auth/auth.js";
+import { commentValidationRules, validate } from "../validators/validator.js";
 import {
 	getAllArticles,
 	getSimilairById,

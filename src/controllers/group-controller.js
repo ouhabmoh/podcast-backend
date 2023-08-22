@@ -154,6 +154,11 @@ export const getGroups = async (req, res) => {
 					categories: 1,
 				},
 			},
+			{
+				$sort: {
+					createdAt: -1, // Sort by createdAt in descending order (-1)
+				},
+			},
 		];
 
 		// Apply search filter if provided

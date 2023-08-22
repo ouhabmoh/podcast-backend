@@ -1,5 +1,5 @@
 import Info from "../model/Info.js";
-import handleUpload from "../helper.js";
+import handleUpload from "../utils/helper.js";
 export const getInfo = async (req, res) => {
 	try {
 		let info = await Info.findOne();

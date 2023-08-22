@@ -1,5 +1,5 @@
 import express from "express";
-import { isLoggedIn } from "../auth.js";
+import { isLoggedIn } from "../auth/auth.js";
 import {
 	updateComment,
 	getAllComments,

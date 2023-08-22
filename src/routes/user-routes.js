@@ -10,7 +10,7 @@ import {
 	updateUserbyAdmin,
 	changePassword,
 } from "../controllers/user-controller.js";
-import { isAdmin, notAdmin, isLoggedIn } from "../auth.js";
+import { isAdmin, notAdmin, isLoggedIn } from "../auth/auth.js";
 const userRouter = exress.Router();
 
 userRouter.get("/statistics", statistics);
