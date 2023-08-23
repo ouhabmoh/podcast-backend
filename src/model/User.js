@@ -82,22 +82,6 @@ userSchema.plugin(passportLocalMongoose, {
 	usernameUnique: false,
 });
 
-// Define a virtual field for filledFields
-userSchema.virtual("loginMethod").get(function () {
-	return "zzz";
-	if (this.google && Object.keys(this.google).length > 0) {
-		return this.google;
-	}
-	if (this.facebook && Object.keys(this.facebook).length > 0) {
-		return this.facebook;
-	}
-	if (this.local && Object.keys(this.local).length > 0) {
-		return this.local;
-	}
-
-	return filledFields;
-});
-
 userSchema.pre("remove", async function (next) {
 	const userId = this._id;
 

@@ -3,31 +3,11 @@ import Episode from "../model/Episode.js";
 import User from "../model/User.js";
 import Note from "../model/Note.js";
 import Comment from "../model/Comment.js";
-import { getAudioDurationInSeconds } from "get-audio-duration";
+
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
-import mp3Duration from "mp3-duration";
-import cloudinary from "cloudinary";
-import handleUpload from "../utils/helper.js";
+
 import fs from "fs";
-import path from "path";
-
-// export const getAllEpisodes = async (req, res, next) => {
-//     let episodes;
-//     try {
-//         episodes = await Episode.find();
-//     } catch (error) {
-//         return console.log(error);
-//     }
-
-//     if(!episodes){
-//         res.status(404).json({message : "No Episodes Found"});
-//     }
-
-//     return res.status(200).json({episodes});
-
-// }
-// const limit = 10;
 
 // Controller function to get the 6 most played episodes
 
@@ -536,36 +516,6 @@ export const addEpisode = async (req, res, next) => {
 
 	return res.status(200).json({ episode });
 };
-
-// export const getLastEpisodeNumber = async (req, res) => {
-//   try {
-//     // Find the Info document by ID
-//     const lastNumber = await Counter.findOne().select("seq_value");
-
-//     if (!info) {
-//      const defaultInfo =  await Info.create({
-//           description1: "Default Description",
-//           description2: "Default Description 2",
-//           image: "default_image.jpg",
-//           name: "Default Name",
-//           address: "Default Address",
-//           title: "Default Title",
-//           description3: "Default Description 3",
-//           description4: "Default Description 4",
-//           image2: "default_image2.jpg",
-//         });
-//       return  res.status(200).json({defaultInfo});
-
-//     }
-
-//     res.status(200).json({info});
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Server error" });
-//   }
-// };
-
-// Assume you have already imported necessary dependencies and defined the Episode model
 
 // Route to handle the PATCH request for updating episode fields
 export const updateEpisode = async (req, res) => {
