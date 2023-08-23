@@ -59,6 +59,25 @@ const articleSchema = new Schema(
 				ref: "Comment",
 			},
 		],
+		writerName: {
+			type: String,
+			required: true,
+		},
+		writerImage: {
+			name: {
+				type: String,
+				required: true,
+			},
+
+			url: {
+				type: String,
+				required: true,
+			},
+			size: {
+				type: Number,
+				required: true,
+			},
+		},
 	},
 	{ timestamps: true }
 );

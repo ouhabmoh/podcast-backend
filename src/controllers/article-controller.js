@@ -326,6 +326,8 @@ export const addArticle = async (req, res, next) => {
 		image,
 		readTime,
 		category,
+		writerName,
+		writerImage,
 	} = req.body;
 	console.log(image);
 	let existingCategory;
@@ -352,6 +354,8 @@ export const addArticle = async (req, res, next) => {
 		image,
 		readTime,
 		category,
+		writerName,
+		writerImage,
 	});
 
 	try {
@@ -409,7 +413,7 @@ export const getById = async (req, res, next) => {
 		// Assuming this is inside an async function
 		const article = await Article.findById(id)
 			.select(
-				"id articleNumber title description content image readTime isPublished category comments createdAt readCount"
+				"id articleNumber title description content image readTime isPublished category comments createdAt writerName writerImage readCount"
 			)
 			.populate({
 				path: "category",
