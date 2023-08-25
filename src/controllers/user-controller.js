@@ -336,36 +336,37 @@ export const updateUser = async (req, res, next) => {
 					message: "password is missing",
 				});
 			}
+		}
 
-			if (req.body.hasOwnProperty("email")) {
-				user = await User.findOne({
-					$or: [
-						{ "local.email": req.body.email },
-						{ "google.email": req.body.email },
-					],
+		if (req.body.hasOwnProperty("email")) {
+			user = await User.findOne({
+				$or: [
+					{ "local.email": req.body.email },
+					{ "google.email": req.body.email },
+					{ "facebook.email": req.body.email },
+				],
+			});
+
+			if (user) {
+				return res.status(402).json({
+					message: "Email already in use",
 				});
-
-				if (user) {
-					return res.status(402).json({
-						message: "Email already in use",
-					});
-				}
 			}
+		}
 
-			if (req.body.hasOwnProperty("username")) {
-				user = await User.findOne({
-					$or: [
-						{ "local.username": req.body.username },
-						{ "google.username": req.body.username },
-						{ "facebook.username": req.body.username },
-					],
+		if (req.body.hasOwnProperty("username")) {
+			user = await User.findOne({
+				$or: [
+					{ "local.username": req.body.username },
+					{ "google.username": req.body.username },
+					{ "facebook.username": req.body.username },
+				],
+			});
+
+			if (user) {
+				return res.status(402).json({
+					message: "Username already in use",
 				});
-
-				if (user) {
-					return res.status(402).json({
-						message: "Username already in use",
-					});
-				}
 			}
 		}
 
@@ -403,6 +404,38 @@ export const updateUserbyAdmin = async (req, res, next) => {
 		}
 
 		console.log(registrationMethod);
+
+		if (req.body.hasOwnProperty("email")) {
+			user = await User.findOne({
+				$or: [
+					{ "local.email": req.body.email },
+					{ "google.email": req.body.email },
+					{ "facebook.email": req.body.email },
+				],
+			});
+
+			if (user) {
+				return res.status(402).json({
+					message: "Email already in use",
+				});
+			}
+		}
+
+		if (req.body.hasOwnProperty("username")) {
+			user = await User.findOne({
+				$or: [
+					{ "local.username": req.body.username },
+					{ "google.username": req.body.username },
+					{ "facebook.username": req.body.username },
+				],
+			});
+
+			if (user) {
+				return res.status(402).json({
+					message: "Username already in use",
+				});
+			}
+		}
 
 		updateUserFields(user, registrationMethod, req.body);
 

@@ -91,6 +91,7 @@ passport.use(
 					$or: [
 						{ "local.email": email },
 						{ "gmail.email": email },
+						{ "facebook.email": email },
 						{ "local.username": username },
 						{ "facebook.username": username },
 						{ "gmail.username": username },
