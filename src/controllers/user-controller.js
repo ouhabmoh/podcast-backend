@@ -336,6 +336,37 @@ export const updateUser = async (req, res, next) => {
 					message: "password is missing",
 				});
 			}
+
+			if (req.body.hasOwnProperty("email")) {
+				user = await User.findOne({
+					$or: [
+						{ "local.email": req.body.email },
+						{ "google.email": req.body.email },
+					],
+				});
+
+				if (user) {
+					return res.status(402).json({
+						message: "Email already in use",
+					});
+				}
+			}
+
+			if (req.body.hasOwnProperty("username")) {
+				user = await User.findOne({
+					$or: [
+						{ "local.username": req.body.username },
+						{ "google.username": req.body.username },
+						{ "facebook.username": req.body.username },
+					],
+				});
+
+				if (user) {
+					return res.status(402).json({
+						message: "Username already in use",
+					});
+				}
+			}
 		}
 
 		delete req.body.password;
@@ -390,8 +421,8 @@ export const updateUserbyAdmin = async (req, res, next) => {
 function updateUserFields(user, registrationMethod, updates) {
 	const methodFields = {
 		local: ["name", "username", "email"],
-		google: ["name", "email"],
-		facebook: ["name", "email"],
+		google: ["name", "username", "email"],
+		facebook: ["name", "username", "email"],
 	};
 
 	const fieldsToUpdate = methodFields[registrationMethod] || [];

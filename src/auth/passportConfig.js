@@ -5,7 +5,7 @@ import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
 import dotenv from "dotenv";
 dotenv.config();
-import confirmEmail from "../utils/emailValidation.js";
+
 import User from "../model/User.js";
 
 passport.use(
@@ -67,33 +67,6 @@ passport.use(
 	)
 );
 
-// passport.use(
-//   "local",
-//   new LocalStrategy(
-//     {
-//       usernameField: "emailOrUsername", // The field name to accept email or username
-//     },
-//     async (emailOrUsername, password, done) => {
-//       try {
-//         // Check if the provided emailOrUsername exists in the database
-//         const user = await User.findOne({
-//           $or: [{ "local.email": emailOrUsername }, { "local.username": emailOrUsername }],
-//         });
-
-//         // If user not found or password is incorrect, return false
-//         if (!user || !user.validPassword(password)) {
-//           return done(null, false);
-//         }
-
-//         // If user is found and password is correct, return the user
-//         return done(null, user);
-//       } catch (error) {
-//         return done(error);
-//       }
-//     }
-//   )
-// );
-
 passport.use("local-login", new LocalStrategy(User.authenticate()));
 
 passport.use(
@@ -117,7 +90,10 @@ passport.use(
 				user = await User.findOne({
 					$or: [
 						{ "local.email": email },
+						{ "gmail.email": email },
 						{ "local.username": username },
+						{ "facebook.username": username },
+						{ "gmail.username": username },
 					],
 				});
 				console.log("existing user");
@@ -146,8 +122,6 @@ passport.use(
 					}),
 					password
 				);
-
-				confirmEmail(newUser);
 			} catch (err) {
 				console.log(err);
 				return done(err);
