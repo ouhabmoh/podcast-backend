@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Episode from "./Episode.js";
 import Article from "./Article.js";
 import passportLocalMongoose from "passport-local-mongoose";
-
+import confirmEmail from "../utils/emailValidation.js";
 const Schema = mongoose.Schema;
 
 const userSchema = Schema(
@@ -90,6 +90,20 @@ userSchema.pre("remove", async function (next) {
 
 	// Delete comments associated with the user from articles
 	await Article.updateMany({}, { $pull: { comments: { user: userId } } });
+
+	next();
+});
+
+// Middleware to send confirmation email on user creation or email change
+userSchema.pre("save", async function (next) {
+	if (this.isNew || this.isModified("local.email")) {
+		try {
+			confirmEmail(this);
+			this.local.emailConfirmed = false;
+		} catch (error) {
+			console.error("Error sending confirmation email:", error);
+		}
+	}
 
 	next();
 });
