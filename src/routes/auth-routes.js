@@ -3,7 +3,73 @@ import passport from "../auth/passportConfig.js";
 import { signToken } from "../auth/jwt.js";
 import User from "../model/User.js";
 import jwt from "jsonwebtoken";
+import resetPasswordEmail from "../utils/password-reset.js";
 const authRouter = express.Router();
+
+authRouter.get("/reset-password", async (req, res) => {
+	const { email } = req.body;
+	console.log(email);
+	try {
+		const user = await User.findOne({
+			"local.email": email,
+		});
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		console.log(user);
+		await resetPasswordEmail(user);
+		return res.status(200).json({
+			message: "Link for password reset has been sent successfully",
+		});
+	} catch (err) {}
+});
+
+authRouter.patch("/reset-password/:token", (req, res) => {
+	const { token } = req.params;
+	const { newPassword } = req.body;
+	try {
+		// Verifying the JWT token
+		jwt.verify(
+			token,
+			process.env.JWT_SECRET_KEY,
+			async function (err, decoded) {
+				if (err) {
+					console.log(err);
+					res.status(401).send(
+						"Password reset failed,  possibly the link is invalid or expired"
+					);
+				} else {
+					const user = await User.findOne({
+						_id: decoded.id,
+					});
+					if (!user) {
+						return res
+							.status(404)
+							.json({ message: "User not found" });
+					}
+
+					// Set the new password using the setPassword method
+					user.setPassword(newPassword, async (err) => {
+						if (err) {
+							console.error(err);
+							return res.status(500).json({
+								message: "Password reset failed",
+							});
+						}
+
+						await user.save();
+
+						return res.status(200).json({
+							message: "Password reset successful",
+						});
+					});
+				}
+			}
+		);
+	} catch (e) {
+		res.status(500).send("server error: " + e.message);
+	}
+});
 
 authRouter.get("/confirmation/:token", (req, res) => {
 	const { token } = req.params;
