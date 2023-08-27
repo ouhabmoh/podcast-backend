@@ -87,6 +87,20 @@ export const episodeValidationRules = () => {
 			.isString()
 			.withMessage("Explication must be a string"),
 
+		// URLs field validation (optional)
+		body("urls")
+			.optional()
+			.isArray()
+			.withMessage("URLs must be an array"),
+		body("urls.*.title")
+			.optional()
+			.isString()
+			.withMessage("URL title must be a string"),
+		body("urls.*.url")
+			.optional()
+			.isURL()
+			.withMessage("URL must be a valid URL"),
+
 		// notes field validation (optional)
 		body("notes")
 			.optional()

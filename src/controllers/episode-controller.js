@@ -3,7 +3,7 @@ import Episode from "../model/Episode.js";
 import User from "../model/User.js";
 import Note from "../model/Note.js";
 import Comment from "../model/Comment.js";
-
+import PlayHistory from "../model/PlayHistory.js";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 
@@ -231,6 +231,17 @@ export const incrementPlayCount = async (req, res) => {
 			// If no documents were modified, the episode was not found
 			return res.status(404).json({ message: "Episode not found" });
 		}
+
+		// Get the current date (year, month, day)
+		const currentDate = new Date();
+		currentDate.setHours(0, 0, 0, 0); // Set time to midnight
+
+		// Update the play history for the current date
+		await PlayHistory.findOneAndUpdate(
+			{ date: currentDate },
+			{ $inc: { playCount: 1 } },
+			{ upsert: true }
+		);
 
 		// Send the response indicating successful update
 		return res

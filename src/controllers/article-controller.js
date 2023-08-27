@@ -5,6 +5,19 @@ import { getUser } from "./getUser.js";
 import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import User from "../model/User.js";
+import ReadHistory from "../model/ReadHistory.js";
+
+export const getReadHistory = async (req, res, next) => {
+	try {
+		const readHistory = await ReadHistory.find();
+
+		// Return the most read articles as a response
+		res.status(200).json({ readHistory });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+};
 
 export const articlesStatistics = async (req, res) => {
 	try {
@@ -476,6 +489,17 @@ export const getById = async (req, res, next) => {
 		const result = await Article.updateOne(
 			{ _id: id }, // Query: Find the article by its ID
 			{ $inc: { readCount: 1 } } // Update: Increment the readCount field by 1
+		);
+
+		// Get the current date (year, month, day)
+		const currentDate = new Date();
+		currentDate.setHours(0, 0, 0, 0); // Set time to midnight
+
+		// Update the play history for the current date
+		await ReadHistory.findOneAndUpdate(
+			{ date: currentDate },
+			{ $inc: { readCount: 1 } },
+			{ upsert: true }
 		);
 
 		res.status(200).json({ article });

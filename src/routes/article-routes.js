@@ -18,9 +18,11 @@ import {
 	deleteFromFavoritesArticle,
 	checkUserFavorites,
 	articlesStatistics,
+	getReadHistory,
 } from "../controllers/article-controller.js";
 const articleRouter = express.Router();
 
+articleRouter.get("/read-history", getReadHistory);
 articleRouter.get("/statistics", articlesStatistics);
 articleRouter.get("/:articleId/check-favorite", isLoggedIn, checkUserFavorites);
 articleRouter.get("/", getAllArticles);
