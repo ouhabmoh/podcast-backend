@@ -1,188 +1,154 @@
 import Article from "../model/Article.js";
-import Category from "../model/Category.js";
 import Comment from "../model/Comment.js";
-import { ObjectId } from "mongodb";
 import User from "../model/User.js";
-import ReadHistory from "../model/ReadHistory.js";
+import mongoose from "mongoose";
 
-// Function to get articles statistics
-export const getArticlesStatistics = async () => {
+export const getArticleById = async (articleId) => {
 	try {
-		const statistics = await Article.aggregate([
-			// Your aggregation pipeline stages here
-		]);
+		const article = await Article.findById(articleId)
+			.select(
+				"id articleNumber title description content image readTime isPublished category comments createdAt writerName writerImage readCount"
+			)
+			.populate({
+				path: "category",
+				select: "id title",
+			})
+			.populate({
+				path: "comments",
+				select: "id content user createdAt updatedAt",
+				options: { sort: { createdAt: -1 } },
+				populate: {
+					path: "user",
+					model: "User",
+					select: {
+						id: 1,
+						name: {
+							$cond: [
+								{ $ifNull: ["$local.name", false] },
+								"$local.name",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.name",
+												false,
+											],
+										},
+										"$google.name",
+										"$facebook.name",
+									],
+								},
+							],
+						},
+						username: {
+							$cond: [
+								{ $ifNull: ["$local.username", false] },
+								"$local.username",
+								{
+									$cond: [
+										{
+											$ifNull: [
+												"$google.username",
+												false,
+											],
+										},
+										"$google.username",
+										"$facebook.username",
+									],
+								},
+							],
+						},
+					},
+				},
+			})
+			.lean();
 
-		if (statistics.length === 0) {
-			throw new Error("No statistics found");
-		}
-
-		const episodeStatistics = statistics[0];
-		return episodeStatistics;
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to check if a user has favorited an article
-export const checkUserFavorites = async (userId, articleId) => {
-	try {
-		const user = await User.findById(userId).select("favoritesArticles");
-		const favoritesArticles = user ? user.favoritesArticles : [];
-
-		const isFavorited = favoritesArticles
-			? favoritesArticles.some((article) => article.equals(articleId))
-			: false;
-
-		return isFavorited;
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to add an article to a user's favorites
-export const addToFavoritesArticle = async (userId, articleId) => {
-	try {
-		const user = await User.findById(userId);
-
-		const article = await Article.findById(articleId);
 		if (!article) {
 			throw new Error("Article not found");
 		}
 
-		if (!user.favoritesArticles.includes(articleId)) {
-			user.favoritesArticles.push(articleId);
-			await user.save();
+		const result = await Article.updateOne(
+			{ _id: articleId },
+			{ $inc: { readCount: 1 } }
+		);
+
+		const currentDate = new Date();
+		currentDate.setHours(0, 0, 0, 0);
+
+		await ReadHistory.findOneAndUpdate(
+			{ date: currentDate },
+			{ $inc: { readCount: 1 } },
+			{ upsert: true }
+		);
+
+		return article;
+	} catch (error) {
+		throw new Error("Server error");
+	}
+};
+
+export const addCommentToArticle = async (articleId, userId, content) => {
+	try {
+		const existingArticle = await Article.findById(articleId);
+
+		if (!existingArticle) {
+			throw new Error("Article not found");
 		}
 
-		return "Article added to favorites successfully";
+		const comment = new Comment({
+			content,
+			user: userId,
+		});
+
+		let commentId;
+
+		const savedComment = await comment.save();
+		commentId = savedComment._id;
+
+		existingArticle.comments.push(commentId);
+
+		await existingArticle.save();
+
+		return { article: existingArticle, commentId };
 	} catch (error) {
 		throw new Error("Server error");
 	}
 };
 
-// Function to delete an article from user's favorites
-export const deleteFromFavoritesArticle = async (userId, articleId) => {
-	try {
-		const user = await User.findById(userId);
-		if (!user.favoritesArticles.includes(articleId)) {
-			throw new Error("Article not found in favorites");
-		}
-
-		user.favoritesArticles.pull(articleId);
-		await user.save();
-
-		return "Article removed from favorites successfully";
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to get the most read articles
-export const getMostReadArticles = async (limit) => {
-	try {
-		const mostReadArticles = await Article.find()
-			.select(
-				"id articleNumber title description image readTime isPublished category createdAt readCount"
-			)
-			.populate("category", "id title")
-			.sort({ readCount: -1 })
-			.limit(limit);
-
-		return mostReadArticles;
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to get similar articles by ID
-export const getSimilarById = async (articleId, limit) => {
-	try {
-		// Your logic to find similar articles here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to get all articles with filtering options
-export const getAllArticles = async (filterOptions) => {
-	try {
-		// Your logic to retrieve filtered articles here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to add a new article
-export const addArticle = async (articleData) => {
-	try {
-		// Your logic to add a new article here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to toggle the "isPublished" status of an article
-export const toggleIsPublished = async (articleId) => {
-	try {
-		// Your logic to toggle the status here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to update an article
-export const updateArticle = async (articleId, updateData) => {
-	try {
-		// Your logic to update an article here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to get an article by ID
-export const getArticleById = async (articleId) => {
-	try {
-		// Your logic to get an article by ID here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to delete an article by ID
-export const deleteArticleById = async (articleId) => {
-	try {
-		// Your logic to delete an article by ID here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to get the last article number
-export const getLastArticleNumber = async () => {
-	try {
-		// Your logic to get the last article number here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to add a comment to an article
-export const addCommentToArticle = async (articleId, commentData) => {
-	try {
-		// Your logic to add a comment to an article here
-	} catch (error) {
-		throw new Error("Server error");
-	}
-};
-
-// Function to delete a comment from an article
 export const deleteCommentFromArticle = async (
 	articleId,
 	commentId,
 	userId
 ) => {
 	try {
-		// Your logic to delete a comment from an article here
+		const article = await Article.findById(articleId);
+
+		if (!article) {
+			throw new Error("Article not found");
+		}
+
+		const comment = await Comment.findById(commentId);
+
+		if (!comment) {
+			throw new Error("Comment not found");
+		}
+
+		const user = await User.findById(userId);
+
+		if (!user) {
+			throw new Error("User not found");
+		}
+
+		const userIdObj = new mongoose.Types.ObjectId(userId);
+
+		if (!comment.user.equals(userIdObj) && user.role !== "admin") {
+			throw new Error("Unauthorized");
+		}
+
+		article.comments.pull(comment._id);
+		await article.save();
+
+		return "Successfully deleted";
 	} catch (error) {
 		throw new Error("Server error");
 	}
