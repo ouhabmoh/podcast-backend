@@ -2,6 +2,9 @@ import Comment from "../model/Comment.js";
 import Article from "../model/Article.js";
 import Episode from "../model/Episode.js";
 
+import mongoose from "mongoose";
+import { ObjectId } from "mongodb";
+
 export const statistics = async (req, res) => {
 	try {
 		const statistics = await Comment.aggregate([
@@ -162,4 +165,95 @@ export const updateComment = async (req, res) => {
 		console.log(error);
 		return res.status(500).json({ message: "Server error" });
 	}
+};
+
+export const addComment = async (req, res) => {
+	const articleId = req.params.id;
+	const { content } = req.body;
+	const user = req.user._id;
+	let existingArticle;
+	try {
+		// Validate the categoryId
+		if (!mongoose.Types.ObjectId.isValid(articleId)) {
+			return res.status(400).json({ message: "Invalid articleId" });
+		}
+
+		existingArticle = await Article.findById(articleId);
+	} catch (error) {
+		return console.log(error);
+	}
+
+	if (!existingArticle) {
+		return res.status(404).json({ message: "article not found" });
+	}
+
+	// Loop through the comments array and create comment documents
+
+	const commentDocument = new Comment({
+		content,
+		user,
+	});
+	let commentId;
+	try {
+		// Save the comment document
+		const savedComment = await commentDocument.save();
+		// Push the comment ID to the array
+		commentId = savedComment._id;
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: "Adding comments failed" });
+	}
+
+	existingArticle.comments.push(commentId);
+
+	try {
+		await existingArticle.save();
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ message: "adding comment to article failed" });
+	}
+
+	return res.status(200).json({ article: existingArticle });
+};
+
+export const deleteComment = async (req, res, next) => {
+	const id = req.params.id;
+	const commentId = req.params.commentId;
+	const user = req.user;
+	console.log(user);
+	let article;
+	let comment;
+	try {
+		article = await Article.findById(id);
+	} catch (error) {
+		return console.log(error);
+	}
+
+	if (!article) {
+		return res.status(404).json({ message: "article not found" });
+	}
+
+	try {
+		comment = await Comment.findById(commentId);
+	} catch (error) {
+		return console.log(error);
+	}
+
+	if (!comment) {
+		return res.status(404).json({ message: "comment not found" });
+	}
+
+	const userId = new ObjectId(user._id);
+
+	if (!comment.user.equals(userId) && user.role !== "admin") {
+		console.log("we are in controller");
+		return res.status(401).json({ message: "Unauthorized" });
+	}
+	article.comments.pop(comment._id);
+
+	await article.save();
+
+	return res.status(200).json({ message: "succesfelly deleted" });
 };

@@ -11,8 +11,6 @@ import {
 	updateArticle,
 	getById,
 	deleteArticleById,
-	addComment,
-	deleteComment,
 	getMostReadArticles,
 	addToFavoritesArticle,
 	deleteFromFavoritesArticle,
@@ -34,18 +32,12 @@ articleRouter.delete(
 	isLoggedIn,
 	deleteFromFavoritesArticle
 );
-articleRouter.post(
-	"/comment/:id",
-	isLoggedIn,
-	commentValidationRules(),
-	validate,
-	addComment
-);
+
 articleRouter.post("/", addArticle);
 articleRouter.put("/isPublished/:id", toggleIsPublished);
 articleRouter.patch("/:id", updateArticle);
 articleRouter.get("/:id", getById);
 articleRouter.get("/similair/:id", getSimilairById);
 articleRouter.delete("/:id", deleteArticleById);
-articleRouter.delete("/:id/comment/:commentId", isLoggedIn, deleteComment);
+
 export default articleRouter;

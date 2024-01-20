@@ -1,4 +1,6 @@
+// category.model.js
 import mongoose from "mongoose";
+import { toJSON, paginate } from "./plugins/index.js";
 
 const Schema = mongoose.Schema;
 
@@ -34,6 +36,10 @@ const categorySchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+// Add plugins for toJSON and paginate
+categorySchema.plugin(toJSON);
+categorySchema.plugin(paginate);
 
 categorySchema.pre("save", async function (next) {
 	if (this.isModified("isPublished")) {

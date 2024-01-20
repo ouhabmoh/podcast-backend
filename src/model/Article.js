@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { toJSON, paginate } from "./plugins/index.js";
 
 const Schema = mongoose.Schema;
 
@@ -81,5 +82,9 @@ const articleSchema = new Schema(
 	},
 	{ timestamps: true }
 );
+
+// add plugin that converts mongoose to json
+articleSchema.plugin(toJSON);
+articleSchema.plugin(paginate);
 
 export default mongoose.model("Article", articleSchema);

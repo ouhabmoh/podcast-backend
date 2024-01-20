@@ -1,0 +1,2887 @@
+{
+	"info": {
+		"_postman_id": "7e2082ea-c89c-43b7-866e-1d0b46a8d5fd",
+		"name": "podcast",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26170600",
+		"_collection_link": "https://orange-robot-633929.postman.co/workspace/New-Team-Workspace~3fa778d7-3767-4ad1-a744-d093e615dec3/collection/26170600-7e2082ea-c89c-43b7-866e-1d0b46a8d5fd?action=share&source=collection_link&creator=26170600"
+	},
+	"item": [
+		{
+			"name": "Episodes",
+			"item": [
+				{
+					"name": "add episode",
+					"item": [
+						{
+							"name": "add episode",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"The Art of Living with Kurt Johnsen\",\r\n    \"description\": \" Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"category\": \"64b467ed07fb81280a97fc5f\",\r\n    \"image\": {\r\n        \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"audio\": {\r\n        \"name\": \"kv9x5hfcdfuepnidorei.mp3\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/video/upload/v1690056150/kv9x5hfcdfuepnidorei.mp3\",\r\n        \"size\": 15.5\r\n    },\r\n    \"duration\": \"00:30:00\",\r\n    \"explication\": \"Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add episode with urls",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"The Art of Living with Kurt Johnsen\",\r\n    \"description\": \" Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"category\": \"64b467ed07fb81280a97fc5f\",\r\n    \"image\": {\r\n        \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"audio\": {\r\n        \"name\": \"kv9x5hfcdfuepnidorei.mp3\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/video/upload/v1690056150/kv9x5hfcdfuepnidorei.mp3\",\r\n        \"size\": 15.5\r\n    },\r\n    \"duration\": \"00:30:00\",\r\n    \"explication\": \"Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"urls\": [\r\n        {\r\n            \"title\": \"Spotify\",\r\n            \"url\": \"https://open.spotify.com/episode/3dPwjct5B05EYJlnKtFBZq\"\r\n        },\r\n        {\r\n            \"title\": \"Spotify\",\r\n            \"url\": \"https://open.spotify.com/episode/3dPwjct5B05EYJlnKtFBZq\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add episode vercel",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"The Art of Living with Kurt Johnsen\",\r\n    \"description\": \" Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"category\": \"64bc2328ff1a7df29295e6a0\",\r\n    \"image\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"audio\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/video/upload/v1690056150/kv9x5hfcdfuepnidorei.mp3\",\r\n        \"size\": 15.5\r\n    },\r\n    \"duration\": \"00:59:59\",\r\n    \"explication\": \"Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://podcast-backend.vercel.app/episodes",
+									"protocol": "https",
+									"host": [
+										"podcast-backend",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"episodes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add episode errors image and audio should be url",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"The Art of Living with Kurt Johnsen\",\r\n    \"description\": \" Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"category\": \"64b467ed07fb81280a97fc5f\",\r\n    \"image\": {\r\n        \"url\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"audio\": {\r\n        \"url\": \"kv9x5hfcdfuepnidorei.mp3\",\r\n        \"size\": 15.5\r\n    },\r\n    \"duration\": \"00:00:00\",\r\n    \"explication\": \"Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "add episodes errors title missing",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"description\": \" Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\",\r\n    \"category\": \"64b467ed07fb81280a97fc5f\",\r\n    \"image\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"audio\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/video/upload/v1690056150/kv9x5hfcdfuepnidorei.mp3\",\r\n        \"size\": 15.5\r\n    },\r\n    \"duration\": \"00:00:00\",\r\n    \"explication\": \"Welcome to another exciting episode of our podcast! Today, we have an amazing guest for you - the multi-talented Kurt Johnsen! 🌟\\n\\n\\n\\n✨ Kurt's not only the founder of American Power Yoga, but he's also the host of Yoga for Life on ZeeTV and the founder of Simplified Genetics. 💪\\n\\n\\n\\n🏈 He was even the official yoga instructor for the Dallas Cowboys cheerleaders!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get Episodes",
+					"item": [
+						{
+							"name": "get episodes with search and filter startDate, endDate, duration, category(Topic), search keyword",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes?limit=100&startDate=2023-07-20&endDate=2023-07-24&duration=0&category=64b467ed07fb81280a97fc5f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "startDate",
+											"value": "2023-07-20"
+										},
+										{
+											"key": "endDate",
+											"value": "2023-07-24"
+										},
+										{
+											"key": "duration",
+											"value": "0"
+										},
+										{
+											"key": "search",
+											"value": "art",
+											"disabled": true
+										},
+										{
+											"key": "category",
+											"value": "64b467ed07fb81280a97fc5f"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get episodes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/episodes?limit=10",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter and search vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://podcast-backend.vercel.app/episodes?limit=100&startDate=2023-07-20&endDate=2023-07-24&duration=0&category=64b467ed07fb81280a97fc5f",
+									"protocol": "https",
+									"host": [
+										"podcast-backend",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "startDate",
+											"value": "2023-07-20"
+										},
+										{
+											"key": "endDate",
+											"value": "2023-07-24"
+										},
+										{
+											"key": "duration",
+											"value": "0"
+										},
+										{
+											"key": "category",
+											"value": "64b467ed07fb81280a97fc5f"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter by duration vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://podcast-backend.vercel.app/episodes?duration=2&limit=100",
+									"protocol": "https",
+									"host": [
+										"podcast-backend",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "duration",
+											"value": "2"
+										},
+										{
+											"key": "limit",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter by duration and category vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://podcast-backend.vercel.app/episodes?limit=100&duration=1&category=64bc2328ff1a7df29295e6a0",
+									"protocol": "https",
+									"host": [
+										"podcast-backend",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "100"
+										},
+										{
+											"key": "duration",
+											"value": "1"
+										},
+										{
+											"key": "category",
+											"value": "64bc2328ff1a7df29295e6a0"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all episodes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes?isPublished=1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "isPublished",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "filter by isPublished",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/episodes?isPublished=1",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"episodes"
+									],
+									"query": [
+										{
+											"key": "isPublished",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get episdoe by id",
+					"item": [
+						{
+							"name": "get episode by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/episodes/64d764a58871304990e27ed1",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"episodes",
+										"64d764a58871304990e27ed1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get episode by id with urls",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/64d7601c829251b804b5b14c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"64d7601c829251b804b5b14c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get episode by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/64d7601c829251b804b5b14c",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"64d7601c829251b804b5b14c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get episode by id vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://podcast-backend.vercel.app/episodes/64bc35dae85617fc0922b81e",
+									"protocol": "https",
+									"host": [
+										"podcast-backend",
+										"vercel",
+										"app"
+									],
+									"path": [
+										"episodes",
+										"64bc35dae85617fc0922b81e"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get episode neighbours",
+					"item": [
+						{
+							"name": "get neighours with first episode",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/neighbors/0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"neighbors",
+										"0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get neighbours with last episode",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/neighbors/16",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"neighbors",
+										"16"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get neighbours",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/neighbors/10",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"neighbors",
+										"10"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get last episode",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:5000/episodes/last",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"last"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get last episode vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/episodes/last",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"episodes",
+										"last"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get episode neighbours first episode vercel",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}//episodes/neighbors/0",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"",
+										"episodes",
+										"neighbors",
+										"0"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "update episode",
+					"item": [
+						{
+							"name": "update image in episode",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"image\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 3\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes/64d650be9285ffef12c8a5e8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"64d650be9285ffef12c8a5e8"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update image in episode this result in error",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"image.size\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:5000/episodes/64d764a58871304990e27ed1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5000",
+									"path": [
+										"episodes",
+										"64d764a58871304990e27ed1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update image in episode this result in error Copy",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"image.size\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{vercelUrl}}/episodes/64d764a58871304990e27ed1",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"episodes",
+										"64d764a58871304990e27ed1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "toggle isPublished",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/episodes/isPublished/64c5226d2fa247753f2e35f1",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"episodes",
+										"isPublished",
+										"64c5226d2fa247753f2e35f1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "toggle isPublished Vercel",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7ImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJfaWQiOiI2NGM1MTdhZjk0NTE2NWMxNTYxYmQzMjciLCJyb2xlIjoiVXNlciIsInN0YXR1cyI6IkFjdGl2ZSIsInNhbHQiOiJkMmUxMGE2YzdlYWIxMTU0ZTRlM2ZjMjRmNDVlM2YzMGRiNDk4ZDM1NzgzYWNmMzcyYWJlYjk2OWYxZWJlYWRjIiwiY3JlYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwidXBkYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwiX192IjowfSwiaWF0IjoxNjkwNjU0NzY1LCJleHAiOjE2OTA2NTgzNjV9.UAGRms2xLm1GlVQJZl0dZ8tYNDyeJVCMChEIhYzOwhE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/episodes/isPublished/64c5226d2fa247753f2e35f1",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"episodes",
+										"isPublished",
+										"64c5226d2fa247753f2e35f1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete episode by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://podcast-backend.vercel.app/episodes/64bc22adff1a7df29295e697",
+							"protocol": "https",
+							"host": [
+								"podcast-backend",
+								"vercel",
+								"app"
+							],
+							"path": [
+								"episodes",
+								"64bc22adff1a7df29295e697"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "increment play count",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/episodes/64bc35dae85617fc0922b81e",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"episodes",
+								"64bc35dae85617fc0922b81e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check user favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE3NzE1MTEsImV4cCI6MTY5MjYzNTUxMX0.tOKYuu-HKVgwF9TE1FeRsKraqzq3AOdkEbDk1yubYP8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/episodes/64d650be9285ffef12c8a5e8/check-favorite",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"episodes",
+								"64d650be9285ffef12c8a5e8",
+								"check-favorite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add episode to user favorites",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE3NzE1MTEsImV4cCI6MTY5MjYzNTUxMX0.tOKYuu-HKVgwF9TE1FeRsKraqzq3AOdkEbDk1yubYP8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/episodes/favorites/64d650be9285ffef12c8a5e8",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"episodes",
+								"favorites",
+								"64d650be9285ffef12c8a5e8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE5NDk5MzQsImV4cCI6MTY5MjgxMzkzNH0.-seZ4vLICYW5YO6rB0bVHYLbnQWeUPxBQMsWmE8cBFc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"content\": \"Great Episode, very informative\"\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vercelUrl}}/episodes/64d764a58871304990e27ed1",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"episodes",
+								"64d764a58871304990e27ed1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE5NDk5MzQsImV4cCI6MTY5MjgxMzkzNH0.-seZ4vLICYW5YO6rB0bVHYLbnQWeUPxBQMsWmE8cBFc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n    \"content\": \"Great Episode, very informative\"\r\n   \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vercelUrl}}/episodes/comment/64d764a58871304990e27ed1",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"episodes",
+								"comment",
+								"64d764a58871304990e27ed1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notes",
+			"item": [
+				{
+					"name": "get all notes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/notes/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"notes",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add note to an existent episode",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"note\": \"This is a sample note.\",\r\n  \"time\": \"00:12:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/episodes/64d7601c829251b804b5b14c/note",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"episodes",
+								"64d7601c829251b804b5b14c",
+								"note"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update note",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"note\": \"This is a sample updated note.\",\r\n  \"time\": \"01:12:30\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/notes/64bc27b3951f41aa2fec21a2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"notes",
+								"64bc27b3951f41aa2fec21a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dete note from an episode",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/episodes/64bc22a8ff1a7df29295e696/note/64bc18a1afb116bf28fd036f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"episodes",
+								"64bc22a8ff1a7df29295e696",
+								"note",
+								"64bc18a1afb116bf28fd036f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"item": [
+				{
+					"name": "get category episodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories/episodes/64b467ed07fb81280a97fc5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories",
+								"episodes",
+								"64b467ed07fb81280a97fc5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get categories  and search by title",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/categories?search=health fitness",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "health fitness"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories/64b467ed07fb81280a97fc5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories",
+								"64b467ed07fb81280a97fc5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category by Id Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vercelUrl}}/categories/64b467ed07fb81280a97fc5f",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"categories",
+								"64b467ed07fb81280a97fc5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category episodes with filter and search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/episodes?lcategory=64b467ed07fb81280a97fc5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"episodes"
+							],
+							"query": [
+								{
+									"key": "lcategory",
+									"value": "64b467ed07fb81280a97fc5f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update category",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"description\": \"The word health refers to a state of complete emotional, mental, and physical well-being. Healthcare exists to help people stay well in these key areas of life.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/categories/64b467ed07fb81280a97fc5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories",
+								"64b467ed07fb81280a97fc5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"Health 2\",\r\n    \"description\": \"The word health refers to a state of complete emotional, mental, and physical well-being. Healthcare exists to help people stay well in these key areas of life.\",\r\n      \"image\": {\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Category by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories/64b467ed07fb81280a97fc5f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories",
+								"64b467ed07fb81280a97fc5f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get cateogry by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/categories/64bc230eff1a7df29295e69f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"categories",
+								"64bc230eff1a7df29295e69f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get category by id vercel",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vercelUrl}}/categories/64bc230eff1a7df29295e69f",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"categories",
+								"64bc230eff1a7df29295e69f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "settings",
+			"item": [
+				{
+					"name": "get website general infos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/infos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"infos",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update general info of website",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "description1",
+									"value": "new description",
+									"type": "text"
+								},
+								{
+									"key": "description2",
+									"value": "new description2",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "name",
+									"value": "kool health",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "NY",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "KOOL HEALTH",
+									"type": "text"
+								},
+								{
+									"key": "description3",
+									"value": "new disc3",
+									"type": "text"
+								},
+								{
+									"key": "description4",
+									"value": "new disc4",
+									"type": "text"
+								},
+								{
+									"key": "image2",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/infos/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"infos",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register with taken email or username",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"ouhab moh\",\r\n    \"email\":\"ouhabismail@gmail.com\",\r\n    \"username\":\"ouhabcr7\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/register",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"ouhab mohsd\",\r\n    \"email\":\"ouhabismail1234d5dcddeddddfd@gmail.com\",\r\n    \"username\":\"ouhabmh7ssddddcdedddsfdd\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/register",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"ouhab 40\",\r\n    \"email\":\"ouhab40@gmail.com\",\r\n    \"username\":\"ouhab50\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/register",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with admin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n    \"username\":\"ouhab admin\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/login",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \r\n    \"username\":\"ouhabmh7ssddddcdedddsfdd\",\r\n    \"password\":\"12345678910\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{vercelUrl}}/auth/login",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login with wrong body field Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"emailOrUsername\":\"ouhab12@gmail.com\",\r\n    \"password\":\"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/login",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Articles",
+			"item": [
+				{
+					"name": "add",
+					"item": [
+						{
+							"name": "add article",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Cumulative time spent in “vigorous” physical activity lowers mortality risk\",\r\n    \"description\": \"whether the goal is reducing stress or preventing cardiovascular disease, nearly every list of proactive health measures includes exercise. But although exercise is deemed nearly universally beneficial, a lack of time is the \",\r\n    \"content\": \"whether the goal is reducing stress or preventing cardiovascular disease, nearly every list of proactive health measures includes exercise. But although exercise is deemed nearly universally beneficial, a lack of time is the most commonly cited barrier to regular physical activity. In my opinion, exercise is the best way to spend your time for your overall health – both in terms of lengthening your life and improving its quality. But if time constraints are putting your workouts on the chopping block, can you reap the benefits of exercise in more frequent, very short durations of high-intensity exercise? \\n The vast majority of prospective exercise studies use surveys of physical activity to stratify participants into different volumes of exercise. Even though these methods are rife with problems, several studies have made the same observation: those who engage in higher percentages of vigorous physical activity (VPA) have an increased lifespan over those who only engage in moderate physical activity. A 2022 study attempted to quantify if VPA accrued through very short bouts could confer the benefits of improved health outcomes, and if so, how much VPA was optimal for reducing the risk of mortality. \\nIn general, I would encourage you to be wary of exercise studies with titles that include “how little is enough” – especially since studies keep trying to show that less and less exercise volume can be beneficial for health (at times to the point of absurdity). Alex Hutchinson once joked with me that it’s only a matter of time until someone tries to publish a study showing the benefits of simply thinking about doing one-minute bursts of exercise! As I discussed in depth in AMA 38, prospective exercise studies have consistently shown a roughly inverse exponential relationship between exercise and all-cause mortality or exercise and incident cardiovascular disease. The steepest portion of the curve is the initial drop from the group that is sedentary to the first group with the smallest volume of exercise. The benefits of increasing exercise volume keep accruing, although at a slower rate until eventually there are diminishing returns. \\nWhat did the study find? \\nIn this prospective exercise study of >70,000 subjects from the UK Biobank (average participant age 62), participants were given a wrist-worn accelerometer to wear 24 hours per day for 7 consecutive days. This allowed the researchers to measure and quantify all physical activity by intensity level rather than relying on self-recall using survey methods. The activity intensity level was determined from measured accelerations during movement (in increments of 10-second windows) and was classified as sedentary, light, moderate, or vigorous. “Vigorous” activity (accelerations >3.9 m/s2) meant the subject was likely walking fast or jogging, equivalent to an estimated threshold of at least six metabolic equivalent units (METs). The authors assessed the relationship between both total VPA minutes per week and the frequency of short bouts of VPA with all-cause mortality (ACM), incident cardiovascular disease, and incident cancer over an average follow-up period of 5.9 years. \\nPerhaps not surprisingly, the trend of an increasing volume of vigorous physical activity was associated with a decrease in all-cause mortality, cancer mortality, and cardiovascular disease incidence and mortality. And so the study found that the same conclusion holds: in the case of exercise, something is always better than nothing. The researchers concluded that the “minimal effective dose” of accrued VPA was 15-20 minutes per week, which decreased the risk of ACM by 18%. The “optimal” dose, or the point on the curve beyond which increasing activity had no additional benefit, was about three times longer at 54 minutes per week, reducing the risk of ACM by 36%. Hmmmm. Does that seem right? \\nPhysical activity vs Exercise \\nFor 96% of recorded bouts of VPA, the duration was less than 2 minutes (mostly under 1 minute and as little as 10 seconds at a time). That means the vast majority of VPA was not recording a participant going out for a jog or even a sustained brisk walk. Jogging for less than a minute while playing with your kids is not the same as dedicated training. \\nRecall that exercise is categorized by energy expenditure in units of METs. Despite the problems with survey-based studies, previous research has found that the risk of ACM continues to decline until at least 30 – 75 MET-hr/week (and is likely even higher). Small volumes of physical activity (<2 minutes) are less likely to be captured with questionnaires, so the accrual of VPA as measured in this study is likely present in addition to the survey-reported exercise volume. If the optimum dose of 54 minutes of VPA accrual was performed at a vigorous intensity well above the threshold, say 10 METS, it would contribute 9 MET-hr per week, well below the exercise volume that maximizes health benefits. Furthermore, what MET-hrs alone do not capture is that sustained activity increases the demands on your cardiovascular and respiratory systems. I would be highly doubtful that the accrual of a few minutes of vigorous activity at a time would lead to the same physical adaptations as sustained activity. In this case, the diminishing benefits seen at higher volumes of VPA are because this population is not doing dedicated high-intensity exercise.  \\nAlthough the authors did not harp on such a thing as “too much VPA,” the confidence intervals on the curves balloon at VPA volumes of ≥40 minutes. This makes any “optimal” dose absolutely meaningless since it was based on a nadir or minima in the hazard ratio curve (supposedly at 54 minutes). A minimum implies that increased VPA volume beyond this point may lead to an increase in the risk of ACM or incidence of CVD and cancer. However, in addition to the lack of sustained exercise, this observation is due to common limitations that exist in most prospective exercise studies. That is, the population is concentrated toward the low end of the exercise volume curve. The estimates of risk at higher activity levels are being made from a smaller number of subjects reflected by the gigantic confidence interval, which indicates that strong conclusions can’t be drawn from this data. \\nAccruing VPA vs Dedicated Training \\nPart of the problem with these types of studies is that recommendations and scientific studies distinguish moderate physical activity from VPA at a threshold of ≥6 METs. For comparison, a MET of 6 is a VO2 of 21 ml/min/kg, which is at or below even zone 2 for most people (zone 2 is often over 10 METs for a fit person). A threshold of 6 METs, especially for short bursts of movement, doesn’t distinguish a fit person from an unfit person. On the other hand, cardiorespiratory fitness as measured by VO2 max has more convincingly and consistently been shown to be inversely associated with ACM. But measuring VPA accrual is not an indirect measure of cardiorespiratory fitness. VO2 max is trained by doing short bouts of high-intensity exercise at a level near your maximum heart rate. Even though the overall time dedicated might be the same, a person doing weekly zone 5 training (e.g., 30 minutes dedicated to 4×4 interval training) should not be lumped in with someone who happened to move briskly for a minute at 30 discreet times over the span of a week. \\nThe bottom line \\nWhile I understand the frustration of trying to get patients to regularly exercise, it is a disservice to recommend accruing “vigorous” activity in bouts of less than a minute. Even for people with poor fitness or risk factors such as obesity, being more physically active throughout the day is simply a starting point. Showing “optimal” benefits from simply being less sedentary misses out on the diversity of benefits that can be reaped from dedicated exercise (e.g., cardiorespiratory fitness, strength, stability, balance). This might do if the goal is to simply live a little longer, but if the aim is to live better, that’s going to require some dedicated training.\",\r\n    \"readTime\": 15,\r\n    \"category\": \"64b467ed07fb81280a97fc5f\",\r\n    \"image\": {\r\n        \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    },\r\n    \"writerName\":\"Ben\",\r\n    \"writerImage\": {\r\n        \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n        \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n        \"size\": 15.5\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhostUrl}}/articles",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get all",
+					"item": [
+						{
+							"name": "get all articles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/articles",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all articles local",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/articles",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"articles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get all articles search by cat",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles?category=64c804abb5d1b2400ddba2c2",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles"
+									],
+									"query": [
+										{
+											"key": "category",
+											"value": "64c804abb5d1b2400ddba2c2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "similair articles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{vercelUrl}}/articles/similair/64e3568cccc94858efb4ca93",
+									"host": [
+										"{{vercelUrl}}"
+									],
+									"path": [
+										"articles",
+										"similair",
+										"64e3568cccc94858efb4ca93"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "trending articles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/trending",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"trending"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "get by id",
+					"item": [
+						{
+							"name": "get Article by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{podcastLocal}}/articles/64e646d3931ca426eb649f30",
+									"host": [
+										"{{podcastLocal}}"
+									],
+									"path": [
+										"articles",
+										"64e646d3931ca426eb649f30"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "last article number",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/last",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"last"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "favorites",
+					"item": [
+						{
+							"name": "add to favorites",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE3NzE1MTEsImV4cCI6MTY5MjYzNTUxMX0.tOKYuu-HKVgwF9TE1FeRsKraqzq3AOdkEbDk1yubYP8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/favorites/64d64dd3c44f0429eece8caa",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"favorites",
+										"64d64dd3c44f0429eece8caa"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "check user favorties",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE3NzE1MTEsImV4cCI6MTY5MjYzNTUxMX0.tOKYuu-HKVgwF9TE1FeRsKraqzq3AOdkEbDk1yubYP8",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/64d64dd3c44f0429eece8caa/check-favorite",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"64d64dd3c44f0429eece8caa",
+										"check-favorite"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete from favorites",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7Im5hbWUiOiJvdWhhYiA1MCIsImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJmYXZvcml0ZXNFcGlzb2RlcyI6W10sImZhdm9yaXRlc0FydGljbGVzIjpbXSwiX2lkIjoiNjRjNTE3YWY5NDUxNjVjMTU2MWJkMzI3Iiwicm9sZSI6IkFkbWluIiwic3RhdHVzIjoiQWN0aXZlIiwic2FsdCI6ImQyZTEwYTZjN2VhYjExNTRlNGUzZmMyNGY0NWUzZjMwZGI0OThkMzU3ODNhY2YzNzJhYmViOTY5ZjFlYmVhZGMiLCJjcmVhdGVkQXQiOiIyMDIzLTA3LTI5VDEzOjQ0OjE4LjM0NFoiLCJ1cGRhdGVkQXQiOiIyMDIzLTA3LTI5VDEzOjQ0OjE4LjM0NFoiLCJfX3YiOjB9LCJpYXQiOjE2OTEzNTEzNjQsImV4cCI6MTY5MjIxNTM2NH0.CCbNDW9RhGbNXKwkE8eaB5X9QQJidUGNzEzMXNrVUkw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/favorites/64cbef50a2a36f76d8ac3ec9",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"favorites",
+										"64cbef50a2a36f76d8ac3ec9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "comments",
+					"item": [
+						{
+							"name": "add Comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZTNhYTA2ODE5NmVhYjRmNjlkZWU5MiIsIm5hbWUiOiJPdWhhYiBNb2hhbWVkIiwidXNlcm5hbWUiOm51bGwsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0yMSJ9LCJpYXQiOjE2OTI2NDE3OTksImV4cCI6MTY5MzUwNTc5OX0.OsG5X0FgjS5gJa0oaVYLPOqJcf1nab83CiOZejv3n_o",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \r\n    \"content\": \"Great Article, very informative and insightfull\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhostUrl}}/articles/comment/64d760d5829251b804b5b1a0",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"comment",
+										"64d760d5829251b804b5b1a0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7ImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJfaWQiOiI2NGM1MTdhZjk0NTE2NWMxNTYxYmQzMjciLCJyb2xlIjoiVXNlciIsInN0YXR1cyI6IkFjdGl2ZSIsInNhbHQiOiJkMmUxMGE2YzdlYWIxMTU0ZTRlM2ZjMjRmNDVlM2YzMGRiNDk4ZDM1NzgzYWNmMzcyYWJlYjk2OWYxZWJlYWRjIiwiY3JlYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwidXBkYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwiX192IjowfSwiaWF0IjoxNjkxMTYyNTE0LCJleHAiOjE2OTExNjYxMTR9.Uwffcx2cYbqEW_taELKfeuSOvmo5W3wYRSnzK2zwcBg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{localhostUrl}}/articles/64cbef50a2a36f76d8ac3ec9/comment/64cd116c9d6eacfaf5f7167a",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"articles",
+										"64cbef50a2a36f76d8ac3ec9",
+										"comment",
+										"64cd116c9d6eacfaf5f7167a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update comment",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7ImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJfaWQiOiI2NGM1MTdhZjk0NTE2NWMxNTYxYmQzMjciLCJyb2xlIjoiVXNlciIsInN0YXR1cyI6IkFjdGl2ZSIsInNhbHQiOiJkMmUxMGE2YzdlYWIxMTU0ZTRlM2ZjMjRmNDVlM2YzMGRiNDk4ZDM1NzgzYWNmMzcyYWJlYjk2OWYxZWJlYWRjIiwiY3JlYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwidXBkYXRlZEF0IjoiMjAyMy0wNy0yOVQxMzo0NDoxOC4zNDRaIiwiX192IjowfSwiaWF0IjoxNjkxMTgzMzMxLCJleHAiOjE2OTIwNDczMzF9.V1xPgVhrIEnmeCFLmKD_ZzB13w7rppt5olnJwYvrx9s",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \r\n    \"content\": \"Great Article, very informative, thanks\"\r\n   \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localhostUrl}}/comments/64cd116c9d6eacfaf5f7167a",
+									"host": [
+										"{{localhostUrl}}"
+									],
+									"path": [
+										"comments",
+										"64cd116c9d6eacfaf5f7167a"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "delete article by id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/articles/64c96c87e7680b7797e344b6",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"articles",
+								"64c96c87e7680b7797e344b6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/articles/read-history",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"articles",
+								"read-history"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/groups",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add group",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\" : \"New Health\",\r\n    \"description\" : \"All categories\",\r\n      \"image\": {\r\n            \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n            \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n            \"size\": 15.5\r\n        }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/groups",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add group with categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"new Fitness Group\",\r\n    \"description\": \"A group for fitness enthusiasts\",\r\n      \"image\": {\r\n            \"name\": \"wl7numkaxxlgfg6paigf.jpg\",\r\n            \"url\": \"https://res.cloudinary.com/dhf83aynm/image/upload/v1690056154/wl7numkaxxlgfg6paigf.jpg\",\r\n            \"size\": 15.5\r\n        },\r\n    \"categories\": [\r\n        \"64b467ed07fb81280a97fc5f\",\r\n        \"64d65298413826416f667c97\"\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/groups",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete group",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/groups/64ce810a1716bd4526b6fe5a",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups",
+								"64ce810a1716bd4526b6fe5a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add category to group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"64b467ed07fb81280a97fc5f\"\r\n    \r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/groups/add/64df7b34fd6f629582b517bb",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups",
+								"add",
+								"64df7b34fd6f629582b517bb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete category from group",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"64bc230eff1a7df29295e69f\"\r\n    \r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/groups/del/64ce7eae6efc5da9f8f913bc",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups",
+								"del",
+								"64ce7eae6efc5da9f8f913bc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get group by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/groups/64d763f516d9d1bdb9b3d1ce",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups",
+								"64d763f516d9d1bdb9b3d1ce"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/64c517af945165c1561bd327",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"64c517af945165c1561bd327"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users with search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all users with filter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users?status=Active",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "Active"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTE4MzQ3NTIsImV4cCI6MTY5MjY5ODc1Mn0.WwMngyrsWvdGZkQnJpEDnyLS44tZ4zQha1Q5k91Ayg8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vercelUrl}}/users/profile",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"users",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7Im5hbWUiOiJvdWhhYiA1MCIsImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJfaWQiOiI2NGM1MTdhZjk0NTE2NWMxNTYxYmQzMjciLCJyb2xlIjoiQWRtaW4iLCJzdGF0dXMiOiJBY3RpdmUiLCJzYWx0IjoiZDJlMTBhNmM3ZWFiMTE1NGU0ZTNmYzI0ZjQ1ZTNmMzBkYjQ5OGQzNTc4M2FjZjM3MmFiZWI5NjlmMWViZWFkYyIsImNyZWF0ZWRBdCI6IjIwMjMtMDctMjlUMTM6NDQ6MTguMzQ0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMDdUMTg6MTY6MTQuNzMxWiIsIl9fdiI6MywiZmF2b3JpdGVzQXJ0aWNsZXMiOlsiNjRjYmVmNTBhMmEzNmY3NmQ4YWMzZWM5Il0sImZhdm9yaXRlc0VwaXNvZGVzIjpbXX0sImlhdCI6MTY5MTYwODM1OCwiZXhwIjoxNjkyNDcyMzU4fQ.OUsP_sIW2V5ZfWlsKf94MQXnx7JkZi7tE75YprjkmD4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"ouhab admin new update\",\r\n    \"password\" : \"852741\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImxvY2FsIjp7Im5hbWUiOiJvdWhhYiA1MCIsImVtYWlsIjoib3VoYWI0MEBnbWFpbC5jb20iLCJ1c2VybmFtZSI6Im91aGFiNTAiLCJoYXNoIjoiNDE5MzUxYjAzZWU1NGNlMTljYjdlMjJiZWU3MTc3NWU1YWY5OGRhYmM3NDYwNGNhMmQ2N2IzNmQ4MTRmNTllZmU0NzY4ZjA2YzBiMmYyY2IzN2MwYzIwODVlYjlhYzFlMzIxZDIyNjhmODYyOTgwMTNjNDFlM2U2ZThlMzM4MTQyZTZlMGNjM2ZjYmYwYWNmYTkzNTkwNGEzYTMxOGJlMGFiMTM5ZmU2OTNiM2YyNGU0Y2QwNTEyNWU2NjYwMTIxZGUzODA0N2I5NTE0YzRjM2IzMjZkNmIwMDg1MWQ4ZDlhNDA0NjFhMWQ1MTU3N2I4ZjRlMTZmZjZlMzEzMDU5YzU1ZjQ1NzZkNmQwOTE5Mzg2YWQwZmY3ZTExYmI5NmFhZWQ5ZTZlODJlNWU1OTU1NzZhMDJiN2U0YzExZjRmMjlkNWE4MTQ2ZDkwZjUwYjkzZTJiNjYyMTAwODcyMGRiMmY5YzkxNDI2ZDE1NWFjYTg0NjkyOWZmMDhkNzdlMzBkNTIwMWI1ZjZiZTM5Nzg4Mjg4N2ExN2FiZTQ4MjE3NWEwYzM4N2Q2NWQ0MWEzMTgzMWQwYWYxMDljZWE5YzhkZDk5OWIzMmUxNzZkZDEzMjY4ZTA4NDhmZjVkMmM1YmUwNDVhMzYxNWQyZWUyNTAzNTA1OGIwZDExNzExZjg1ZWFkZmVlNjk5ZjY3N2IxMjQwNzA4ZmY5OWRmNzAzNjE1MmUxNjk4MDQxYzdiNjEyN2E2YmQ0MzYyMTgxYzAzZTNlZTc4MjY2NzkyNGM5OTJlNzRjNzY2ODkxM2NjYjY4NTUxNWZiZDJiMTdmMThiMzhjNjMyYzQ2ZmM4Njg4NzE5M2Y3NDU0NTE1YmUyN2Y0OGY4YmZhOTNmY2UzN2Y1N2EwZDFkYjJjMWQ1MDAyMWNkN2U0YTMzYzA0YTYzMzVmMGJhZTU0YmE0MTZmYmM4YjNkYjIwZjAxMWRjMTk5YTdjMWYzYjE1YjUxNGExNjdmMzYyZTMzZWIyMDE1OGI3OWVkZDM5YTc0N2ZhN2I3N2Q4MzhhNmQ1YTkzMDA4NmIxMzVjZWIxYTY2NzE1ZGRkMDk4N2YxNmFiM2Q3YWFhMTQyMTgwNjMwNGE5YTIwNjZhNTdiYmI3NjljYjQyOThmZTliMTQ1NTI0NDIxMTlmNWMwYzZlOThmMjdlZWU4ZmEyMzZmYTU1OTk3MmY2YmNiMTUzMDNhYmRmYTQ3YTQwODRiYWVhYTFkYzEwYTM5Y2QwODRhYTgyYzE5ZDlkODhjZTNkMTdiNzllYmFiNWI5MzUyM2VkMTczOTQ5ZmI5ZGIxMjczNjIxYjE1ZGZhN2U1YTkwOTcyOTk5NzU1NTZmNWYxYiJ9LCJfaWQiOiI2NGM1MTdhZjk0NTE2NWMxNTYxYmQzMjciLCJyb2xlIjoiQWRtaW4iLCJzdGF0dXMiOiJBY3RpdmUiLCJzYWx0IjoiZDJlMTBhNmM3ZWFiMTE1NGU0ZTNmYzI0ZjQ1ZTNmMzBkYjQ5OGQzNTc4M2FjZjM3MmFiZWI5NjlmMWViZWFkYyIsImNyZWF0ZWRBdCI6IjIwMjMtMDctMjlUMTM6NDQ6MTguMzQ0WiIsInVwZGF0ZWRBdCI6IjIwMjMtMDgtMDdUMTg6MTY6MTQuNzMxWiIsIl9fdiI6MywiZmF2b3JpdGVzQXJ0aWNsZXMiOlsiNjRjYmVmNTBhMmEzNmY3NmQ4YWMzZWM5Il0sImZhdm9yaXRlc0VwaXNvZGVzIjpbXX0sImlhdCI6MTY5MTYwODM1OCwiZXhwIjoxNjkyNDcyMzU4fQ.OUsP_sIW2V5ZfWlsKf94MQXnx7JkZi7tE75YprjkmD4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"ouhab by admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/users/64c517af945165c1561bd327",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"64c517af945165c1561bd327"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user change password with wrong old passowrd",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTIzNjkyMTAsImV4cCI6MTY5MzIzMzIxMH0.LK59ypYzMRrZnZOv4HebC-7Ks3lKbIOvemW69a45ypI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"currentPassword123\",\r\n  \"newPassword\": \"newPassword456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/users/change-password",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"users",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0ZDY2MTI4ZjZkNzBjOGVmOTRkMWZkNyIsIm5hbWUiOiJvdWhhYiBtb2giLCJlbWFpbCI6Im91aGFibWhAZ21haWwuY29tIiwidXNlcm5hbWUiOiJvdWhhYm1oNyIsInN0YXR1cyI6IkFjdGl2ZSIsInJvbGUiOiJVc2VyIiwicmVnaXN0ZXJlZEF0IjoiMjAyMy0wOC0xMSJ9LCJpYXQiOjE2OTIzNjkyMTAsImV4cCI6MTY5MzIzMzIxMH0.LK59ypYzMRrZnZOv4HebC-7Ks3lKbIOvemW69a45ypI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"123456789\",\r\n  \"newPassword\": \"852741\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/users/change-password",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"users",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toggle user status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/users/64c517af945165c1561bd327",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"users",
+								"64c517af945165c1561bd327"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"ouhabismail1234d5dcddeddddfd@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/reset-password",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"newPassword\":\"12345678910\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/auth/reset-password/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTIxNTk1MTZlNzE3YmZiYzY5OTk1MSIsImlhdCI6MTY5MzA5OTQ4MCwiZXhwIjoxNjkzMTAzMDgwfQ.K3-7QMhDNfoLgK-_UGdLqDk-z4HyX7p8EcGg4vRI02U",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"auth",
+								"reset-password",
+								"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTIxNTk1MTZlNzE3YmZiYzY5OTk1MSIsImlhdCI6MTY5MzA5OTQ4MCwiZXhwIjoxNjkzMTAzMDgwfQ.K3-7QMhDNfoLgK-_UGdLqDk-z4HyX7p8EcGg4vRI02U"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Statistics",
+			"item": [
+				{
+					"name": "notes statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/notes/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"notes",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/users/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"users",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "group statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/groups/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"groups",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "articles statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/articles/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"articles",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cat statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/categories/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"categories",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "episodes statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/episodes/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"episodes",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments statistics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/comments/statistics",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"comments",
+								"statistics"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "endoresements",
+			"item": [
+				{
+					"name": "add endoresement",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"John Doe\",\r\n\t\"jobTitle\": \"Software Engineer\",\r\n\t\"image\": {\r\n\t\t\"name\": \"profile-image.jpg\",\r\n\t\t\"url\": \"https://example.com/profile-image.jpg\",\r\n\t\t\"size\": 1024\r\n\t},\r\n\t\"review\": \"John Doe is a highly skilled software engineer with excellent problem-solving abilities.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/endoresements",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"endoresements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update endo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"John Doe updated\"\r\n\t\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/endoresements/64dbd4039298b647eeb4d3b3",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"endoresements",
+								"64dbd4039298b647eeb4d3b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get end by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/endoresements/64dbd4039298b647eeb4d3b3",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"endoresements",
+								"64dbd4039298b647eeb4d3b3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all endo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/endoresements",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"endoresements"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete endo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/endoresements/64dbd4769298b647eeb4d3b9",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"endoresements",
+								"64dbd4769298b647eeb4d3b9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "podcasts platforms",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Apple Podcasts\",\r\n  \"url\": \"https://www.apple.com/apple-podcasts/\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/platforms",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"platforms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/platforms",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"platforms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/platforms/64dbd9f170b6cbbc15692263",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"platforms",
+								"64dbd9f170b6cbbc15692263"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localhostUrl}}/platforms/64dbd950a237b9c9ac5c538e",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"platforms",
+								"64dbd950a237b9c9ac5c538e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"name\" : \"Spotify\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/platforms/64dbd9f170b6cbbc15692263",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"platforms",
+								"64dbd9f170b6cbbc15692263"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Info",
+			"item": [
+				{
+					"name": "get info",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{vercelUrl}}/infos",
+							"host": [
+								"{{vercelUrl}}"
+							],
+							"path": [
+								"infos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n\r\n{\r\n    \"homepage.header\": \"Welcome to Our Podcast Kool Health\"\r\n    \r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/infos",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"infos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update info image",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n\r\n{\r\n    \"drive.img.name\": \"img.fff\"\r\n    \r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localhostUrl}}/infos",
+							"host": [
+								"{{localhostUrl}}"
+							],
+							"path": [
+								"infos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "get all comments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{localhostUrl}}/comments",
+					"host": [
+						"{{localhostUrl}}"
+					],
+					"path": [
+						"comments"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "podcastLocal",
+			"value": "http://localhost:5000"
+		}
+	]
+}

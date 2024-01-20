@@ -1,155 +1,177 @@
 import Article from "../model/Article.js";
-import Comment from "../model/Comment.js";
-import User from "../model/User.js";
-import mongoose from "mongoose";
+import Category from "../model/Category.js";
+import ApiError from "../utils/ApiError.js";
+import httpStatus from "http-status";
 
-export const getArticleById = async (articleId) => {
-	try {
-		const article = await Article.findById(articleId)
-			.select(
-				"id articleNumber title description content image readTime isPublished category comments createdAt writerName writerImage readCount"
-			)
-			.populate({
-				path: "category",
-				select: "id title",
-			})
-			.populate({
-				path: "comments",
-				select: "id content user createdAt updatedAt",
-				options: { sort: { createdAt: -1 } },
-				populate: {
-					path: "user",
-					model: "User",
-					select: {
-						id: 1,
-						name: {
-							$cond: [
-								{ $ifNull: ["$local.name", false] },
-								"$local.name",
-								{
-									$cond: [
-										{
-											$ifNull: [
-												"$google.name",
-												false,
-											],
-										},
-										"$google.name",
-										"$facebook.name",
-									],
-								},
-							],
-						},
-						username: {
-							$cond: [
-								{ $ifNull: ["$local.username", false] },
-								"$local.username",
-								{
-									$cond: [
-										{
-											$ifNull: [
-												"$google.username",
-												false,
-											],
-										},
-										"$google.username",
-										"$facebook.username",
-									],
-								},
-							],
+export const getAllArticles = async (filters, options) => {
+	const articles = await Article.paginate(filters, options);
+	return articles;
+};
+
+/**
+ * Create a user
+ * @param {Object} userBody
+ * @returns {Promise<Article>}
+ */
+export const createArticle = async (artcileBody) => {
+	if (!(await Category.findById(artcileBody.category))) {
+		throw new ApiError(httpStatus.BAD_REQUEST, "Category Doesnt Exist");
+	}
+	return Article.create(artcileBody);
+};
+
+export const deleteArticle = async (articleId) => {
+	await Article.findByIdAndDelete(articleId);
+	return;
+};
+
+export const updateArticle = async (_id, updates) => {
+	const article = await Article.findOneAndUpdate(
+		{ _id },
+		{ $set: updates },
+		{ new: true }
+	);
+	return article;
+};
+
+export const similairArticles = async (articleId, limit) => {
+	// Find the article by ID to get its title and category
+	const article = await Article.findById(articleId).select("title");
+
+	if (!article) {
+		throw new ApiError(httpStatus.BAD_REQUEST, "Article Doesnt Exist");
+	}
+	const articleTitle = article.title;
+	const searchWords = articleTitle.split(" ").filter((word) => word !== "");
+
+	// Create a regex pattern to match any of the search words in the article title
+	const regexPattern = searchWords.map((word) => `(?=.*${word})`).join("|");
+
+	const regexQuery = new RegExp(regexPattern, "i");
+	// Find similar articles in the same category based on similar titles
+	const similarArticles = await Article.find({
+		_id: { $ne: articleId }, // Exclude the current article from the results
+		title: { $regex: regexQuery }, // Case-insensitive search for similar titles
+	})
+		.limit(limit)
+		.select(
+			"id articleNumber title description image readTime isPublished category createdAt readCount"
+		)
+		.populate("category", "id title")
+		.sort({ createdAt: -1 })
+		.exec();
+
+	return similarArticles;
+};
+
+export const articlesStatistics = async () => {
+	const statistics = await Article.aggregate([
+		{
+			$group: {
+				_id: null,
+				totalArticle: { $sum: 1 },
+				publishedArticle: {
+					$sum: {
+						$cond: [{ $eq: ["$isPublished", true] }, 1, 0],
+					},
+				},
+				notPublishedArticle: {
+					$sum: {
+						$cond: [{ $eq: ["$isPublished", false] }, 1, 0],
+					},
+				},
+				totalReadCount: { $sum: "$readCount" },
+				totalComments: {
+					$sum: {
+						$size: {
+							$ifNull: ["$comments", []],
 						},
 					},
 				},
-			})
-			.lean();
 
-		if (!article) {
-			throw new Error("Article not found");
-		}
+				// Add more statistics fields here
+			},
+		},
 
-		const result = await Article.updateOne(
-			{ _id: articleId },
-			{ $inc: { readCount: 1 } }
-		);
+		{
+			$project: {
+				_id: 0, // Exclude the _id field from the result
+				totalArticle: 1,
+				publishedArticle: 1,
+				notPublishedArticle: 1,
+				totalReadCount: 1,
+				totalComments: 1,
 
-		const currentDate = new Date();
-		currentDate.setHours(0, 0, 0, 0);
+				// Add more fields to include in the result
+			},
+		},
+	]);
 
-		await ReadHistory.findOneAndUpdate(
-			{ date: currentDate },
-			{ $inc: { readCount: 1 } },
-			{ upsert: true }
-		);
-
-		return article;
-	} catch (error) {
-		throw new Error("Server error");
-	}
+	return statistics[0];
 };
 
-export const addCommentToArticle = async (articleId, userId, content) => {
-	try {
-		const existingArticle = await Article.findById(articleId);
-
-		if (!existingArticle) {
-			throw new Error("Article not found");
-		}
-
-		const comment = new Comment({
-			content,
-			user: userId,
-		});
-
-		let commentId;
-
-		const savedComment = await comment.save();
-		commentId = savedComment._id;
-
-		existingArticle.comments.push(commentId);
-
-		await existingArticle.save();
-
-		return { article: existingArticle, commentId };
-	} catch (error) {
-		throw new Error("Server error");
-	}
+export const MostReadArticles = async (limit) => {
+	// Use the find method to get the articles, sorted by readCount in descending order, and limit to the specified number of results
+	const mostReadArticles = await Article.find()
+		.select(
+			"id articleNumber title description image readTime isPublished category createdAt readCount"
+		)
+		.populate("category", "id title")
+		.sort({ readCount: -1 })
+		.limit(limit);
+	return mostReadArticles;
 };
 
-export const deleteCommentFromArticle = async (
-	articleId,
-	commentId,
-	userId
-) => {
-	try {
-		const article = await Article.findById(articleId);
+export const toggleIsPublished = async (_id) => {
+	const article = await Article.findOneAndUpdate({ _id }, [
+		{ $set: { isPublished: { $eq: [false, "$isPublished"] } } },
+	]);
 
-		if (!article) {
-			throw new Error("Article not found");
-		}
+	return article;
+};
 
-		const comment = await Comment.findById(commentId);
+export const getArticleById = async (articleId) => {
+	const article = await Article.findById(articleId)
+		.select(
+			"id articleNumber title description content image readTime isPublished category comments createdAt writerName writerImage readCount"
+		)
+		.populate({
+			path: "category",
+			select: "id title",
+		})
+		.lean();
 
-		if (!comment) {
-			throw new Error("Comment not found");
-		}
+	// if (!article) {
+	// 	throw new ApiError("Article not found");
+	// }
 
-		const user = await User.findById(userId);
+	// const result = await Article.updateOne(
+	// 	{ _id: articleId },
+	// 	{ $inc: { readCount: 1 } }
+	// );
 
-		if (!user) {
-			throw new Error("User not found");
-		}
+	// const currentDate = new Date();
+	// currentDate.setHours(0, 0, 0, 0);
 
-		const userIdObj = new mongoose.Types.ObjectId(userId);
+	// await ReadHistory.findOneAndUpdate(
+	// 	{ date: currentDate },
+	// 	{ $inc: { readCount: 1 } },
+	// 	{ upsert: true }
+	// );
 
-		if (!comment.user.equals(userIdObj) && user.role !== "admin") {
-			throw new Error("Unauthorized");
-		}
+	return article;
+};
 
-		article.comments.pull(comment._id);
-		await article.save();
+export const getLastArticleNumber = async () => {
+	const article = await Article.find()
+		.select("articleNumber")
+		// We multiply the "limit" variables by one just to make sure we pass a number and not a string
+		.limit(1)
 
-		return "Successfully deleted";
-	} catch (error) {
-		throw new Error("Server error");
-	}
+		// We sort the data by the date of their creation in descending order (user 1 instead of -1 to get ascending order)
+		.sort({ articleNumber: -1 })
+
+		.exec();
+
+	return article;
 };
