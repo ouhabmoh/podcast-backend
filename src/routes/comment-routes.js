@@ -1,8 +1,11 @@
 import express from "express";
 import { isLoggedIn } from "../auth/auth.js";
+import { commentValidationRules, validate } from "../validators/validator.js";
 import {
 	updateComment,
 	getAllComments,
+	deleteComment,
+	addComment,
 	statistics,
 } from "../controllers/comment-controller.js";
 const commentRouter = express.Router();

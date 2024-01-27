@@ -4,8 +4,7 @@ import Article from "../model/Article.js";
 import mongoose from "mongoose";
 
 // categories.controller.js
-import { catchAsync } from "../utils/catchAsync.js";
-import categoryService from "../services/categories-service.js";
+import * as categoryService from "../services/categories-service.js";
 import httpStatus from "http-status";
 import pick from "../utils/pick.js";
 import ApiError from "../utils/ApiError.js";
