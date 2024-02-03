@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Run npm commands for testing
-                    sh 'npm install'
+                    sh 'npm ci'
                     sh 'npm test'
                 }
             }
