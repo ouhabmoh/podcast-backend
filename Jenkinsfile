@@ -1,5 +1,6 @@
 pipeline {
-    agent any
+
+    agent { dockerfile true }
     tools {nodejs "nodejs"}
     stages {
         stage('Build and Test') {
